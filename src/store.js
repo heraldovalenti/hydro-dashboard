@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { setAuthToken } from './services/auth';
-import { getVenueCountry } from './services/venue';
 import initServiceInterceptors from './services';
 export const StoreContext = React.createContext(null);
 
