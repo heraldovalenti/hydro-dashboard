@@ -1,0 +1,48 @@
+.drawer-button {
+  position: fixed;
+  top: 70px;
+  right: 0px;
+  border-radius: 50%;
+  border: solid rgba(0, 0, 0, 0.5) 1px;
+  box-shadow: 1px 0px 7px rgba(0, 0, 0, 0.5);
+  padding: 3px 3px 3px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 2px 2px;
+  z-index: 10;
+  transition: all 0.3s ease-out;
+  width: 32px;
+  height: 32px;
+  background-color: rgb(70, 70, 70);
+  color: white;
+}
+
+.drawer-button:focus {
+  outline: none;
+}
+
+.drawer-button svg {
+  width: 14px;
+  height: 14px;
+  padding: 3px 0 0 1px;
+}
+
+.drawer-button-open:focus {
+  outline: none;
+}
+
+.drawer-button-open {
+  position: fixed;
+  top: 70px;
+  right: 365px;
+  border-radius: 50%;
+  padding: 3px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 2px 2px;
+  z-index: 10;
+  transition: all 0.3s ease-out;
+}

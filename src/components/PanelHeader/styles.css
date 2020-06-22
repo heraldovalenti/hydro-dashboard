@@ -1,0 +1,29 @@
+.panel__header {
+  height: 40px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  position: relative;
+}
+
+.panel__header .title {
+  width: 100%;
+  font: 300 16px/1.55;
+  color: #ca510d;
+  line-height: 1.1;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.panel__header .buttons {
+  height: 100%;
+}
+
+.panel__header .buttons button {
+  border: none;
+  padding: 0;
+  width: 25px;
+  min-width: unset;
+}

@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Radio/> renders no items 1`] = `
+<Unknown
+  classes={
+    Object {
+      "checked": "Component-checked-2",
+      "root": "Component-root-1",
+    }
+  }
+  items={Array []}
+/>
+`;
+
+exports[`<Radio/> renders several items 1`] = `
+<Unknown
+  classes={
+    Object {
+      "checked": "Component-checked-2",
+      "root": "Component-root-1",
+    }
+  }
+  items={
+    Array [
+      Object {
+        "label": "one",
+        "value": 1,
+      },
+      Object {
+        "label": "two",
+        "value": 2,
+      },
+    ]
+  }
+/>
+`;

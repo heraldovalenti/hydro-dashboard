@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<FulscreenModal/> default 1`] = `
+<React.Fragment>
+  <UNDEFINED
+    isFullscreen={false}
+    isInModal={false}
+    toggleFullscreen={[Function]}
+  />
+  <ForwardRef(WithStyles)
+    aria-labelledby="fullscreen-modal__ttitle"
+    className="fullscreen-modal"
+    fullScreen={true}
+    onClose={[Function]}
+    open={false}
+  >
+    <ForwardRef(WithStyles)
+      id="fullscreen-modal__title"
+      onClose={[Function]}
+    />
+    <ForwardRef(WithStyles)
+      dividers={true}
+    >
+      <UNDEFINED
+        isFullscreen={false}
+        isInModal={true}
+        toggleFullscreen={[Function]}
+      />
+    </ForwardRef(WithStyles)>
+  </ForwardRef(WithStyles)>
+</React.Fragment>
+`;

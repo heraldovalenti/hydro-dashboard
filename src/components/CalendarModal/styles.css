@@ -1,0 +1,11 @@
+.daterange__label {
+    padding-right: 2rem;
+    vertical-align: sub;
+    width: 3rem;
+    display: inline-block;
+}
+
+.daterange__panel {
+    width: 100%;
+    padding-bottom: 1rem;
+}

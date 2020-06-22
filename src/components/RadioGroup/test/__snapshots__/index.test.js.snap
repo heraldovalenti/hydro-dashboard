@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<RadioGroup/> renders no items 1`] = `
+<React.Fragment>
+  <ForwardRef(RadioGroup)
+    onChange={[Function]}
+  />
+</React.Fragment>
+`;
+
+exports[`<RadioGroup/> renders several items 1`] = `
+<React.Fragment>
+  <ForwardRef(RadioGroup)
+    onChange={[Function]}
+  >
+    <ForwardRef(WithStyles)
+      control={<ForwardRef(WithStyles) />}
+      label="one"
+      value={1}
+    />
+    <ForwardRef(WithStyles)
+      control={<ForwardRef(WithStyles) />}
+      label="two"
+      value={2}
+    />
+  </ForwardRef(RadioGroup)>
+</React.Fragment>
+`;
