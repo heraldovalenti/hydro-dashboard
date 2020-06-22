@@ -1,0 +1,38 @@
+.header {
+  padding-top: 15px;
+  padding-left: 24px;
+  position: relative;
+}
+
+.header__buttons > .header__button {
+  font-size: 1rem;
+}
+
+.header__title {
+  font-size: 38.4px;
+  font-weight: 200;
+  letter-spacing: -1.152px;
+  line-height: 42.24px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.header__description {
+  color: rgb(70, 70, 70);
+
+  font-size: 12px;
+  margin: 3px;
+}
+
+.header__buttons {
+  right: 10px;
+  top: 10px;
+  position: absolute;
+}
+
+.header__date {
+  color: rgb(70, 70, 70);
+
+  font-size: 14px;
+  margin: 3px;
+}

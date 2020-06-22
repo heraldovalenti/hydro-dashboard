@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Header/> renders header with dates when dates loaded 1`] = `
+<div
+  className="header"
+>
+  <h1
+    className="header__title"
+  />
+  <div
+    className="header__buttons"
+  />
+</div>
+`;
+
+exports[`<Header/> renders header with loading dates when dates were not yet passed 1`] = `
+<div
+  className="header"
+>
+  <h1
+    className="header__title"
+  />
+  <div
+    className="header__buttons"
+  />
+</div>
+`;

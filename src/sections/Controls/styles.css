@@ -1,0 +1,82 @@
+.controls {
+  height: fit-content;
+  min-height: 100vh;
+  padding: 0 19px;
+  padding-bottom: 19px;
+  background: white;
+  color: #474747;
+  border: 1px solid #d5d5d5;
+  -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+  overflow: auto;
+}
+
+.controls > .controls__title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.label-item {
+  color: rgb(70, 70, 70);
+  font-size: 12px;
+}
+
+.label-bold {
+  color: rgb(70, 70, 70);
+  font-size: 14px;
+  font-weight: bold;
+  padding-right: 1rem;
+}
+
+.label-description {
+  color: rgb(70, 70, 70);
+  font-size: 14px;
+  font-style: italic;
+}
+
+.controls h4 {
+  font: 300 16px/1.55;
+  color: #ca510d;
+  line-height: 1.1;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  margin-top: 12px;
+}
+
+.controls > .collapsible--panel {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.controls .collapsible--panel__content {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.controls .collapsible--panel__content > * {
+  padding-bottom: 18px;
+}
+
+.controls .label.desc {
+  font-style: italic;
+  font-size: small;
+}
+
+.slider__legend {
+  display: inline-flex;
+  justify-content: space-between;
+}
+
+.legend__title {
+  font-size: 12px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.legend__description {
+  font-size: 10px;
+  margin-top: 0;
+  margin-bottom: 0;
+}

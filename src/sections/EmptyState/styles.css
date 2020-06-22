@@ -1,0 +1,21 @@
+.empty-state {
+  width: 560px;
+  position: absolute;
+  right: 0;
+  left: 0;
+  margin: auto;
+  top: 24vh;
+  font-family: 'Open Sans';
+  text-align: center;
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.empty-state__title {
+  font-size: 36px;
+  font-weight: 600;
+}
+
+.empty-state__subtitle {
+  font-size: 18px;
+}

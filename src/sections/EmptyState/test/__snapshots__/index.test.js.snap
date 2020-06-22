@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<EmptyState/> default 1`] = `
+<div
+  className="empty-state"
+>
+  <div
+    className="empty-state__icon"
+  >
+    icon
+  </div>
+  <div
+    className="empty-state__image"
+  >
+    image
+  </div>
+  <h1
+    className="empty-state__title"
+  >
+    empty title
+  </h1>
+  <p
+    className="empty-state__subtitle"
+  >
+    empty subtitle
+  </p>
+  <div
+    className="empty-state__actions"
+  >
+    <ForwardRef(WithStyles)
+      text="action 1"
+    >
+      action 1
+    </ForwardRef(WithStyles)>
+    <ForwardRef(WithStyles)
+      text="action 2"
+    >
+      action 2
+    </ForwardRef(WithStyles)>
+  </div>
+</div>
+`;

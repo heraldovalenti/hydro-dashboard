@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LabelValueRow/> renders default 1`] = `
+<div
+  className="row row--label-value"
+>
+  <div
+    className="label"
+  >
+    
+  </div>
+  <ForwardRef(WithStyles)
+    InputLabelProps={
+      Object {
+        "shrink": true,
+      }
+    }
+    className="input-field"
+    endAdornment={false}
+    inputProps={
+      Object {
+        "min": 0,
+        "type": undefined,
+      }
+    }
+    onChange={[Function]}
+    startAdornment={false}
+    value=""
+  />
+</div>
+`;

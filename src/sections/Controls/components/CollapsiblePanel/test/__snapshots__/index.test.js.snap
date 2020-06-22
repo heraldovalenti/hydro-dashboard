@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CollapsiblePanel/> renders default 1`] = `
+<ForwardRef(WithStyles)
+  className="collapsible--panel"
+  expanded={false}
+  onChange={[Function]}
+>
+  <ForwardRef(WithStyles)
+    expandIcon={<UNDEFINED />}
+  >
+    <h4>
+      Hi Im an expanded title
+    </h4>
+  </ForwardRef(WithStyles)>
+  <ForwardRef(WithStyles)>
+    <div
+      className="collapsible--panel__content"
+    >
+      <div>
+        Im the content
+      </div>
+    </div>
+  </ForwardRef(WithStyles)>
+</ForwardRef(WithStyles)>
+`;

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<BlueSlider/> default 1`] = `
+<ForwardRef(WithStyles)
+  classes={
+    Object {
+      "root": "WithStyles(ForwardRef(Slider))-root-1",
+    }
+  }
+/>
+`;

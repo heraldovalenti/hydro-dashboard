@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<BlueSwitch/> default 1`] = `
+<ForwardRef(WithStyles)
+  classes={
+    Object {
+      "checked": "WithStyles(ForwardRef(Switch))-checked-2",
+      "switchBase": "WithStyles(ForwardRef(Switch))-switchBase-1",
+      "track": "WithStyles(ForwardRef(Switch))-track-3",
+    }
+  }
+/>
+`;
