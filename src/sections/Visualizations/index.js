@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { StoreContext } from '../../store';
 import Header from '../Header';
 import FullscreenModal from '../../components/FullscreenModal';
+import Map from '../../components/Map';
 import './styles.css';
 
 export default function Visualizations() {
@@ -21,10 +22,9 @@ export default function Visualizations() {
   return (
     <div className="visualizations">
       <FullscreenModal title={visualizationTitle}>
-        <div></div>
-        {/* 
-          Put viz in here
-        */}
+        <div>
+          <Map />
+        </div>
       </FullscreenModal>
     </div>
   );
