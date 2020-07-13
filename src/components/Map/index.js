@@ -13,6 +13,8 @@ import { HydroMetricStationRepository } from '../../services/HydroMetricStations
 import { WeatherStationRepository } from '../../services/WeatherStations';
 import { StreamRepository } from '../../services/Streams';
 import { BasinRepository } from '../../services/Basins';
+import { connect } from 'react-redux';
+
 const mapStyles = {
   width: '90%',
   height: '90%',
@@ -22,14 +24,14 @@ export class MapContainer extends Component {
     showingInfoWindow: false, //Hides or the shows the infoWindow
     activeMarker: {}, //Shows the active marker upon click
     selectedPlace: {}, //Shows the infoWindow to the selected place upon a marker
-    hydroMetricStations: [],
 
-    showHydroMetricStations: true,
+    hydroMetricStations: [],
+    // showHydroMetricStations: false,
     weatherStations: [],
-    showWeatherStations: true,
-    showStreams: true,
+    // showWeatherStations: false,
+    // showStreams: false,
     streams: [],
-    showBasins: true,
+    // showBasins: false,
     cabraCorralBasin: [],
     tunalBasin: [],
   };
@@ -74,7 +76,7 @@ export class MapContainer extends Component {
   };
 
   renderHydroMetricStations = () => {
-    if (!this.state.showHydroMetricStations) {
+    if (!this.props.showHydroMetricStations) {
       return;
     }
     const stations = this.state.hydroMetricStations;
@@ -89,7 +91,7 @@ export class MapContainer extends Component {
   };
 
   renderWeatherStations = () => {
-    if (!this.state.showWeatherStations) {
+    if (!this.props.showWeatherStations) {
       return;
     }
     const stations = this.state.weatherStations;
@@ -104,7 +106,7 @@ export class MapContainer extends Component {
   };
 
   renderStreams = () => {
-    if (!this.state.showStreams) {
+    if (!this.props.showStreams) {
       return;
     }
     const streams = this.state.streams;
@@ -119,10 +121,10 @@ export class MapContainer extends Component {
   };
 
   renderBasins = () => {
-    const { showBasins, tunalBasin, cabraCorralBasin } = this.state;
-    if (!showBasins) {
+    if (!this.props.showBasins) {
       return;
     }
+    const { tunalBasin, cabraCorralBasin } = this.state;
     const basins = [
       // tunalBasin[0],
       // tunalBasin[1],
@@ -171,6 +173,17 @@ export class MapContainer extends Component {
   }
 }
 
-export default GoogleApiWrapper({
-  apiKey: 'AIzaSyCnILw5Ddl2uXfyvFgEtPHTw-su8JlQzA8',
-})(MapContainer);
+const mapStateToProps = (state) => {
+  return {
+    showHydroMetricStations: state.mapFilter.showHydroMetricStations,
+    showWeatherStations: state.mapFilter.showWeatherStations,
+    showStreams: state.mapFilter.showStreams,
+    showBasins: state.mapFilter.showBasins,
+  };
+};
+
+export default connect(mapStateToProps)(
+  GoogleApiWrapper({
+    apiKey: 'AIzaSyCnILw5Ddl2uXfyvFgEtPHTw-su8JlQzA8',
+  })(MapContainer)
+);

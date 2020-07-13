@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { setAuthToken } from './services/auth';
 import initServiceInterceptors from './services';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import rootReducer from './reducers/rootReducer';
+
 export const StoreContext = React.createContext(null);
 
 export default ({ children }) => {
@@ -42,7 +46,11 @@ export default ({ children }) => {
     loading,
   };
 
+  const reduxStore = createStore(rootReducer);
+
   return (
-    <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
+    <Provider store={reduxStore}>
+      <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
+    </Provider>
   );
 };
