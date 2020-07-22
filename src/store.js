@@ -38,7 +38,7 @@ export default ({ children }) => {
     fetchData(fetchStartDate, fetchEndDate);
   }, []);
 
-  const store = {
+  const contextStore = {
     fetchStartDate,
     fetchEndDate,
     setFetchStartDate,
@@ -50,7 +50,9 @@ export default ({ children }) => {
 
   return (
     <Provider store={reduxStore}>
-      <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
+      <StoreContext.Provider value={contextStore}>
+        {children}
+      </StoreContext.Provider>
     </Provider>
   );
 };

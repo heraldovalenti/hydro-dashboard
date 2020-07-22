@@ -1,12 +1,14 @@
 import React from 'react';
 import './styles.css';
-import Option1 from './sections/Option1';
+import MapLayers from './sections/MapLayers';
+import { useTranslation } from 'react-i18next';
 
 export default function Controls() {
+  const { t } = useTranslation();
   return (
     <div className="controls">
-      <h4 className="controls__title">Controls</h4>
-      <Option1 />
+      <h4 className="controls__title">{t('control_panel_title')}</h4>
+      <MapLayers />
     </div>
   );
 }
