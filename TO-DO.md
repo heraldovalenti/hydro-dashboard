@@ -1,12 +1,13 @@
 # TODO
 
-- get last metrics from documents
 - use SVG for icons
 - fix config to use absolute paths
 - implement authentication
 - fix console warnings/errors
 
 # IN PROGRESS
+
+- get last metrics from documents
 
 # DONE
 

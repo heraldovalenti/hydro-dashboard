@@ -13,6 +13,8 @@ import { HydroMetricStationRepository } from '../../services/HydroMetricStations
 import { WeatherStationRepository } from '../../services/WeatherStations';
 import { StreamRepository } from '../../services/Streams';
 import { BasinRepository } from '../../services/Basins';
+import { LatestData } from '../../services/LatestData';
+import { latestDataForName } from './support';
 import { connect } from 'react-redux';
 
 const mapStyles = {
@@ -46,6 +48,7 @@ export class MapContainer extends Component {
       const streams = await StreamRepository.list();
       const cabraCorralBasin = await BasinRepository.cabraCorralBasin();
       const tunalBasin = await BasinRepository.tunalBasin();
+      const latestData = await LatestData.list();
       this.setState({
         ...this.state,
         weatherStations,
@@ -53,6 +56,7 @@ export class MapContainer extends Component {
         streams,
         cabraCorralBasin,
         tunalBasin,
+        latestData,
       });
     };
     loadRepositories();
@@ -147,6 +151,21 @@ export class MapContainer extends Component {
     ));
   };
 
+  renderLatestData = (name) => {
+    if (!name) return <div />;
+    const data = latestDataForName(name, this.state.latestData);
+    if (!data || !data[0]) return <div />;
+    return (
+      <ul>
+        {data.map((entry) => (
+          <li>
+            {entry.dimension}: {entry.value} {entry.unit} ({entry.date})
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
   render() {
     return (
       <Map
@@ -166,6 +185,7 @@ export class MapContainer extends Component {
         >
           <div>
             <h4>{this.state.selectedPlace.name}</h4>
+            {this.renderLatestData(this.state.selectedPlace.name)}
           </div>
         </InfoWindow>
       </Map>
