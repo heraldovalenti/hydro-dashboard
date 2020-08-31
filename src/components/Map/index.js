@@ -153,7 +153,7 @@ export class MapContainer extends Component {
         google={this.props.google}
         zoom={8}
         style={mapStyles}
-        initialCenter={{ lat: -24.7960685, lng: -65.5006693 }}
+        initialCenter={{ lat: -25.6558152, lng: -65.5006693 }}
       >
         {this.renderHydroMetricStations()}
         {this.renderWeatherStations()}
