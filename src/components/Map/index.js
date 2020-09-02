@@ -16,11 +16,13 @@ import { BasinRepository } from '../../services/Basins';
 import { LatestData } from '../../services/LatestData';
 import { latestDataForName } from './support';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 const mapStyles = {
   width: '90%',
   height: '90%',
 };
+const DATE_FORMAT = 'DD/MM/YYYY hh:mm';
 export class MapContainer extends Component {
   state = {
     showingInfoWindow: false, //Hides or the shows the infoWindow
@@ -155,9 +157,20 @@ export class MapContainer extends Component {
     if (!name) return <div />;
     const data = latestDataForName(name, this.state.latestData);
     if (!data || !data[0]) return <div />;
+    const renderData = data.map((entry) => {
+      const { dimension, unit } = entry;
+      const value = parseFloat(entry.value).toFixed(2);
+      const date = moment(entry.date).format(DATE_FORMAT);
+      return {
+        dimension,
+        value,
+        unit,
+        date,
+      };
+    });
     return (
       <ul>
-        {data.map((entry) => (
+        {renderData.map((entry) => (
           <li>
             {entry.dimension}: {entry.value} {entry.unit} ({entry.date})
           </li>
