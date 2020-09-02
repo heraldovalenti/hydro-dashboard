@@ -10,6 +10,14 @@ const NAME_ID_MAPPING = {
     id: 'CampoQuijano',
     dimensions: ['Lluvia', 'Bateria'],
   },
+  ['AES - Punilla']: {
+    id: 'Punilla',
+    dimensions: ['Nivel', 'Bateria'],
+  },
+  ['AES - La Punilla']: {
+    id: 'Punilla',
+    dimensions: ['Lluvia'],
+  },
 };
 export const latestDataForName = (name, latestData) => {
   const mapping = NAME_ID_MAPPING[name];
