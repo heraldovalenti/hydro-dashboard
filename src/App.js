@@ -9,6 +9,7 @@ import Controls from './sections/Controls';
 import Visualizations from './sections/Visualizations';
 import EmptyState from './sections/EmptyState';
 import SimulationIcon from './components/Icons/Simulation';
+import Logo from './components/Icons/Logo';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -63,7 +64,7 @@ const App = () => {
               <Controls />
             </SlideDrawer>
             <Header
-              title={t('page_header_title')}
+              title={<Logo height={50} width={100} />}
               subtitle={t('page_header_text')}
             />
             <Visualizations />
