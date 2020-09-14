@@ -47,7 +47,8 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "cypress:open": "env-cmd -f .env.test cypress open",
-    "deploy-staging" : "npm run build:staging && gsutil -m cp -r ./build/* gs://hydro-dashboard-staging/"
+    "deploy-prep" : "npm run build:staging",
+    "deploy": "gsutil -m cp -r ./build/* gs://hydro-dashboard-staging/"
   },
   "jest": {
     "clearMocks": true,

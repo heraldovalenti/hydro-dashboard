@@ -4,6 +4,10 @@
 - fix config to use absolute paths
 - implement authentication
 - fix console warnings/errors
+- store data in DB
+- retrieve data from AppEngine
+- change dependency system to yarn
+- update dependencies
 
 # IN PROGRESS
 
