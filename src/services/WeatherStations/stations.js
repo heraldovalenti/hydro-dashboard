@@ -16,12 +16,12 @@ const stations = [
   [-64.8550277778, -25.3121666667, 'AES - Miraflores'],
   [-64.5925, -25.3858333333, 'AES - Medina'],
   [-64.4760555556, -25.2265, 'AES - El Tunal'],
-  [-64.78, -25.45, 'Weather Underground - Sala Guanaco'],
-  [-65.64, -24.91, 'Weather Underground - Campo Quijano'],
-  [-65.4, -24.89, 'Weather Underground - La Isla'],
-  [-65.4, -24.78, 'Weather Underground - Cerro San Bernardo'],
-  [-65.49, -24.74, 'Weather Underground - San Lorenzo'],
-  [-64.95, -25.8, 'Weather Underground - R. de la Frontera'],
+  [-64.78, -25.45, 'Weather Underground - Sala Guanaco'], //IMETND1
+  [-65.64, -24.91, 'Weather Underground - Campo Quijano'], //IROSARIO12
+  [-65.4, -24.89, 'Weather Underground - La Isla'], // ISALTACE3
+  [-65.4, -24.78, 'Weather Underground - Cerro San Bernardo'], //ISALTA7
+  [-65.49, -24.74, 'Weather Underground - San Lorenzo'], //ISALTA17
+  [-64.95, -25.8, 'Weather Underground - R. de la Frontera'], //IROSARIO32
   [-66.1836409237, -25.1816021766, 'AES - Cachi'],
   [-65.614427294, -25.6235940086, 'AES - Alemanía'],
   [-66.25, -25.33, 'INTA - Seclantás'],
