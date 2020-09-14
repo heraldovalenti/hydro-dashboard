@@ -13,7 +13,8 @@ import { HydroMetricStationRepository } from '../../services/HydroMetricStations
 import { WeatherStationRepository } from '../../services/WeatherStations';
 import { StreamRepository } from '../../services/Streams';
 import { BasinRepository } from '../../services/Basins';
-import { LatestData } from '../../services/LatestData';
+import { LatestData as latestDataAES } from '../../services/LatestData';
+import { LatestData as latestDataWundermap } from '../../services/Wundermap';
 import { latestDataForName } from './support';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -39,9 +40,6 @@ export class MapContainer extends Component {
     cabraCorralBasin: [],
     tunalBasin: [],
   };
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     const loadRepositories = async () => {
@@ -50,7 +48,9 @@ export class MapContainer extends Component {
       const streams = await StreamRepository.list();
       const cabraCorralBasin = await BasinRepository.cabraCorralBasin();
       const tunalBasin = await BasinRepository.tunalBasin();
-      const latestData = await LatestData.list();
+      const AESData = await latestDataAES.list();
+      const wundermapData = await latestDataWundermap.list();
+      const latestData = [...AESData, ...wundermapData];
       this.setState({
         ...this.state,
         weatherStations,

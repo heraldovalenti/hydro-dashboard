@@ -8,6 +8,9 @@
 # IN PROGRESS
 
 - get last metrics from documents
+  - review data files
+  - get data from SMN
+  - get data from INTA
 
 # DONE
 
@@ -19,3 +22,6 @@
 - use redux store for filtering
 - improve filtering section
   - use i18n strings
+- get last metrics from documents
+  - test for cookie expiration: 5days
+  - get data from wundermap

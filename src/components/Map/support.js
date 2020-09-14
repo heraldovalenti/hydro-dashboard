@@ -1,21 +1,45 @@
 const NAME_ID_MAPPING = {
-  ['AES - CC']: { id: 'CabraCorral', dimensions: ['Nivel', 'Caudal'] },
-  ['AES - PB']: { id: `PenasBlancas`, dimensions: ['Nivel'] },
-  ['AES - Miraflores']: {
+  'AES - CC': { id: 'CabraCorral', dimensions: ['Nivel', 'Caudal'] },
+  'AES - PB': { id: `PenasBlancas`, dimensions: ['Nivel'] },
+  'AES - Miraflores': {
     id: 'Miraflores',
     dimensions: ['Nivel', 'Lluvia', 'Bateria'],
   },
-  ['AES - ET']: { id: 'Tunal', dimensions: ['Nivel', 'Caudal'] },
-  ['AES - Campo Quijano']: {
+  'AES - ET': { id: 'Tunal', dimensions: ['Nivel', 'Caudal'] },
+  'AES - Campo Quijano': {
     id: 'CampoQuijano',
     dimensions: ['Lluvia', 'Bateria'],
   },
-  ['AES - Punilla']: {
+  'AES - Punilla': {
     id: 'Punilla',
     dimensions: ['Nivel', 'Bateria'],
   },
-  ['AES - La Punilla']: {
+  'AES - La Punilla': {
     id: 'Punilla',
+    dimensions: ['Lluvia'],
+  },
+  'Weather Underground - Campo Quijano': {
+    id: 'Weather Underground - Campo Quijano',
+    dimensions: ['Lluvia'],
+  },
+  'Weather Underground - La Isla': {
+    id: 'Weather Underground - La Isla',
+    dimensions: ['Lluvia'],
+  },
+  'Weather Underground - Sala Guanaco': {
+    id: 'Weather Underground - Sala Guanaco',
+    dimensions: ['Lluvia'],
+  },
+  'Weather Underground - Cerro San Bernardo': {
+    id: 'Weather Underground - Cerro San Bernardo',
+    dimensions: ['Lluvia'],
+  },
+  'Weather Underground - San Lorenzo': {
+    id: 'Weather Underground - San Lorenzo',
+    dimensions: ['Lluvia'],
+  },
+  'Weather Underground - R. de la Frontera': {
+    id: 'Weather Underground - R. de la Frontera',
     dimensions: ['Lluvia'],
   },
 };
