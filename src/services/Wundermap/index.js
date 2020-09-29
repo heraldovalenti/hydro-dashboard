@@ -8,6 +8,9 @@ const STATION_MAPPINGS = {
   ISALTA7: 'Weather Underground - Cerro San Bernardo',
   ISALTA17: 'Weather Underground - San Lorenzo',
   IROSARIO32: 'Weather Underground - R. de la Frontera',
+  ITUMBA11: 'Weather Underground - Santa Rosa de Chuschuyoc',
+  IMONTE19: 'Weather Underground - Sargento Moya',
+  IANDAL3: 'Weather Underground - Daza Chaquiago',
 };
 const baseParams = {
   apiKey: '6532d6454b8aa370768e63d6ba5a832e',

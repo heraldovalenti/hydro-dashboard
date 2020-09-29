@@ -22,10 +22,14 @@ const stations = [
   [-65.4, -24.78, 'Weather Underground - Cerro San Bernardo'], //ISALTA7
   [-65.49, -24.74, 'Weather Underground - San Lorenzo'], //ISALTA17
   [-64.95, -25.8, 'Weather Underground - R. de la Frontera'], //IROSARIO32
+  [-65.47, -23.74, 'Weather Underground - Santa Rosa de Chuschuyoc'], //ITUMBA11
+  [-65.66, -27.23, 'Weather Underground - Sargento Moya'], // IMONTE19
+  [-66.33, -27.55, 'Weather Underground - Daza Chaquiago'], // IANDAL3
   [-66.1836409237, -25.1816021766, 'AES - Cachi'],
   [-65.614427294, -25.6235940086, 'AES - Alemanía'],
   [-66.25, -25.33, 'INTA - Seclantás'],
-  [-66.33, -27.55, 'INTA - Andalgalá'],
+  // [-66.33, -27.55, 'INTA - Andalgalá'], // overlapped with IANDAL3
+  // la viña, cerrillos y hornillos
 ];
 
 export { stations };
