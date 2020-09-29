@@ -29,7 +29,7 @@ const stations = [
   [-65.614427294, -25.6235940086, 'AES - Alemanía'],
   [-66.25, -25.33, 'INTA - Seclantás'],
   // [-66.33, -27.55, 'INTA - Andalgalá'], // overlapped with IANDAL3
-  // la viña, cerrillos y hornillos
+  // AES future: la viña, cerrillos y hornillos
 ];
 
 export { stations };

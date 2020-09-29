@@ -42,6 +42,18 @@ const NAME_ID_MAPPING = {
     id: 'Weather Underground - R. de la Frontera',
     dimensions: ['Lluvia'],
   },
+  'Weather Underground - Santa Rosa de Chuschuyoc': {
+    id: 'Weather Underground - Santa Rosa de Chuschuyoc',
+    dimensions: ['Lluvia'],
+  },
+  'Weather Underground - Sargento Moya': {
+    id: 'Weather Underground - Sargento Moya',
+    dimensions: ['Lluvia'],
+  },
+  'Weather Underground - Daza Chaquiago': {
+    id: 'Weather Underground - Daza Chaquiago',
+    dimensions: ['Lluvia'],
+  },
 };
 export const latestDataForName = (name, latestData) => {
   const mapping = NAME_ID_MAPPING[name];
