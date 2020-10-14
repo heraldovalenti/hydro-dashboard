@@ -17,13 +17,13 @@ import { LatestData as latestDataAES } from '../../services/LatestData';
 import { LatestData as latestDataWundermap } from '../../services/Wundermap';
 import { latestDataForName } from './support';
 import { connect } from 'react-redux';
-import moment from 'moment';
+import { getAesTimeString } from '../../utils/date';
 
 const mapStyles = {
   width: '90%',
   height: '90%',
 };
-const DATE_FORMAT = 'DD/MM/YYYY hh:mm';
+
 export class MapContainer extends Component {
   state = {
     showingInfoWindow: false, //Hides or the shows the infoWindow
@@ -160,7 +160,7 @@ export class MapContainer extends Component {
     const renderData = data.map((entry) => {
       const { dimension, unit } = entry;
       const value = parseFloat(entry.value).toFixed(2);
-      const date = moment(entry.date).format(DATE_FORMAT);
+      const date = getAesTimeString(entry.date);
       return {
         dimension,
         value,
