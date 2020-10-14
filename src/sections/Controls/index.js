@@ -1,6 +1,7 @@
 import React from 'react';
 import './styles.css';
 import MapLayers from './sections/MapLayers';
+import DataFilter from './sections/DataFilter';
 import { useTranslation } from 'react-i18next';
 
 export default function Controls() {
@@ -9,6 +10,7 @@ export default function Controls() {
     <div className="controls">
       <h4 className="controls__title">{t('control_panel_title')}</h4>
       <MapLayers />
+      <DataFilter />
     </div>
   );
 }
