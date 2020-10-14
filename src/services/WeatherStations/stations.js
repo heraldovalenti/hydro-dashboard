@@ -1,5 +1,5 @@
 const stations = [
-  [1 - 65.567772429, -25.4723965124, 'INTA - La Viña'],
+  [-65.567772429, -25.4723965124, 'INTA - La Viña'], // no anda, pintar en gris // http://siga2.inta.gov.ar/#/
   [-65.4755009893, -24.7657954885, 'UCASAL - El Tipal'],
   [-65.3917714195, -24.7404422829, 'UCASAL - Fac. Ingeniería'],
   [-65.409907539, -24.7810795278, 'UCASAL - Colegio Belgrano'],
@@ -12,7 +12,7 @@ const stations = [
   [-65.0521912365, -24.7432383402, 'AES - Termoandes'],
   [-65.8229722222, -26.012, 'AES - La Punilla'],
   [-65.6621666667, -24.9006666667, 'AES - Campo Quijano'],
-  [-65.4765851694, -24.844154066, 'SMN-Aeropuerto Salta'],
+  [-65.4765851694, -24.844154066, 'SMN-Aeropuerto Salta'], // https://www.smn.gob.ar/observaciones
   [-64.8550277778, -25.3121666667, 'AES - Miraflores'],
   [-64.5925, -25.3858333333, 'AES - Medina'],
   [-64.4760555556, -25.2265, 'AES - El Tunal'],
@@ -27,8 +27,10 @@ const stations = [
   [-66.33, -27.55, 'Weather Underground - Daza Chaquiago'], // IANDAL3
   [-66.1836409237, -25.1816021766, 'AES - Cachi'],
   [-65.614427294, -25.6235940086, 'AES - Alemanía'],
-  [-66.25, -25.33, 'INTA - Seclantás'],
-  // [-66.33, -27.55, 'INTA - Andalgalá'], // overlapped with IANDAL3
+  [-66.25, -25.33, 'INTA - Seclantás'], //  Id	352
+  // [-66.25, -25.33, 'INTA - CERRILLOS'], // Id	328
+  // [-66.25, -25.33, 'INTA - HORNILLOS'], // Id	488
+  // [-66.33, -27.55, 'INTA - Andalgalá'], // overlapped with IANDAL3 , Id	393
   // AES future: la viña, cerrillos y hornillos
 ];
 
