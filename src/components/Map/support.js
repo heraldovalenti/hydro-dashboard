@@ -18,6 +18,14 @@ const NAME_ID_MAPPING = {
     id: 'Punilla',
     dimensions: ['Lluvia'],
   },
+  'AES - Cachi': {
+    id: 'Cachi',
+    dimensions: ['Nivel', 'Lluvia', 'Bateria'],
+  },
+  'AES - Medina': {
+    id: 'Medina',
+    dimensions: ['Nivel', 'Lluvia', 'Bateria'],
+  },
   'Weather Underground - Campo Quijano': {
     id: 'Weather Underground - Campo Quijano',
     dimensions: ['Lluvia'],

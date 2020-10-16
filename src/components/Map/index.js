@@ -155,6 +155,17 @@ export class MapContainer extends Component {
 
   renderLatestData = (name) => {
     if (!name) return <div />;
+    // if (name === 'AES - Cachi') {
+    //   return (
+    //     <ul>
+    //       <li>13/09/2020 21:00 8 mm (8 mm)</li>
+    //       <li>14/09/2020 00:00 10 mm (18 mm)</li>
+    //       <li>14/09/2020 03:00 12 mm (30 mm)</li>
+    //       <li>14/09/2020 06:00 11 mm (41 mm)</li>
+    //       <li>14/09/2020 09:00 20 mm (61 mm)</li>
+    //     </ul>
+    //   );
+    // }
     const data = latestDataForName(name, this.state.latestData);
     if (!data || !data[0]) return <div />;
     const renderData = data.map((entry) => {
