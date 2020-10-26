@@ -62,6 +62,18 @@ const NAME_ID_MAPPING = {
     id: 'Weather Underground - Daza Chaquiago',
     dimensions: ['Lluvia'],
   },
+  'UCASAL - Colegio Belgrano': {
+    id: 'UCASAL - Colegio Belgrano',
+    dimensions: ['Lluvia'],
+  },
+  'UCASAL - Fac. Ingeniería': {
+    id: 'UCASAL - Fac. Ingeniería',
+    dimensions: ['Lluvia'],
+  },
+  'UCASAL - La Caldera': {
+    id: 'UCASAL - La Caldera',
+    dimensions: ['Lluvia'],
+  },
 };
 export const latestDataForName = (name, latestData) => {
   const mapping = NAME_ID_MAPPING[name];

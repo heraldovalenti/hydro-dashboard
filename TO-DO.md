@@ -38,3 +38,6 @@
   - get data from wundermap
 - update tab title
 - formato 24hs
+- normalize timezones
+- incluir UCASAL desde weatherunderground
+  - missing: UCASAL - El Tipal

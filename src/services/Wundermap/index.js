@@ -5,12 +5,15 @@ const STATION_MAPPINGS = {
   IROSARIO12: 'Weather Underground - Campo Quijano',
   ISALTACE3: 'Weather Underground - La Isla',
   IMETND1: 'Weather Underground - Sala Guanaco',
-  ISALTA7: 'Weather Underground - Cerro San Bernardo',
+  ISALTA10: 'Weather Underground - Cerro San Bernardo',
   ISALTA17: 'Weather Underground - San Lorenzo',
   IROSARIO32: 'Weather Underground - R. de la Frontera',
   ITUMBA11: 'Weather Underground - Santa Rosa de Chuschuyoc',
   IMONTE19: 'Weather Underground - Sargento Moya',
   IANDAL3: 'Weather Underground - Daza Chaquiago',
+  ISALTA7: 'UCASAL - Colegio Belgrano', 
+  ILACAL8: 'UCASAL - La Caldera',
+  ISALTA11: 'UCASAL - Fac. Ingeniería',
 };
 const baseParams = {
   apiKey: '6532d6454b8aa370768e63d6ba5a832e',
