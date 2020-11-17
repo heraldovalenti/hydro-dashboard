@@ -17,6 +17,7 @@ import { latestDataForName } from './support';
 import { connect } from 'react-redux';
 import { getAesTimeString } from '../../utils/date';
 import { StoreContext } from '../../store';
+import config from '../../config';
 
 const mapStyles = {
   width: '90%',
@@ -206,6 +207,6 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps)(
   GoogleApiWrapper({
-    apiKey: 'AIzaSyCnILw5Ddl2uXfyvFgEtPHTw-su8JlQzA8',
+    apiKey: config.maps.key,
   })(MapContainer)
 );

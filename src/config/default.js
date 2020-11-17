@@ -4,6 +4,9 @@ const config = {
     stations: '/api/stations',
     observations: '/api/observations',
   },
+  maps: {
+    key: 'AIzaSyCnILw5Ddl2uXfyvFgEtPHTw-su8JlQzA8',
+  },
 };
 
 export default config;
