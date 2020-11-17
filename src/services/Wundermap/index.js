@@ -11,7 +11,7 @@ const STATION_MAPPINGS = {
   ITUMBA11: 'Weather Underground - Santa Rosa de Chuschuyoc',
   IMONTE19: 'Weather Underground - Sargento Moya',
   IANDAL3: 'Weather Underground - Daza Chaquiago',
-  ISALTA7: 'UCASAL - Colegio Belgrano', 
+  ISALTA7: 'UCASAL - Colegio Belgrano',
   ILACAL8: 'UCASAL - La Caldera',
   ISALTA11: 'UCASAL - Fac. Ingeniería',
 };

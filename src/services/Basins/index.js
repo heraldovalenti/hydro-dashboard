@@ -6,3 +6,12 @@ const BasinRepository = {
   tunalBasin: async () => tunal,
 };
 export { BasinRepository };
+
+export const fetchBasins = async () => {
+  const basin1 = await BasinRepository.cabraCorralBasin();
+  const basin2 = await BasinRepository.tunalBasin();
+  return [
+    { id: 'cabraCorral', data: basin1 },
+    { id: 'tunal', data: basin2 },
+  ];
+};

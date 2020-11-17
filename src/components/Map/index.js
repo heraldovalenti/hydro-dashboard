@@ -11,13 +11,12 @@ import dropIcon from '../../components/Icons/drop-icon.png';
 import levelIcon from '../../components/Icons/level-icon.png';
 import { HydroMetricStationRepository } from '../../services/HydroMetricStations';
 import { WeatherStationRepository } from '../../services/WeatherStations';
-import { StreamRepository } from '../../services/Streams';
-import { BasinRepository } from '../../services/Basins';
 import { LatestData as latestDataAES } from '../../services/LatestData';
 import { LatestData as latestDataWundermap } from '../../services/Wundermap';
 import { latestDataForName } from './support';
 import { connect } from 'react-redux';
 import { getAesTimeString } from '../../utils/date';
+import { StoreContext } from '../../store';
 
 const mapStyles = {
   width: '90%',
@@ -25,29 +24,21 @@ const mapStyles = {
 };
 
 export class MapContainer extends Component {
+  static contextType = StoreContext;
+
   state = {
     showingInfoWindow: false, //Hides or the shows the infoWindow
     activeMarker: {}, //Shows the active marker upon click
     selectedPlace: {}, //Shows the infoWindow to the selected place upon a marker
 
     hydroMetricStations: [],
-    // showHydroMetricStations: false,
     weatherStations: [],
-    // showWeatherStations: false,
-    // showStreams: false,
-    streams: [],
-    // showBasins: false,
-    cabraCorralBasin: [],
-    tunalBasin: [],
   };
 
   componentDidMount() {
     const loadRepositories = async () => {
       const hydroMetricStations = await HydroMetricStationRepository.list();
       const weatherStations = await WeatherStationRepository.list();
-      const streams = await StreamRepository.list();
-      const cabraCorralBasin = await BasinRepository.cabraCorralBasin();
-      const tunalBasin = await BasinRepository.tunalBasin();
       const AESData = await latestDataAES.list();
       const wundermapData = await latestDataWundermap.list();
       const latestData = [...AESData, ...wundermapData];
@@ -55,9 +46,6 @@ export class MapContainer extends Component {
         ...this.state,
         weatherStations,
         hydroMetricStations,
-        streams,
-        cabraCorralBasin,
-        tunalBasin,
         latestData,
       });
     };
@@ -115,7 +103,7 @@ export class MapContainer extends Component {
     if (!this.props.showStreams) {
       return;
     }
-    const streams = this.state.streams;
+    const streams = this.context.streams;
     return streams.map((stream) => (
       <Polyline
         path={stream}
@@ -130,20 +118,10 @@ export class MapContainer extends Component {
     if (!this.props.showBasins) {
       return;
     }
-    const { tunalBasin, cabraCorralBasin } = this.state;
-    const basins = [
-      // tunalBasin[0],
-      // tunalBasin[1],
-      // tunalBasin[2],
-      // tunalBasin[3],
-      // tunalBasin[4],
-      // tunalBasin[5],
-      ...tunalBasin,
-      ...cabraCorralBasin,
-    ];
+    const { basins } = this.context;
     return basins.map((basin) => (
       <Polygon
-        paths={basin}
+        paths={basin.data}
         strokeColor="#FF0000"
         strokeOpacity={0.8}
         strokeWeight={2}

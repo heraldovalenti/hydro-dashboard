@@ -5,3 +5,8 @@ const StreamRepository = {
 };
 
 export { StreamRepository };
+
+export const fetchStreams = async () => {
+  const streams = await StreamRepository.list();
+  return streams;
+};

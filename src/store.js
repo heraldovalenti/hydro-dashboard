@@ -4,6 +4,9 @@ import initServiceInterceptors from './services';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from './reducers/rootReducer';
+import { fetchStations } from './services/backend';
+import { fetchStreams } from './services/Streams';
+import { fetchBasins } from './services/Basins';
 
 export const StoreContext = React.createContext(null);
 
@@ -22,11 +25,22 @@ export default ({ children }) => {
   const fetchEndDate = new Date(currentDate);
 
   const [loading, setLoading] = useState(true);
+  const [stations, setStations] = useState([]);
+  const [basins, setBasins] = useState([]);
+  const [streams, setStreams] = useState([]);
 
   const fetchData = (startDate, endDate) => {
-    Promise.all([Promise.resolve({})])
-      .then(([data]) => {
+    Promise.all([
+      Promise.resolve({}),
+      fetchStations(),
+      fetchBasins(),
+      fetchStreams(),
+    ])
+      .then(([data, stations, basins, streams]) => {
         //fetch data in here
+        setStations(stations);
+        setBasins(basins);
+        setStreams(streams);
       })
       .finally(() => {
         setLoading(false);
@@ -43,6 +57,9 @@ export default ({ children }) => {
     fetchEndDate,
     setFetchStartDate,
     fetchData,
+    stations,
+    streams,
+    basins,
     loading,
   };
 

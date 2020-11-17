@@ -1,10 +1,8 @@
 const config = {
-  baseURL: 'https://internal-dev.dexibit.com',
+  baseURL: 'https://hydro-dashboard-283320.uc.r.appspot.com',
   api: {
-    forecast: '/forecast',
-    visitation: '/visitation',
-    venue: '/venue',
-    footfall: '/footfall',
+    stations: '/api/stations',
+    observations: '/api/observations',
   },
 };
 

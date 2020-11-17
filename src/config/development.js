@@ -1,5 +1,6 @@
 const config = {
-  baseURL: 'https://api.dexibit.com/v1/internal/test',
+  baseURL: 'https://hydro-dashboard-283320.uc.r.appspot.com',
+  //baseURL: 'http://localhost:8080',
 };
 
 export default config;
