@@ -46,13 +46,13 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <MuiPickersUtilsProvider utils={MomentUtils}>
-        {loading && <EmptyState title={''} subtitle={''} icon={'loading...'} />}
+        {loading && (
+          <EmptyState title={''} subtitle={''} icon={t('loading_icon_label')} />
+        )}
         {showEmptyState && (
           <EmptyState
-            title={'No data yet'}
-            subtitle={
-              'Stay tuned! When your base data is processed you will be able to play with it shortly.'
-            }
+            title={t('page_loading_no_data_title')}
+            subtitle={t('page_loading_no_data_subtitle')}
             icon={<SimulationIcon />}
           />
         )}

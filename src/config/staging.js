@@ -1,5 +1,5 @@
 const config = {
-  baseURL: 'https://api.dexibit.com/v1/internal/staging',
+  baseURL: 'https://hydro-dashboard-283320.uc.r.appspot.com',
 };
 
 export default config;

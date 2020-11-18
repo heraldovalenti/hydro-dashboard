@@ -2,6 +2,12 @@ export default {
   page_header_title: 'AES',
   page_header_text: 'Plan de Manejo de Embalses',
 
+  loading_icon_label: 'cargando...',
+
+  page_loading_no_data_title: 'Cargando datos',
+  page_loading_no_data_subtitle:
+    'Dame unos momentos para que cargue los datos desde el servidor',
+
   control_panel_title: 'Panel de Control',
   control_panel_layers_title: 'Capas del mapa',
   control_panel_layers_hydro_metric_stations: 'Estaciones hidrométricas',
