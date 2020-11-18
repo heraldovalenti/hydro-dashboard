@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Map,
   Marker,
@@ -9,102 +9,106 @@ import {
 } from 'google-maps-react';
 import dropIcon from '../../components/Icons/drop-icon.png';
 import levelIcon from '../../components/Icons/level-icon.png';
-import { HydroMetricStationRepository } from '../../services/HydroMetricStations';
-import { WeatherStationRepository } from '../../services/WeatherStations';
-import { LatestData as latestDataAES } from '../../services/LatestData';
-import { LatestData as latestDataWundermap } from '../../services/Wundermap';
-import { latestDataForName } from './support';
 import { connect } from 'react-redux';
-import { getAesTimeString } from '../../utils/date';
 import { StoreContext } from '../../store';
 import config from '../../config';
+import StationInfo from './StationInfo';
+import { fetchRainAccumulatedData } from '../../services/backend';
 
-const mapStyles = {
-  width: '90%',
-  height: '90%',
-};
-
-export class MapContainer extends Component {
-  static contextType = StoreContext;
-
-  state = {
+const MapContainer = ({
+  showHydroMetricStations,
+  showWeatherStations,
+  showStreams,
+  showBasins,
+  hours,
+  google,
+}) => {
+  const { streams, basins, stations } = useContext(StoreContext);
+  const [state, setState] = useState({
     showingInfoWindow: false, //Hides or the shows the infoWindow
-    activeMarker: {}, //Shows the active marker upon click
-    selectedPlace: {}, //Shows the infoWindow to the selected place upon a marker
-
-    hydroMetricStations: [],
-    weatherStations: [],
+    activeMarker: null, //Shows the active marker upon click
+    selectedStation: null, //Shows the infoWindow to the selected place upon a marker
+  });
+  const emptyStationData = {
+    observationSeries: [],
+    rainAccumulations: [],
   };
+  const [stationData, setStationData] = useState(emptyStationData);
 
-  componentDidMount() {
-    const loadRepositories = async () => {
-      const hydroMetricStations = await HydroMetricStationRepository.list();
-      const weatherStations = await WeatherStationRepository.list();
-      const AESData = await latestDataAES.list();
-      const wundermapData = await latestDataWundermap.list();
-      const latestData = [...AESData, ...wundermapData];
-      this.setState({
-        ...this.state,
-        weatherStations,
-        hydroMetricStations,
-        latestData,
-      });
-    };
-    loadRepositories();
-  }
+  const weatherStations = stations.filter((s) => {
+    const rainOrigins = s.stationDataOriginList.filter(
+      (o) => o.dimension.id === 3
+    ); // lluvia
+    return rainOrigins.length > 0;
+  });
+  const hydroMetricStations = stations.filter((s) => {
+    const levelOrigins = s.stationDataOriginList.filter(
+      (o) => o.dimension.id === 1
+    ); // nivel
+    return levelOrigins.length > 0;
+  });
 
-  onClose = (_props) => {
-    if (this.state.showingInfoWindow) {
-      this.setState({
+  const onClose = (_props) => {
+    if (state.showingInfoWindow) {
+      setState({
         showingInfoWindow: false,
         activeMarker: null,
+        selectedStation: null,
       });
     }
   };
 
-  onMarkerClick = (props, marker, _e) => {
-    this.setState({
-      selectedPlace: props,
-      activeMarker: marker,
+  const onMarkerClick = (props, marker, _e) => {
+    const selectedStation = stations.filter((s) => s.id === props.stationId)[0];
+    setState({
       showingInfoWindow: true,
+      activeMarker: marker,
+      selectedStation,
     });
+    // setStationData(emptyStationData);
+    const fetchData = async () => {
+      const fetchedData = await fetchRainAccumulatedData(
+        selectedStation.id,
+        hours
+      );
+      console.log(`fetchedData=${JSON.stringify(fetchedData)}`);
+      setStationData(fetchedData);
+    };
+    fetchData();
   };
 
-  renderHydroMetricStations = () => {
-    if (!this.props.showHydroMetricStations) {
+  const renderHydroMetricStations = () => {
+    if (!showHydroMetricStations) {
       return;
     }
-    const stations = this.state.hydroMetricStations;
-    return stations.map((station) => (
+    return hydroMetricStations.map((station) => (
       <Marker
-        onClick={this.onMarkerClick}
-        name={station.name}
-        position={station.position}
+        position={{ lat: station.latitude, lng: station.longitude }}
+        onClick={onMarkerClick}
         icon={levelIcon}
+        stationId={station.id}
       />
     ));
   };
 
-  renderWeatherStations = () => {
-    if (!this.props.showWeatherStations) {
+  const renderWeatherStations = () => {
+    if (!showWeatherStations) {
       return;
     }
-    const stations = this.state.weatherStations;
-    return stations.map((station) => (
+    return weatherStations.map((station) => (
       <Marker
-        onClick={this.onMarkerClick}
-        name={station.name}
-        position={station.position}
+        position={{ lat: station.latitude, lng: station.longitude }}
+        onClick={onMarkerClick}
         icon={dropIcon}
+        stationId={station.id}
       />
     ));
   };
 
-  renderStreams = () => {
-    if (!this.props.showStreams) {
+  const renderStreams = () => {
+    if (!showStreams) {
       return;
     }
-    const streams = this.context.streams;
     return streams.map((stream) => (
       <Polyline
         path={stream}
@@ -115,11 +119,10 @@ export class MapContainer extends Component {
     ));
   };
 
-  renderBasins = () => {
-    if (!this.props.showBasins) {
+  const renderBasins = () => {
+    if (!showBasins) {
       return;
     }
-    const { basins } = this.context;
     return basins.map((basin) => (
       <Polygon
         paths={basin.data}
@@ -132,69 +135,36 @@ export class MapContainer extends Component {
     ));
   };
 
-  renderLatestData = (name) => {
-    if (!name) return <div />;
-    // if (name === 'AES - Cachi') {
-    //   return (
-    //     <ul>
-    //       <li>13/09/2020 21:00 8 mm (8 mm)</li>
-    //       <li>14/09/2020 00:00 10 mm (18 mm)</li>
-    //       <li>14/09/2020 03:00 12 mm (30 mm)</li>
-    //       <li>14/09/2020 06:00 11 mm (41 mm)</li>
-    //       <li>14/09/2020 09:00 20 mm (61 mm)</li>
-    //     </ul>
-    //   );
-    // }
-    const data = latestDataForName(name, this.state.latestData);
-    if (!data || !data[0]) return <div />;
-    const renderData = data.map((entry) => {
-      const { dimension, unit } = entry;
-      const value = parseFloat(entry.value).toFixed(2);
-      const date = getAesTimeString(entry.date);
-      return {
-        dimension,
-        value,
-        unit,
-        date,
-      };
-    });
-    return (
-      <ul>
-        {renderData.map((entry) => (
-          <li>
-            {entry.dimension}: {entry.value} {entry.unit} ({entry.date})
-          </li>
-        ))}
-      </ul>
-    );
-  };
-
-  render() {
-    return (
-      <Map
-        google={this.props.google}
-        zoom={8}
-        style={mapStyles}
-        initialCenter={{ lat: -25.6558152, lng: -65.5006693 }}
+  return (
+    <Map
+      google={google}
+      zoom={8}
+      style={{
+        width: '90%',
+        height: '90%',
+      }}
+      initialCenter={{ lat: -25.6558152, lng: -65.5006693 }}
+    >
+      {renderHydroMetricStations()}
+      {renderWeatherStations()}
+      {renderStreams()}
+      {renderBasins()}
+      <InfoWindow
+        marker={state.activeMarker}
+        visible={state.showingInfoWindow}
+        onClose={onClose}
       >
-        {this.renderHydroMetricStations()}
-        {this.renderWeatherStations()}
-        {this.renderStreams()}
-        {this.renderBasins()}
-        <InfoWindow
-          marker={this.state.activeMarker}
-          visible={this.state.showingInfoWindow}
-          onClose={this.onClose}
-        >
-          <div>
-            <h4>{this.state.selectedPlace.name}</h4>
-            {this.renderLatestData(this.state.selectedPlace.name)}
-          </div>
-        </InfoWindow>
-      </Map>
-    );
-  }
-}
+        {state.showingInfoWindow && (
+          <StationInfo
+            station={state.selectedStation}
+            hours={hours}
+            stationData={stationData}
+          />
+        )}
+      </InfoWindow>
+    </Map>
+  );
+};
 
 const mapStateToProps = (state) => {
   return {
@@ -202,6 +172,7 @@ const mapStateToProps = (state) => {
     showWeatherStations: state.mapFilter.showWeatherStations,
     showStreams: state.mapFilter.showStreams,
     showBasins: state.mapFilter.showBasins,
+    hours: state.intervalFilter.hours,
   };
 };
 

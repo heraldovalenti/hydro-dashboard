@@ -18,4 +18,7 @@ export default {
   control_panel_filters_last_24_hours: 'Últimas 24 horas',
   control_panel_filters_last_48_hours: 'Últimas 48 horas',
   control_panel_filters_last_168_hours: 'Última semana',
+
+  weather_station_info_header:
+    'Acumulado en las últimas {{hours}} horas: {{accumulated}} {{unit}}',
 };
