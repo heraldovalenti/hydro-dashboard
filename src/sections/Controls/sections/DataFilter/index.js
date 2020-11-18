@@ -18,7 +18,7 @@ const DataFilter = (props) => {
     intervalFilterActions: { lastHours, customInterval },
   } = props;
   const { t } = useTranslation();
-  const hourOptions = [1, 3, 6, 12, 24, 48, 168, 0];
+  const hourOptions = [1, 3, 6, 12, 24, 48, 168 /*, 0*/];
   return (
     <CollapsiblePanel title={t('control_panel_filters_title')} expanded>
       <div style={{ width: '100%' }} className="control-panel">
@@ -35,16 +35,16 @@ const DataFilter = (props) => {
           }}
           value={hours}
         />
-        <LabelValueRow
-          label={'Desde'}
+        {/* <LabelValueRow
+          label={t('control_panel_filters_from')}
           value={getAesDateString(dateFrom)}
           // setValue={(x) => setDateFrom(x)}
         />
         <LabelValueRow
-          label={'Hasta'}
+          label={t('control_panel_filters_to')}
           value={getAesDateString(dateTo)}
           // setValue={(x) => setDateTo(x)}
-        />
+        /> */}
       </div>
     </CollapsiblePanel>
   );
