@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import CollapsiblePanel from '../../components/CollapsiblePanel';
 import LabelValueRow from '../../components/LabelValueRow';
 import RadioGroup from '../../../../components/RadioGroup';
-import { StoreContext } from '../../../../store';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { intervalFilterActions } from '../../../../reducers/intervalFilter';
@@ -10,7 +9,6 @@ import { useTranslation } from 'react-i18next';
 import { getAesDateString, plusDays, now } from '../../../../utils/date';
 
 const DataFilter = (props) => {
-  const {} = useContext(StoreContext);
   const dateFrom = plusDays(now(), -30);
   const dateTo = now();
   const {
