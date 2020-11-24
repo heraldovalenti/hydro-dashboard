@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   Map,
   Marker,
@@ -29,22 +29,17 @@ const MapContainer = ({
     activeMarker: null, //Shows the active marker upon click
     selectedStation: null, //Shows the infoWindow to the selected place upon a marker
   });
-  const emptyStationData = {
-    observationSeries: [],
-    rainAccumulations: [],
-  };
-  const [stationData, setStationData] = useState(emptyStationData);
-
+  const [stationData, setStationData] = useState(null);
   const weatherStations = stations.filter((s) => {
     const rainOrigins = s.stationDataOriginList.filter(
       (o) => o.dimension.id === 3
-    ); // lluvia
+    ); // rain
     return rainOrigins.length > 0;
   });
   const hydroMetricStations = stations.filter((s) => {
     const levelOrigins = s.stationDataOriginList.filter(
       (o) => o.dimension.id === 1
-    ); // nivel
+    ); // level
     return levelOrigins.length > 0;
   });
 
@@ -55,23 +50,23 @@ const MapContainer = ({
         activeMarker: null,
         selectedStation: null,
       });
+      setStationData(null);
     }
   };
 
   const onMarkerClick = (props, marker, _e) => {
+    setStationData(null);
     const selectedStation = stations.filter((s) => s.id === props.stationId)[0];
     setState({
       showingInfoWindow: true,
       activeMarker: marker,
       selectedStation,
     });
-    // setStationData(emptyStationData);
     const fetchData = async () => {
       const fetchedData = await fetchRainAccumulatedData(
         selectedStation.id,
         hours
       );
-      console.log(`fetchedData=${JSON.stringify(fetchedData)}`);
       setStationData(fetchedData);
     };
     fetchData();
