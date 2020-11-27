@@ -12,8 +12,8 @@ import levelIcon from '../../components/Icons/level-icon.png';
 import { connect } from 'react-redux';
 import { StoreContext } from '../../store';
 import config from '../../config';
-import StationInfo from './StationInfo';
-import { fetchRainAccumulatedData } from '../../services/backend';
+import StationInfo, {StationTypes} from './StationInfo';
+import { fetchRainData, fetchLevelData } from '../../services/backend';
 
 const MapContainer = ({
   showHydroMetricStations,
@@ -49,28 +49,49 @@ const MapContainer = ({
         showingInfoWindow: false,
         activeMarker: null,
         selectedStation: null,
+        selectedStationType: null,
       });
       setStationData(null);
     }
   };
 
-  const onMarkerClick = (props, marker, _e) => {
+  const onMarkerClick = ({stationId, stationType}, marker, _e) => {
     setStationData(null);
-    const selectedStation = stations.filter((s) => s.id === props.stationId)[0];
+    const selectedStation = stations.filter((s) => s.id === stationId)[0];
     setState({
       showingInfoWindow: true,
       activeMarker: marker,
       selectedStation,
+      selectedStationType: stationType
     });
     const fetchData = async () => {
-      const fetchedData = await fetchRainAccumulatedData(
-        selectedStation.id,
-        hours
-      );
-      setStationData(fetchedData);
+      if (stationType === StationTypes.weather) {
+        const fetchedData = await fetchRainData(stationId, hours);
+        setStationData(fetchedData);
+      } else if (stationType === StationTypes.hydrometric) {
+        const fetchedData = await fetchLevelData(stationId, hours);
+        setStationData(fetchedData);
+      }
     };
     fetchData();
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const {selectedStation, selectedStationType} = state;
+      if (selectedStation && selectedStationType) {
+        const stationId = selectedStation.id;
+        if (selectedStationType === StationTypes.weather) {
+          const fetchedData = await fetchRainData(stationId, hours);
+          setStationData(fetchedData);
+        } else if (selectedStationType === StationTypes.hydrometric) {
+          const fetchedData = await fetchLevelData(stationId, hours);
+          setStationData(fetchedData);
+        }
+      }
+    };
+    fetchData();
+  }, [hours])
 
   const renderHydroMetricStations = () => {
     if (!showHydroMetricStations) {
@@ -82,6 +103,7 @@ const MapContainer = ({
         onClick={onMarkerClick}
         icon={levelIcon}
         stationId={station.id}
+        stationType={StationTypes.hydrometric}
       />
     ));
   };
@@ -96,6 +118,7 @@ const MapContainer = ({
         onClick={onMarkerClick}
         icon={dropIcon}
         stationId={station.id}
+        stationType={StationTypes.weather}
       />
     ));
   };
@@ -152,6 +175,7 @@ const MapContainer = ({
         {state.showingInfoWindow && (
           <StationInfo
             station={state.selectedStation}
+            stationType={state.selectedStationType}
             hours={hours}
             stationData={stationData}
           />

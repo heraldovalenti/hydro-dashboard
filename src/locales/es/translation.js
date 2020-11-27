@@ -29,4 +29,6 @@ export default {
 
   weather_station_info_header:
     'Acumulado en las últimas {{hours}} horas: {{accumulated}} {{unit}}',
+  hydrometric_station_info_header:
+    'Mediciones de nivel en las últimas {{hours}} horas',
 };
