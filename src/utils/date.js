@@ -12,6 +12,11 @@ const plusHours = (now, hours) => now + hours * 1000 * 60 * 60;
 const plusDays = (now, days) => plusHours(now, days * 24);
 const getAesTimeString = (date) => moment(date).format('DD/MM/YYYY HH:mm');
 const getAesDateString = (date) => moment(date).format('DD/MM/YYYY');
+const localToUTC = (date) => {
+  const input = moment(date);
+  const utcOffset = input.utcOffset();
+  return input.add(utcOffset * -1, 'minutes');
+};
 export {
   getISODateString,
   getAmericanDateString,
@@ -22,4 +27,5 @@ export {
   plusDays,
   getAesTimeString,
   getAesDateString,
+  localToUTC,
 };
