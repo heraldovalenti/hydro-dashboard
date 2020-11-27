@@ -7,6 +7,7 @@ import rootReducer from './reducers/rootReducer';
 import { fetchStations } from './services/backend';
 import { fetchStreams } from './services/Streams';
 import { fetchBasins } from './services/Basins';
+import config from './config';
 
 export const StoreContext = React.createContext(null);
 
@@ -48,7 +49,7 @@ export default ({ children }) => {
   };
 
   useEffect(() => {
-    process.env.REACT_APP_ENV === 'development' && initServiceInterceptors();
+    process.env.REACT_APP_ENV === 'development' && config.serviceInterceptors && initServiceInterceptors();
     fetchData(fetchStartDate, fetchEndDate);
   }, []);
 
