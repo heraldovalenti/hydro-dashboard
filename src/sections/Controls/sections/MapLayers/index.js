@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import CollapsiblePanel from '../../components/CollapsiblePanel';
-import { StoreContext } from '../../../../store';
 import './styles.css';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -9,7 +8,6 @@ import { useTranslation } from 'react-i18next';
 import LayerFilter from './layerFilter';
 
 const MapLayers = (props) => {
-  const {} = useContext(StoreContext);
   const {
     showHydroMetricStations,
     showWeatherStations,

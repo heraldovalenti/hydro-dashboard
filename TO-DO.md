@@ -1,27 +1,20 @@
 # TODO
 
-- INTA LA VINNA
-- medir cada 1 hora las de AES
+- desde-hasta
+- exportacion de datos
+- caudal (curvas H-Q)
+- grafico y tablas
 
 - use SVG for icons
 - fix config to use absolute paths
 - implement authentication
 - fix console warnings/errors
-- store data in DB
-- retrieve data from AppEngine
-- change dependency system to yarn
 - update dependencies
-- map last 24hs/12hs/6hs
 - include GeoTIFF, GOE
-- convert unit (e.g.: inches to mm)
 
 # IN PROGRESS
 
 - plan de manejo de embalse mas grande
-- get last metrics from documents
-  - review data files
-  - get data from SMN
-  - get data from INTA
 
 # DONE
 
@@ -41,3 +34,14 @@
 - normalize timezones
 - incluir UCASAL desde weatherunderground
   - missing: UCASAL - El Tipal
+- medir cada 1 hora las de AES
+- INTA LA VINNA
+- get last metrics from documents
+  - review data files
+  - get data from SMN
+  - get data from INTA
+- convert unit (e.g.: inches to mm)
+- store data in DB
+- retrieve data from AppEngine
+- change dependency system to yarn
+- map last 24hs/12hs/6hs

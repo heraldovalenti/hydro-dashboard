@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { getAmericanDateString } from '../../utils/date';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { StoreContext } from '../../store';
+import { AppDataContext } from '../../providers/AppDataProvider';
 import { Tooltip, IconButton } from '@material-ui/core';
 
 import './styles.css';
@@ -23,7 +23,7 @@ const Header = ({
   showDates,
 }) => {
   const { fetchStartDate: startDate, fetchEndDate: endDate } = useContext(
-    StoreContext
+    AppDataContext
   );
   const isDatesSet = startDate && endDate;
   let headerDates;

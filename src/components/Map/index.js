@@ -10,10 +10,24 @@ import {
 import dropIcon from '../../components/Icons/drop-icon.png';
 import levelIcon from '../../components/Icons/level-icon.png';
 import { connect } from 'react-redux';
-import { StoreContext } from '../../store';
+import { AppDataContext } from '../../providers/AppDataProvider';
 import config from '../../config';
-import StationInfo, {StationTypes} from './StationInfo';
+import StationInfo, { StationTypes } from './StationInfo';
 import { fetchRainData, fetchLevelData } from '../../services/backend';
+import { makeStyles } from '@material-ui/core/styles';
+import Modal from '@material-ui/core/Modal';
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    position: 'absolute',
+    width: 400,
+    height: 200,
+    backgroundColor: theme.palette.background.paper,
+    // border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+}));
 
 const MapContainer = ({
   showHydroMetricStations,
@@ -23,7 +37,7 @@ const MapContainer = ({
   hours,
   google,
 }) => {
-  const { streams, basins, stations } = useContext(StoreContext);
+  const { streams, basins, stations } = useContext(AppDataContext);
   const [state, setState] = useState({
     showingInfoWindow: false, //Hides or the shows the infoWindow
     activeMarker: null, //Shows the active marker upon click
@@ -55,14 +69,14 @@ const MapContainer = ({
     }
   };
 
-  const onMarkerClick = ({stationId, stationType}, marker, _e) => {
+  const onMarkerClick = ({ stationId, stationType }, marker, _e) => {
     setStationData(null);
     const selectedStation = stations.filter((s) => s.id === stationId)[0];
     setState({
       showingInfoWindow: true,
       activeMarker: marker,
       selectedStation,
-      selectedStationType: stationType
+      selectedStationType: stationType,
     });
     const fetchData = async () => {
       if (stationType === StationTypes.weather) {
@@ -78,7 +92,7 @@ const MapContainer = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      const {selectedStation, selectedStationType} = state;
+      const { selectedStation, selectedStationType } = state;
       if (selectedStation && selectedStationType) {
         const stationId = selectedStation.id;
         if (selectedStationType === StationTypes.weather) {
@@ -91,7 +105,7 @@ const MapContainer = ({
       }
     };
     fetchData();
-  }, [hours])
+  }, [hours]);
 
   const renderHydroMetricStations = () => {
     if (!showHydroMetricStations) {
@@ -153,35 +167,43 @@ const MapContainer = ({
     ));
   };
 
+  const classes = useStyles();
+
+  const top = 50;
+  const left = 50;
+
+  const modalStyle = {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
   return (
-    <Map
-      google={google}
-      zoom={8}
-      style={{
-        width: '90%',
-        height: '90%',
-      }}
-      initialCenter={{ lat: -25.6558152, lng: -65.5006693 }}
-    >
-      {renderHydroMetricStations()}
-      {renderWeatherStations()}
-      {renderStreams()}
-      {renderBasins()}
-      <InfoWindow
-        marker={state.activeMarker}
-        visible={state.showingInfoWindow}
-        onClose={onClose}
-      >
-        {state.showingInfoWindow && (
+    <div>
+      <Modal open={state.showingInfoWindow} onClose={onClose}>
+        <div style={modalStyle} className={classes.paper}>
           <StationInfo
             station={state.selectedStation}
             stationType={state.selectedStationType}
             hours={hours}
             stationData={stationData}
           />
-        )}
-      </InfoWindow>
-    </Map>
+        </div>
+      </Modal>
+      <Map
+        google={google}
+        zoom={8}
+        style={{
+          width: '90%',
+          height: '90%',
+        }}
+        initialCenter={{ lat: -25.6558152, lng: -65.5006693 }}
+      >
+        {renderHydroMetricStations()}
+        {renderWeatherStations()}
+        {renderStreams()}
+        {renderBasins()}
+      </Map>
+    </div>
   );
 };
 

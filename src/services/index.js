@@ -3,13 +3,7 @@ import { saveInterception, getInterception } from '../mocks/saveInterception';
 import HttpStatus from 'http-status-codes';
 
 export default function initServiceInterceptors() {
-  console.log('init interceptors');
-  axios.interceptors.request.use(
-    (request) => {
-      return request;
-    },
-    (error) => {}
-  );
+  // console.log('init interceptors');
 
   axios.interceptors.response.use(
     (response) => {
