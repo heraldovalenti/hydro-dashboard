@@ -31,4 +31,11 @@ export default {
     'Acumulado en las últimas {{hours}} horas: {{accumulated}} {{unit}}',
   hydrometric_station_info_header:
     'Mediciones de nivel en las últimas {{hours}} horas',
+
+  auth_form_username_label: 'Nombre de usuario',
+  auth_form_password_label: 'Contraseña',
+  auth_form_wrong_credentials_message:
+    'Nombre de usuario o contraseña inválidos',
+  auth_form_login_button: 'Iniciar sesión',
+  auth_form_logout_button: 'Cerrar sesión',
 };

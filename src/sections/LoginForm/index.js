@@ -10,9 +10,10 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import { AuthContext } from '../../providers/AuthProvider';
+import { useTranslation } from 'react-i18next';
 
 const LoginForm = () => {
-  const { login } = useContext(AuthContext);
+  const { login, wrongCredentials } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -33,12 +34,18 @@ const LoginForm = () => {
   const performLogin = () => {
     login({ username, password });
   };
+  const { t } = useTranslation();
   return (
     <form noValidate autoComplete="off">
+      {wrongCredentials && (
+        <fieldset>
+          <div>{t('auth_form_wrong_credentials_message')}</div>
+        </fieldset>
+      )}
       <fieldset>
         <FormControl>
           <TextField
-            label="Username"
+            label={t('auth_form_username_label')}
             id="username"
             required
             value={username}
@@ -48,7 +55,9 @@ const LoginForm = () => {
       </fieldset>
       <fieldset>
         <FormControl>
-          <InputLabel htmlFor="password">Password</InputLabel>
+          <InputLabel htmlFor="password">
+            {t('auth_form_password_label')}
+          </InputLabel>
           <Input
             id="password"
             type={showPassword ? 'text' : 'password'}
@@ -76,7 +85,7 @@ const LoginForm = () => {
           onClick={performLogin}
           type="submit"
         >
-          Login
+          {t('auth_form_login_button')}
         </Button>
       </fieldset>
     </form>
