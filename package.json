@@ -13,6 +13,7 @@
     "@material-ui/pickers": "^3.2.10",
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
+    "crypto-js": "^4.0.0",
     "env-cmd": "^10.1.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
@@ -47,7 +48,7 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "cypress:open": "env-cmd -f .env.test cypress open",
-    "deploy-prep" : "npm run build:staging",
+    "deploy-prep": "npm run build:staging",
     "deploy": "gsutil cp -r ./build/* gs://hydro-dashboard-staging/"
   },
   "jest": {

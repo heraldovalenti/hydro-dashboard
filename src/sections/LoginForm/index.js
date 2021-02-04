@@ -12,7 +12,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { AuthContext } from '../../providers/AuthProvider';
 
 const LoginForm = () => {
-  const { setCredentials } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -31,14 +31,10 @@ const LoginForm = () => {
     event.preventDefault();
   };
   const performLogin = () => {
-    setCredentials({ username, password });
+    login({ username, password });
   };
   return (
-    <form
-      noValidate
-      autoComplete="off"
-      onSubmit={() => console.log('login submit')}
-    >
+    <form noValidate autoComplete="off">
       <fieldset>
         <FormControl>
           <TextField

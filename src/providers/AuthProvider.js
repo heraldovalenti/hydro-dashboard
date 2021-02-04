@@ -1,27 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { loadCredentials } from '../services/auth';
+import {
+  loadCredentials,
+  persistCredentials,
+  destroyCredentials,
+} from '../services/auth';
 
 export const AuthContext = React.createContext(null);
 
 export default ({ children }) => {
   const [credentials, setCredentials] = useState(null);
 
-  const fetchData = async () => {
+  const login = async (credentials) => {
+    await persistCredentials(credentials);
+    setCredentials(credentials);
+  };
+
+  const logout = async () => {
+    await destroyCredentials();
+    setCredentials(null);
+  };
+
+  const loadInitialState = async () => {
     const credentials = await loadCredentials();
     setCredentials(credentials);
   };
 
-  const logout = () => {
-    setCredentials(null);
-  };
-
   useEffect(() => {
-    fetchData();
+    loadInitialState();
   }, []);
 
   const store = {
     credentials,
-    setCredentials,
+    login,
     logout,
   };
 

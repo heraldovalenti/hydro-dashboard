@@ -5,12 +5,12 @@ import { fetchStreams } from '../services/Streams';
 import { fetchBasins } from '../services/Basins';
 import config from '../config';
 import { AuthContext } from './AuthProvider';
-import { loadLoginHandler, removeLoginHandler } from '../services/auth';
+import { loadAuthHandler, removeAuthHandler } from '../services/auth';
 
 export const AppDataContext = React.createContext(null);
 
 export default ({ children }) => {
-  const { credentials } = useContext(AuthContext);
+  const { credentials, logout } = useContext(AuthContext);
 
   const currentDate = new Date();
   const [fetchStartDate, setFetchStartDate] = useState(
@@ -52,9 +52,9 @@ export default ({ children }) => {
     process.env.REACT_APP_ENV === 'development' &&
       config.serviceInterceptors &&
       initServiceInterceptors();
-    const loginHandler = loadLoginHandler(credentials);
+    const loginHandler = loadAuthHandler({ credentials, logout });
     fetchData(fetchStartDate, fetchEndDate);
-    return () => removeLoginHandler(loginHandler);
+    return () => removeAuthHandler(loginHandler);
   }, []);
 
   const contextStore = {
