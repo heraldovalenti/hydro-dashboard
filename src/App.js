@@ -19,7 +19,7 @@ const App = () => {
     },
     palette: {
       primary: {
-        main: COLORS.ORANGE.BASE,
+        main: COLORS.TURQUOISE.BASE,
       },
     },
   });

@@ -5,6 +5,7 @@ import DataFilter from './sections/DataFilter';
 import { useTranslation } from 'react-i18next';
 import Button from '@material-ui/core/Button';
 import { AuthContext } from '../../providers/AuthProvider';
+import COLORS from '../../types/colors';
 
 export default function Controls() {
   const { logout } = useContext(AuthContext);
@@ -12,11 +13,16 @@ export default function Controls() {
   return (
     <div className="controls">
       <h4 className="controls__title">{t('control_panel_title')}</h4>
-      <Button variant="contained" color="primary" onClick={logout}>
-        Logout
-      </Button>
       <MapLayers />
       <DataFilter />
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={logout}
+        style={{ width: '100%' }}
+      >
+        {t('auth_form_logout_button')}
+      </Button>
     </div>
   );
 }

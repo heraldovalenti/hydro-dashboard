@@ -12,6 +12,7 @@ const BlueSwitch = withStyles({
     '&$checked + $track': {
       backgroundColor: COLORS.TURQUOISE.BASE,
     },
+    fontFamily: ['Open Sans', 'sans-serif'].join(','),
   },
   checked: {},
   track: {},
