@@ -31,6 +31,9 @@ export default {
     'Acumulado en las últimas {{hours}} horas: {{accumulated}} {{unit}}',
   hydrometric_station_info_header:
     'Mediciones de nivel en las últimas {{hours}} horas',
+  station_info_header_datetime: 'Fecha y hora',
+  station_info_header_value: 'Valor observado',
+  station_info_header_unit: 'Unidad',
 
   auth_form_username_label: 'Nombre de usuario',
   auth_form_password_label: 'Contraseña',

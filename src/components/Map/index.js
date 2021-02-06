@@ -4,7 +4,6 @@ import {
   Marker,
   Polyline,
   Polygon,
-  InfoWindow,
   GoogleApiWrapper,
 } from 'google-maps-react';
 import dropIcon from '../../components/Icons/drop-icon.png';
@@ -17,15 +16,21 @@ import { fetchRainData, fetchLevelData } from '../../services/backend';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 
+const top = 50;
+const left = 50;
 const useStyles = makeStyles((theme) => ({
-  paper: {
+  modal: {
     position: 'absolute',
-    width: 400,
-    height: 200,
     backgroundColor: theme.palette.background.paper,
-    // border: '2px solid #000',
-    boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+    height: '800px',
+    border: '1px solid #d5d5d5',
+    // boxShadow: theme.shadows[5],
+    boxShadow: '0 2px 3px rgb(0 0 0 / 5%)',
+    borderRadius: 4,
   },
 }));
 
@@ -131,6 +136,7 @@ const MapContainer = ({
         position={{ lat: station.latitude, lng: station.longitude }}
         onClick={onMarkerClick}
         icon={dropIcon}
+        // label={'123'}
         stationId={station.id}
         stationType={StationTypes.weather}
       />
@@ -169,18 +175,10 @@ const MapContainer = ({
 
   const classes = useStyles();
 
-  const top = 50;
-  const left = 50;
-
-  const modalStyle = {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
   return (
     <div>
       <Modal open={state.showingInfoWindow} onClose={onClose}>
-        <div style={modalStyle} className={classes.paper}>
+        <div className={classes.modal}>
           <StationInfo
             station={state.selectedStation}
             stationType={state.selectedStationType}

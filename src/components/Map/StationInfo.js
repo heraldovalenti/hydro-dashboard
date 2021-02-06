@@ -2,6 +2,7 @@ import React from 'react';
 import { getAesTimeString } from '../../utils/date';
 import { useTranslation } from 'react-i18next';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import ObservationTable from './ObservationTable';
 
 export const StationTypes = {
   weather: 'WEATHER',
@@ -16,15 +17,6 @@ const RainInfo = ({ hours, stationData }) => {
   return (
     <div>
       <h4>{t('weather_station_info_header', { hours, accumulated, unit })}</h4>
-      <ul>
-        {stationData.observations.content.map((o) => {
-          return (
-            <li>
-              {getAesTimeString(o.time)} {o.value.toFixed(2)} {o.unit.alias}
-            </li>
-          );
-        })}
-      </ul>
     </div>
   );
 };
@@ -34,22 +26,13 @@ const LevelInfo = ({ hours, stationData }) => {
   return (
     <div>
       <h4>{t('hydrometric_station_info_header', { hours })}</h4>
-      <ul>
-        {stationData.observations.content.map((o) => {
-          return (
-            <li>
-              {getAesTimeString(o.time)} {o.value.toFixed(2)} {o.unit.alias}
-            </li>
-          );
-        })}
-      </ul>
     </div>
   );
 };
 
 const StationInfo = ({ station, stationType, hours, stationData }) => {
   return (
-    <div>
+    <div style={{ height: 400 }}>
       <h3>{station.description}</h3>
       {!stationData && <CircularProgress />}
       {stationData && stationType === StationTypes.weather && (
@@ -57,6 +40,9 @@ const StationInfo = ({ station, stationType, hours, stationData }) => {
       )}
       {stationData && stationType === StationTypes.hydrometric && (
         <LevelInfo hours={hours} stationData={stationData} />
+      )}
+      {stationData && (
+        <ObservationTable observations={stationData.observations.content} />
       )}
     </div>
   );
