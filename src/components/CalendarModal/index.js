@@ -11,9 +11,10 @@ import {
   FormControl,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { KeyboardDatePicker } from '@material-ui/pickers';
-import { StoreContext } from '../../store';
+import { KeyboardDateTimePicker } from '@material-ui/pickers';
 import './styles.css';
+import { AppDataContext } from '../../providers/AppDataProvider';
+import { useTranslation } from 'react-i18next';
 
 const styles = (theme) => ({
   root: {
@@ -71,7 +72,11 @@ export default function CalendarModal({ onClose, open }) {
     setPrevPeriodVisitation,
     setPrevPeriodStartDate,
     setPrevPeriodEndDate,
-  } = useContext(StoreContext);
+  } = useContext(AppDataContext);
+  const { t } = useTranslation();
+  const endDate = new Date();
+  const endMinDate = new Date();
+  const setEndDate = () => console.log('setEndDate');
 
   const [newStartDate, setNewStartDate] = useState(startDate);
   const [newEndDate, setNewEndDate] = useState(endDate);
@@ -136,36 +141,44 @@ export default function CalendarModal({ onClose, open }) {
       open={open}
     >
       <ModalTitle id="scenario-modal__title" onClose={onClose}>
-        Time Period Selection
+        {t('control_panel_filters_interval_title')}
       </ModalTitle>
       <ModalContent dividers>
         <FormControl>
-          <p>Select the time period to apply to your simulation:</p>
+          {/* <p>Select the time period to apply to your simulation:</p> */}
           <div className="daterange__panel">
-            <label className="daterange__label">From</label>
-            <KeyboardDatePicker
+            <label className="daterange__label">
+              {t('control_panel_filters_from')}
+            </label>
+            <KeyboardDateTimePicker
+              ampm={false}
               variant="inline"
-              format="MM/DD/YYYY"
+              format="DD/MM/YYYY HH:mm"
               defaultValue={newStartDate}
               value={newStartDate}
-              maxDate={startMaxDate}
-              maxDateMessage={`The From date could not be after today's date.`}
-              invalidDateMessage={`The From date could not be after today's date.`}
-              disableToolbar={true}
+              // maxDate={startMaxDate}
+              // maxDateMessage={`The From date could not be after today's date.`}
+              // invalidDateMessage={`The From date could not be after today's date.`}
+              // disableToolbar={true}
+              autoOk={true}
               onChange={handleStartDateChange}
             />
           </div>
           <div className="daterange__panel">
-            <label className="daterange__label">To</label>
-            <KeyboardDatePicker
+            <label className="daterange__label">
+              {t('control_panel_filters_to')}
+            </label>
+            <KeyboardDateTimePicker
+              ampm={false}
               variant="inline"
-              format="MM/DD/YYYY"
+              format="DD/MM/YYYY HH:mm"
               defaultValue={newEndDate}
               value={newEndDate}
-              minDate={endMinDate}
-              minDateMessage={`The To date could not be before today's date.`}
-              invalidDateMessage={`The To date could not be before today's date.`}
-              disableToolbar={true}
+              // minDate={endMinDate}
+              // minDateMessage={`The To date could not be before today's date.`}
+              // invalidDateMessage={`The To date could not be before today's date.`}
+              // disableToolbar={true}
+              autoOk={true}
               onChange={handleEndDateChange}
             />
           </div>

@@ -16,9 +16,9 @@ export const fetchStations = async () => {
   }
 };
 
-export const fetchRainData = async (stationId, hours) => {
+export const fetchRainData = async (stationId, dateFrom, dateTo) => {
   try {
-    const period = periodForHours(hours);
+    const period = toUTCInterval({ dateFrom, dateTo });
     console.log(`fetching rain data for period ${JSON.stringify(period)}`);
     const observationsResponse = await axios({
       method: 'post',
@@ -42,9 +42,9 @@ export const fetchRainData = async (stationId, hours) => {
   }
 };
 
-export const fetchLevelData = async (stationId, hours) => {
+export const fetchLevelData = async (stationId, dateFrom, dateTo) => {
   try {
-    const period = periodForHours(hours);
+    const period = toUTCInterval({ dateFrom, dateTo });
     console.log(`fetching level data for period ${JSON.stringify(period)}`);
     const observationsResponse = await axios({
       method: 'post',
@@ -60,11 +60,9 @@ export const fetchLevelData = async (stationId, hours) => {
   }
 };
 
-export const periodForHours = (hours) => {
-  const nowDate = now();
-  const fromDate = plusHours(nowDate, -hours);
+const toUTCInterval = ({ dateFrom, dateTo }) => {
   return {
-    from: getISODateString(localToUTC(fromDate)),
-    to: getISODateString(localToUTC(nowDate)),
+    from: getISODateString(localToUTC(dateFrom)),
+    to: getISODateString(localToUTC(dateTo)),
   };
 };

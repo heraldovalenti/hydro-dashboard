@@ -1,8 +1,8 @@
-import React from "react";
-import { RadioGroup, FormControlLabel, FormLabel } from "@material-ui/core";
-import Radio from "../Radio";
+import React from 'react';
+import { RadioGroup, FormControlLabel, FormLabel } from '@material-ui/core';
+import Radio from '../Radio';
 
-export default props => (
+export default (props) => (
   <>
     {props.legend && <FormLabel component="legend">{props.legend}</FormLabel>}
     <RadioGroup
@@ -10,9 +10,9 @@ export default props => (
       aria-label={props.name}
       name={props.name}
       value={props.value}
-      onChange={event => props.onChange(event.target.value)}
+      onChange={(event) => props.onChange(event.target.value)}
     >
-      {props.items.map(item => (
+      {props.items.map((item) => (
         <FormControlLabel
           key={item.value}
           value={item.value}

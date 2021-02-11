@@ -40,6 +40,8 @@ const MapContainer = ({
   showStreams,
   showBasins,
   hours,
+  dateTo,
+  dateFrom,
   google,
 }) => {
   const { streams, basins, stations } = useContext(AppDataContext);
@@ -85,10 +87,10 @@ const MapContainer = ({
     });
     const fetchData = async () => {
       if (stationType === StationTypes.weather) {
-        const fetchedData = await fetchRainData(stationId, hours);
+        const fetchedData = await fetchRainData(stationId, dateFrom, dateTo);
         setStationData(fetchedData);
       } else if (stationType === StationTypes.hydrometric) {
-        const fetchedData = await fetchLevelData(stationId, hours);
+        const fetchedData = await fetchLevelData(stationId, dateFrom, dateTo);
         setStationData(fetchedData);
       }
     };
@@ -101,16 +103,16 @@ const MapContainer = ({
       if (selectedStation && selectedStationType) {
         const stationId = selectedStation.id;
         if (selectedStationType === StationTypes.weather) {
-          const fetchedData = await fetchRainData(stationId, hours);
+          const fetchedData = await fetchRainData(stationId, dateFrom, dateTo);
           setStationData(fetchedData);
         } else if (selectedStationType === StationTypes.hydrometric) {
-          const fetchedData = await fetchLevelData(stationId, hours);
+          const fetchedData = await fetchLevelData(stationId, dateFrom, dateTo);
           setStationData(fetchedData);
         }
       }
     };
     fetchData();
-  }, [hours]);
+  }, [hours, dateFrom, dateTo]);
 
   const renderHydroMetricStations = () => {
     if (!showHydroMetricStations) {
@@ -212,6 +214,8 @@ const mapStateToProps = (state) => {
     showStreams: state.mapFilter.showStreams,
     showBasins: state.mapFilter.showBasins,
     hours: state.intervalFilter.hours,
+    dateTo: state.intervalFilter.dateTo,
+    dateFrom: state.intervalFilter.dateFrom,
   };
 };
 

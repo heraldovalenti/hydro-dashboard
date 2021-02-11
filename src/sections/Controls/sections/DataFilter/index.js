@@ -1,48 +1,75 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import CollapsiblePanel from '../../components/CollapsiblePanel';
-import LabelValueRow from '../../components/LabelValueRow';
 import RadioGroup from '../../../../components/RadioGroup';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { intervalFilterActions } from '../../../../reducers/intervalFilter';
 import { useTranslation } from 'react-i18next';
-import { getAesDateString, plusDays, now } from '../../../../utils/date';
+import { KeyboardDateTimePicker } from '@material-ui/pickers';
 
 const DataFilter = (props) => {
-  const dateFrom = plusDays(now(), -30);
-  const dateTo = now();
   const {
+    dateFrom,
+    dateTo,
     hours,
     intervalFilterActions: { lastHours, customInterval },
   } = props;
   const { t } = useTranslation();
-  const hourOptions = [1, 3, 6, 12, 24, 48, 168 /*, 0*/];
+  const hourOptions = [1, 3, 6, 12, 24, 48, 168, 0].map((hourOption) => {
+    return {
+      label: t(`control_panel_filters_last_${hourOption}_hours`),
+      value: hourOption,
+    };
+  });
+  const isCustomInterval = hours === 0;
+  const handleRadioChange = (hourOption) => {
+    // WARNING: hourOption received is a string, not a number
+    const hours = Number.parseInt(hourOption);
+    if (hours !== 0) lastHours(hours);
+    else customInterval({ dateFrom, dateTo });
+  };
   return (
     <CollapsiblePanel title={t('control_panel_filters_title')} expanded>
       <div style={{ width: '100%' }} className="control-panel">
         <RadioGroup
-          items={hourOptions.map((hourOption) => {
-            return {
-              label: t(`control_panel_filters_last_${hourOption}_hours`),
-              value: `${hourOption}`, // value needs to be a string, otherwise selection is not rendered properly
-            };
-          })}
-          onChange={(hourOption) => {
-            lastHours(hourOption);
-            // if (hourOption == 0) customInterval();
-          }}
+          items={hourOptions}
+          onChange={handleRadioChange}
           value={hours}
         />
-        {/* <LabelValueRow
+        <KeyboardDateTimePicker
           label={t('control_panel_filters_from')}
-          value={getAesDateString(dateFrom)}
-          // setValue={(x) => setDateFrom(x)}
+          ampm={false}
+          variant="inline"
+          format="DD/MM/YYYY HH:mm"
+          defaultValue={dateFrom}
+          value={dateFrom}
+          // maxDate={startMaxDate}
+          // maxDateMessage={`The From date could not be after today's date.`}
+          // invalidDateMessage={`The From date could not be after today's date.`}
+          // disableToolbar={true}
+          autoOk={true}
+          onChange={(newDate) =>
+            customInterval({ dateFrom: new Date(newDate), dateTo })
+          }
+          readOnly={!isCustomInterval}
         />
-        <LabelValueRow
+        <KeyboardDateTimePicker
           label={t('control_panel_filters_to')}
-          value={getAesDateString(dateTo)}
-          // setValue={(x) => setDateTo(x)}
-        /> */}
+          ampm={false}
+          variant="inline"
+          format="DD/MM/YYYY HH:mm"
+          defaultValue={dateTo}
+          value={dateTo}
+          // maxDate={startMaxDate}
+          // maxDateMessage={`The From date could not be after today's date.`}
+          // invalidDateMessage={`The From date could not be after today's date.`}
+          disableToolbar={true}
+          autoOk={true}
+          onChange={(newDate) =>
+            customInterval({ dateFrom, dateTo: new Date(newDate) })
+          }
+          readOnly={!isCustomInterval}
+        />
       </div>
     </CollapsiblePanel>
   );
