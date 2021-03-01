@@ -19,25 +19,40 @@ export const fetchStations = async () => {
 export const fetchRainData = async (stationId, dateFrom, dateTo) => {
   try {
     const period = toUTCInterval({ dateFrom, dateTo });
-    console.log(`fetching rain data for period ${JSON.stringify(period)}`);
+    // console.log(`fetching rain data for period ${JSON.stringify(period)}`);
     const observationsResponse = await axios({
       method: 'post',
       url: `${config.baseURL}${config.api.observations}/${stationId}/${config.constants.rainId}`,
       data: period,
     });
-    console.log(`rain data 2 ${observationsResponse}`);
+    // console.log(`rain data 2 ${observationsResponse}`);
     const accumulationResponse = await axios({
       method: 'post',
       url: `${config.baseURL}${config.api.rainAccumulation}/${stationId}`,
       data: period,
     });
-    console.log(`rain data 3 ${accumulationResponse}`);
+    // console.log(`rain data 3 ${accumulationResponse}`);
     return {
       observations: observationsResponse.data,
       accumulation: accumulationResponse.data,
     };
   } catch (e) {
     console.log(`Error fetching station rain data: ${e}`);
+    return {};
+  }
+};
+
+export const fetchAccumulationData = async (dateFrom, dateTo) => {
+  try {
+    const period = toUTCInterval({ dateFrom, dateTo });
+    const accumulationDataResponse = await axios({
+      method: 'post',
+      url: `${config.baseURL}${config.api.rainAccumulation}`,
+      data: period,
+    });
+    return accumulationDataResponse.data;
+  } catch (e) {
+    console.log(`Error fetching accumulation data: ${e}`);
     return {};
   }
 };

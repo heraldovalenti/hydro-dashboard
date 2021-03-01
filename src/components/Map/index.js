@@ -12,9 +12,14 @@ import { connect } from 'react-redux';
 import { AppDataContext } from '../../providers/AppDataProvider';
 import config from '../../config';
 import StationInfo, { StationTypes } from './StationInfo';
-import { fetchRainData, fetchLevelData } from '../../services/backend';
+import {
+  fetchRainData,
+  fetchLevelData,
+  fetchAccumulationData,
+} from '../../services/backend';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+import './styles.css';
 
 const top = 50;
 const left = 50;
@@ -51,6 +56,7 @@ const MapContainer = ({
     selectedStation: null, //Shows the infoWindow to the selected place upon a marker
   });
   const [stationData, setStationData] = useState(null);
+  const [accumulationData, setAccumulationData] = useState([]);
   const weatherStations = stations.filter((s) => {
     const rainOrigins = s.stationDataOriginList.filter(
       (o) => o.dimension.id === 3
@@ -99,17 +105,8 @@ const MapContainer = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      const { selectedStation, selectedStationType } = state;
-      if (selectedStation && selectedStationType) {
-        const stationId = selectedStation.id;
-        if (selectedStationType === StationTypes.weather) {
-          const fetchedData = await fetchRainData(stationId, dateFrom, dateTo);
-          setStationData(fetchedData);
-        } else if (selectedStationType === StationTypes.hydrometric) {
-          const fetchedData = await fetchLevelData(stationId, dateFrom, dateTo);
-          setStationData(fetchedData);
-        }
-      }
+      const accumulationDataAux = await fetchAccumulationData(dateFrom, dateTo);
+      setAccumulationData(accumulationDataAux);
     };
     fetchData();
   }, [hours, dateFrom, dateTo]);
@@ -133,16 +130,35 @@ const MapContainer = ({
     if (!showWeatherStations) {
       return;
     }
-    return weatherStations.map((station) => (
-      <Marker
-        position={{ lat: station.latitude, lng: station.longitude }}
-        onClick={onMarkerClick}
-        icon={dropIcon}
-        // label={'123'}
-        stationId={station.id}
-        stationType={StationTypes.weather}
-      />
-    ));
+    return weatherStations.map((station) => {
+      const stationAccumulations = accumulationData.filter(
+        (stationAccumulation) => stationAccumulation.stationId === station.id
+      );
+      let accumulation = '0';
+      if (
+        stationAccumulations[0] &&
+        stationAccumulations[0].rainAccumulationList[0]
+      ) {
+        const value =
+          stationAccumulations[0].rainAccumulationList[0].accumulation;
+        accumulation = `${value.toFixed(0)}`;
+      }
+      return (
+        <Marker
+          position={{ lat: station.latitude, lng: station.longitude }}
+          onClick={onMarkerClick}
+          icon={dropIcon}
+          stationId={station.id}
+          stationType={StationTypes.weather}
+          opacity={1}
+          label={{
+            text: accumulation,
+            color: '#fafafa',
+            className: 'accumulation_data',
+          }}
+        />
+      );
+    });
   };
 
   const renderStreams = () => {
