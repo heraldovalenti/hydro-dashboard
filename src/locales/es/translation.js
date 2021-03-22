@@ -27,6 +27,7 @@ export default {
   control_panel_filters_from: 'Desde',
   control_panel_filters_to: 'Hasta',
   control_panel_filters_interval_title: 'Selección de intervalo de tiempo',
+  control_panel_invalid_date_message: 'Formato de fecha no válido',
 
   weather_station_info_header:
     'Acumulado en las últimas {{hours}} horas: {{accumulated}} {{unit}}',

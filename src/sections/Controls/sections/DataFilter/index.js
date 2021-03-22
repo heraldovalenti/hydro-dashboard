@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CollapsiblePanel from '../../components/CollapsiblePanel';
 import RadioGroup from '../../../../components/RadioGroup';
 import { bindActionCreators } from 'redux';
@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { intervalFilterActions } from '../../../../reducers/intervalFilter';
 import { useTranslation } from 'react-i18next';
 import { KeyboardDateTimePicker } from '@material-ui/pickers';
+import { isValidDate } from '../../../../utils/date';
 
 const DataFilter = (props) => {
   const {
@@ -21,6 +22,8 @@ const DataFilter = (props) => {
       value: hourOption,
     };
   });
+  const [localDateTo, setLocalDateTo] = useState(dateTo);
+  const [localDateFrom, setLocalDateFrom] = useState(dateFrom);
   const isCustomInterval = hours === 0;
   const handleRadioChange = (hourOption) => {
     // WARNING: hourOption received is a string, not a number
@@ -42,15 +45,17 @@ const DataFilter = (props) => {
           variant="inline"
           format="DD/MM/YYYY HH:mm"
           defaultValue={dateFrom}
-          value={dateFrom}
+          value={localDateFrom}
           // maxDate={startMaxDate}
           // maxDateMessage={`The From date could not be after today's date.`}
-          // invalidDateMessage={`The From date could not be after today's date.`}
-          // disableToolbar={true}
+          invalidDateMessage={t('control_panel_invalid_date_message')}
           autoOk={true}
-          onChange={(newDate) =>
-            customInterval({ dateFrom: new Date(newDate), dateTo })
-          }
+          onChange={(newDateRaw) => {
+            const newDate = new Date(newDateRaw);
+            setLocalDateFrom(newDate);
+            isValidDate(newDate) &&
+              customInterval({ dateFrom: newDate, dateTo });
+          }}
           readOnly={!isCustomInterval}
         />
         <KeyboardDateTimePicker
@@ -59,15 +64,17 @@ const DataFilter = (props) => {
           variant="inline"
           format="DD/MM/YYYY HH:mm"
           defaultValue={dateTo}
-          value={dateTo}
+          value={localDateTo}
           // maxDate={startMaxDate}
           // maxDateMessage={`The From date could not be after today's date.`}
-          // invalidDateMessage={`The From date could not be after today's date.`}
-          disableToolbar={true}
+          invalidDateMessage={t('control_panel_invalid_date_message')}
           autoOk={true}
-          onChange={(newDate) =>
-            customInterval({ dateFrom, dateTo: new Date(newDate) })
-          }
+          onChange={(newDateRaw) => {
+            const newDate = new Date(newDateRaw);
+            setLocalDateTo(newDate);
+            isValidDate(newDate) &&
+              customInterval({ dateFrom, dateTo: newDate });
+          }}
           readOnly={!isCustomInterval}
         />
       </div>
