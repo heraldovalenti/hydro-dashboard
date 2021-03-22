@@ -53,7 +53,7 @@ export const fetchAccumulationData = async (dateFrom, dateTo) => {
     return accumulationDataResponse.data;
   } catch (e) {
     console.log(`Error fetching accumulation data: ${e}`);
-    return {};
+    return [];
   }
 };
 
