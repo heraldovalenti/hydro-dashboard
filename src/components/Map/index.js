@@ -134,7 +134,7 @@ const MapContainer = ({
       const stationAccumulations = accumulationData.filter(
         (stationAccumulation) => stationAccumulation.stationId === station.id
       );
-      let accumulation = '0';
+      let accumulation = undefined;
       if (
         stationAccumulations[0] &&
         stationAccumulations[0].rainAccumulationList[0]
@@ -151,11 +151,13 @@ const MapContainer = ({
           stationId={station.id}
           stationType={StationTypes.weather}
           opacity={1}
-          label={{
-            text: accumulation,
-            color: '#fafafa',
-            className: 'accumulation_data',
-          }}
+          label={
+            accumulation && {
+              text: accumulation,
+              color: '#fafafa',
+              className: 'accumulation_data',
+            }
+          }
         />
       );
     });
