@@ -17,6 +17,7 @@ const localToUTC = (date) => {
   const utcOffset = input.utcOffset();
   return input.add(utcOffset * -1, 'minutes');
 };
+const isValidDate = (date) => date && date.getTime && !isNaN(date.getTime());
 export {
   getISODateString,
   getAmericanDateString,
@@ -28,4 +29,5 @@ export {
   getAesTimeString,
   getAesDateString,
   localToUTC,
+  isValidDate,
 };

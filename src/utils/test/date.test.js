@@ -4,6 +4,7 @@ import {
   getDaysApart,
   getWeeksApart,
   localToUTC,
+  isValidDate,
 } from './../date';
 
 import moment from 'moment';
@@ -52,5 +53,26 @@ describe('localToUTC verification', () => {
     const now = moment();
     console.log(getISODateString(now));
     console.log(getISODateString(localToUTC(now)));
+  });
+});
+
+describe('is valid date verification', () => {
+  it('show be valid for a valid date', () => {
+    const now = new Date();
+    expect(isValidDate(now)).toBeTruthy();
+    const first2021Day = moment('01/01/2021').toDate();
+    expect(isValidDate(first2021Day)).toBeTruthy();
+  });
+
+  it('show be NOT valid for not valid date', () => {
+    const invalid = new Date('');
+    expect(isValidDate(invalid)).toBeFalsy();
+  });
+
+  it('show be NOT valid for undefined, object, string or number', () => {
+    expect(isValidDate(undefined)).toBeFalsy();
+    expect(isValidDate({})).toBeFalsy();
+    expect(isValidDate(0)).toBeFalsy();
+    expect(isValidDate('foo')).toBeFalsy();
   });
 });
