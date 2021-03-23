@@ -187,6 +187,7 @@ const MapContainer = ({
             dateFrom={dateFrom}
             dateTo={dateTo}
             accumulation={state.accumulation}
+            closeAction={onClose}
           />
         </div>
       </Modal>

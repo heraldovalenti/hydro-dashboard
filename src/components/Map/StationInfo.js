@@ -6,6 +6,8 @@ import ObservationTable from './ObservationTable';
 import { fetchObservations } from '../../services/backend';
 import { isWeatherStation } from './stationUtil';
 import { getHoursApart } from '../../utils/date';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 const RainInfo = ({ dateFrom, dateTo, accumulation }) => {
   const { t } = useTranslation();
@@ -27,7 +29,13 @@ const LevelInfo = ({ hours, stationData }) => {
   );
 };
 
-const StationInfo = ({ station, dateFrom, dateTo, accumulation }) => {
+const StationInfo = ({
+  station,
+  dateFrom,
+  dateTo,
+  accumulation,
+  closeAction,
+}) => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [observations, setObservations] = useState([]);
@@ -51,8 +59,17 @@ const StationInfo = ({ station, dateFrom, dateTo, accumulation }) => {
   }, [page]);
 
   return (
-    <div style={{ height: 400 }}>
-      <h3>{station.description}</h3>
+    <div>
+      <div style={{ display: 'flex' }}>
+        <div style={{ flex: 1, fontSize: 'x-large', alignSelf: 'center' }}>
+          {station.description}
+        </div>
+        <div style={{ alignSelf: 'center' }}>
+          <IconButton onClick={() => closeAction()}>
+            <CloseIcon />
+          </IconButton>
+        </div>
+      </div>
       {loading && <CircularProgress />}
       {accumulation && isWeatherStation(station) && (
         <RainInfo
