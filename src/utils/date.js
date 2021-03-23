@@ -3,6 +3,8 @@ import moment from 'moment';
 const getISODateString = (date) => moment(date).format('YYYY-MM-DDTHH:mm:ss');
 const getAmericanDateString = (date) =>
   moment(date).format('MMM DD YYYY HH:mm');
+const getHoursApart = (startDate, endDate) =>
+  Math.abs(moment(startDate).diff(moment(endDate), 'hours'));
 const getDaysApart = (startDate, endDate) =>
   Math.abs(moment(startDate).diff(moment(endDate), 'days'));
 const getWeeksApart = (startDate, endDate) =>
@@ -21,6 +23,7 @@ const isValidDate = (date) => date && date.getTime && !isNaN(date.getTime());
 export {
   getISODateString,
   getAmericanDateString,
+  getHoursApart,
   getDaysApart,
   getWeeksApart,
   now,
