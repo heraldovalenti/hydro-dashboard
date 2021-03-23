@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CollapsiblePanel from '../../components/CollapsiblePanel';
 import RadioGroup from '../../../../components/RadioGroup';
 import { bindActionCreators } from 'redux';
@@ -25,6 +25,10 @@ const DataFilter = (props) => {
   const [localDateTo, setLocalDateTo] = useState(dateTo);
   const [localDateFrom, setLocalDateFrom] = useState(dateFrom);
   const isCustomInterval = hours === 0;
+  useEffect(() => {
+    setLocalDateTo(dateTo);
+    setLocalDateFrom(dateFrom);
+  }, [dateFrom, dateTo]);
   const handleRadioChange = (hourOption) => {
     // WARNING: hourOption received is a string, not a number
     const hours = Number.parseInt(hourOption);
