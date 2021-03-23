@@ -75,6 +75,29 @@ export const fetchLevelData = async (stationId, dateFrom, dateTo) => {
   }
 };
 
+export const fetchObservations = async (
+  stationId,
+  dateFrom,
+  dateTo,
+  page = 1
+) => {
+  try {
+    const period = toUTCInterval({ dateFrom, dateTo });
+    console.log(`fetching observations for period ${JSON.stringify(period)}`);
+    const observationsResponse = await axios({
+      method: 'post',
+      url: `${config.baseURL}${
+        config.api.observations
+      }/${stationId}?size=20&page=${page - 1}`,
+      data: period,
+    });
+    return observationsResponse.data;
+  } catch (e) {
+    console.log(`Error fetching observations: ${e}`);
+    return [];
+  }
+};
+
 const toUTCInterval = ({ dateFrom, dateTo }) => {
   return {
     from: getISODateString(localToUTC(dateFrom)),
