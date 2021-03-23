@@ -30,7 +30,7 @@ export default {
   control_panel_invalid_date_message: 'Formato de fecha no válido',
 
   weather_station_info_header:
-    'Acumulado en las últimas {{hours}} horas: {{accumulated}} {{unit}}',
+    'Acumulado en las últimas {{hours}} horas: {{accumulation}} {{unit}}',
   hydrometric_station_info_header:
     'Mediciones de nivel en las últimas {{hours}} horas',
   station_info_header_datetime: 'Fecha y hora',

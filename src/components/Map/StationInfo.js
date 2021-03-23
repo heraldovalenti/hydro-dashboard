@@ -1,22 +1,19 @@
-import React from 'react';
-import { getAesTimeString } from '../../utils/date';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Pagination from '@material-ui/lab/Pagination';
 import ObservationTable from './ObservationTable';
+import { fetchObservations } from '../../services/backend';
+import { isWeatherStation } from './stationUtil';
+import { getHoursApart } from '../../utils/date';
 
-export const StationTypes = {
-  weather: 'WEATHER',
-  hydrometric: 'HYDROMETRIC',
-};
-
-const RainInfo = ({ hours, stationData }) => {
+const RainInfo = ({ dateFrom, dateTo, accumulation }) => {
   const { t } = useTranslation();
-  console.log(JSON.stringify(stationData));
-  const accumulated = stationData.accumulation[0]?.accumulation?.toFixed(2);
-  const unit = stationData.observations.content[0]?.unit.alias;
+  const hours = getHoursApart(dateFrom, dateTo);
+  const unit = 'mm';
   return (
     <div>
-      <h4>{t('weather_station_info_header', { hours, accumulated, unit })}</h4>
+      <h4>{t('weather_station_info_header', { hours, accumulation, unit })}</h4>
     </div>
   );
 };
@@ -30,20 +27,52 @@ const LevelInfo = ({ hours, stationData }) => {
   );
 };
 
-const StationInfo = ({ station, stationType, hours, stationData }) => {
+const StationInfo = ({ station, dateFrom, dateTo, accumulation }) => {
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [observations, setObservations] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const loadObservations = async () => {
+    if (!loading) {
+      setLoading(true);
+      const observationsData = await fetchObservations(
+        station.id,
+        dateFrom,
+        dateTo,
+        page
+      );
+      setObservations(observationsData.content);
+      setTotalPages(observationsData.totalPages);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    loadObservations();
+  }, [page]);
+
   return (
     <div style={{ height: 400 }}>
       <h3>{station.description}</h3>
-      {!stationData && <CircularProgress />}
-      {stationData && stationType === StationTypes.weather && (
-        <RainInfo hours={hours} stationData={stationData} />
+      {loading && <CircularProgress />}
+      {accumulation && isWeatherStation(station) && (
+        <RainInfo
+          dateFrom={dateFrom}
+          dateTo={dateTo}
+          accumulation={accumulation}
+        />
       )}
+      {/*
       {stationData && stationType === StationTypes.hydrometric && (
         <LevelInfo hours={hours} stationData={stationData} />
-      )}
-      {stationData && (
-        <ObservationTable observations={stationData.observations.content} />
-      )}
+      )} */}
+      {!loading && <ObservationTable observations={observations} />}
+      <Pagination
+        style={{ marginTop: 10 }}
+        count={totalPages}
+        page={page}
+        color="primary"
+        onChange={(_e, page) => setPage(page)}
+      />
     </div>
   );
 };

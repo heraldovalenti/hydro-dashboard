@@ -11,12 +11,8 @@ import levelIcon from '../../components/Icons/level-icon.png';
 import { connect } from 'react-redux';
 import { AppDataContext } from '../../providers/AppDataProvider';
 import config from '../../config';
-import StationInfo, { StationTypes } from './StationInfo';
-import {
-  fetchRainData,
-  fetchLevelData,
-  fetchAccumulationData,
-} from '../../services/backend';
+import StationInfo from './StationInfo';
+import { fetchAccumulationData } from '../../services/backend';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import './styles.css';
@@ -31,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     top: `${top}%`,
     left: `${left}%`,
     transform: `translate(-${top}%, -${left}%)`,
-    height: '800px',
+    height: '850px',
     border: '1px solid #d5d5d5',
     // boxShadow: theme.shadows[5],
     boxShadow: '0 2px 3px rgb(0 0 0 / 5%)',
@@ -54,8 +50,8 @@ const MapContainer = ({
     showingInfoWindow: false, //Hides or the shows the infoWindow
     activeMarker: null, //Shows the active marker upon click
     selectedStation: null, //Shows the infoWindow to the selected place upon a marker
+    accumulation: undefined,
   });
-  const [stationData, setStationData] = useState(null);
   const [accumulationData, setAccumulationData] = useState([]);
   const weatherStations = stations.filter((s) => {
     const rainOrigins = s.stationDataOriginList.filter(
@@ -76,31 +72,19 @@ const MapContainer = ({
         showingInfoWindow: false,
         activeMarker: null,
         selectedStation: null,
-        selectedStationType: null,
+        accumulation: undefined,
       });
-      setStationData(null);
     }
   };
 
-  const onMarkerClick = ({ stationId, stationType }, marker, _e) => {
-    setStationData(null);
+  const onMarkerClick = ({ stationId, accumulation }, marker, _e) => {
     const selectedStation = stations.filter((s) => s.id === stationId)[0];
     setState({
       showingInfoWindow: true,
       activeMarker: marker,
       selectedStation,
-      selectedStationType: stationType,
+      accumulation,
     });
-    const fetchData = async () => {
-      if (stationType === StationTypes.weather) {
-        const fetchedData = await fetchRainData(stationId, dateFrom, dateTo);
-        setStationData(fetchedData);
-      } else if (stationType === StationTypes.hydrometric) {
-        const fetchedData = await fetchLevelData(stationId, dateFrom, dateTo);
-        setStationData(fetchedData);
-      }
-    };
-    fetchData();
   };
 
   useEffect(() => {
@@ -121,7 +105,6 @@ const MapContainer = ({
         onClick={onMarkerClick}
         icon={levelIcon}
         stationId={station.id}
-        stationType={StationTypes.hydrometric}
       />
     ));
   };
@@ -149,7 +132,6 @@ const MapContainer = ({
           onClick={onMarkerClick}
           icon={dropIcon}
           stationId={station.id}
-          stationType={StationTypes.weather}
           opacity={1}
           label={
             accumulation && {
@@ -158,6 +140,7 @@ const MapContainer = ({
               className: 'accumulation_data',
             }
           }
+          accumulation={accumulation}
         />
       );
     });
@@ -201,9 +184,9 @@ const MapContainer = ({
         <div className={classes.modal}>
           <StationInfo
             station={state.selectedStation}
-            stationType={state.selectedStationType}
-            hours={hours}
-            stationData={stationData}
+            dateFrom={dateFrom}
+            dateTo={dateTo}
+            accumulation={state.accumulation}
           />
         </div>
       </Modal>
