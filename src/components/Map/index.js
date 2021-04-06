@@ -17,21 +17,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import './styles.css';
 
-const top = 50;
-const left = 50;
 const useStyles = makeStyles((theme) => ({
   modal: {
-    position: 'absolute',
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(2, 4, 3),
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-    height: '850px',
-    border: '1px solid #d5d5d5',
-    // boxShadow: theme.shadows[5],
-    boxShadow: '0 2px 3px rgb(0 0 0 / 5%)',
-    borderRadius: 4,
+    height: '100%',
+    overflowY: 'scroll',
   },
 }));
 

@@ -59,37 +59,47 @@ const StationInfo = ({
   }, [page]);
 
   return (
-    <div>
-      <div style={{ display: 'flex' }}>
-        <div style={{ flex: 1, fontSize: 'x-large', alignSelf: 'center' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '10px',
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ flex: 1, fontSize: 'x-large' }}>
           {station.description}
         </div>
-        <div style={{ alignSelf: 'center' }}>
+        <div>
           <IconButton onClick={() => closeAction()}>
             <CloseIcon />
           </IconButton>
         </div>
       </div>
-      {loading && <CircularProgress />}
-      {accumulation && isWeatherStation(station) && (
-        <RainInfo
-          dateFrom={dateFrom}
-          dateTo={dateTo}
-          accumulation={accumulation}
-        />
-      )}
+      <div style={{ flex: 1 }}>
+        {loading && <CircularProgress />}
+        {!loading && accumulation && isWeatherStation(station) && (
+          <RainInfo
+            dateFrom={dateFrom}
+            dateTo={dateTo}
+            accumulation={accumulation}
+          />
+        )}
+        {!loading && <ObservationTable observations={observations} />}
+        {!loading && (
+          <Pagination
+            style={{ marginTop: 10 }}
+            count={totalPages}
+            page={page}
+            color="primary"
+            onChange={(_e, page) => setPage(page)}
+          />
+        )}
+      </div>
       {/*
       {stationData && stationType === StationTypes.hydrometric && (
         <LevelInfo hours={hours} stationData={stationData} />
       )} */}
-      {!loading && <ObservationTable observations={observations} />}
-      <Pagination
-        style={{ marginTop: 10 }}
-        count={totalPages}
-        page={page}
-        color="primary"
-        onChange={(_e, page) => setPage(page)}
-      />
     </div>
   );
 };

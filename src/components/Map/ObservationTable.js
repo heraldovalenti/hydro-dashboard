@@ -12,9 +12,6 @@ import { getAesTimeString } from '../../utils/date';
 import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
   tableHead: {
     fontWeight: 600,
   },
