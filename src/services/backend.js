@@ -98,6 +98,12 @@ export const fetchObservations = async (
   }
 };
 
+export const exportObservations = async (stationId, dateFrom, dateTo) => {
+  const period = toUTCInterval({ dateFrom, dateTo });
+  const url = `${config.baseURL}${config.api.exportObservations}/${stationId}?from=${period.from}&to=${period.to}`;
+  window.open(url);
+};
+
 const toUTCInterval = ({ dateFrom, dateTo }) => {
   return {
     from: getISODateString(localToUTC(dateFrom)),

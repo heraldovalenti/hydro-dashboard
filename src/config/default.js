@@ -5,6 +5,7 @@ const config = {
     stations: '/api/stations',
     observations: '/api/observations',
     rainAccumulation: '/api/rain-accumulation',
+    exportObservations: '/api/export/observations',
   },
   maps: {
     key: 'AIzaSyCnILw5Ddl2uXfyvFgEtPHTw-su8JlQzA8',

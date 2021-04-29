@@ -184,8 +184,8 @@ const MapContainer = ({
       <Map
         google={google}
         zoom={8}
-        style={{
-          width: '90%',
+        containerStyle={{
+          width: '95%',
           height: '90%',
         }}
         initialCenter={{ lat: -25.6558152, lng: -65.5006693 }}

@@ -3,11 +3,12 @@ import { useTranslation } from 'react-i18next';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Pagination from '@material-ui/lab/Pagination';
 import ObservationTable from './ObservationTable';
-import { fetchObservations } from '../../services/backend';
+import { fetchObservations, exportObservations } from '../../services/backend';
 import { isWeatherStation } from './stationUtil';
 import { getHoursApart } from '../../utils/date';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 
 const RainInfo = ({ dateFrom, dateTo, accumulation }) => {
   const { t } = useTranslation();
@@ -71,6 +72,11 @@ const StationInfo = ({
           {station.description}
         </div>
         <div>
+          <IconButton
+            onClick={() => exportObservations(station.id, dateFrom, dateTo)}
+          >
+            <CloudDownloadIcon />
+          </IconButton>
           <IconButton onClick={() => closeAction()}>
             <CloseIcon />
           </IconButton>
