@@ -116,6 +116,11 @@ const MapContainer = ({
           stationAccumulations[0].rainAccumulationList[0].accumulation;
         accumulation = `${value.toFixed(0)}`;
       }
+      let severity = 'low';
+      if (accumulation > 10) severity = 'medium';
+      if (accumulation > 30) severity = 'high';
+      if (accumulation > 50) severity = 'danger';
+
       return (
         <Marker
           position={{ lat: station.latitude, lng: station.longitude }}
@@ -127,7 +132,7 @@ const MapContainer = ({
             accumulation && {
               text: accumulation,
               color: '#fafafa',
-              className: 'accumulation_data',
+              className: `accumulation_data ${severity}`,
             }
           }
           accumulation={accumulation}
