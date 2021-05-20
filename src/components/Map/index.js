@@ -12,7 +12,6 @@ import { connect } from 'react-redux';
 import { AppDataContext } from '../../providers/AppDataProvider';
 import config from '../../config';
 import StationInfo from './StationInfo';
-import { fetchAccumulationData } from '../../services/backend';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import './styles.css';
@@ -30,9 +29,10 @@ const MapContainer = ({
   showWeatherStations,
   showStreams,
   showBasins,
-  hours,
   dateTo,
   dateFrom,
+  accumulationData,
+  accumulationLoading,
   google,
 }) => {
   const { streams, basins, stations } = useContext(AppDataContext);
@@ -42,7 +42,6 @@ const MapContainer = ({
     selectedStation: null, //Shows the infoWindow to the selected place upon a marker
     accumulation: undefined,
   });
-  const [accumulationData, setAccumulationData] = useState([]);
   const weatherStations = stations.filter((s) => {
     const rainOrigins = s.stationDataOriginList.filter(
       (o) => o.dimension.id === 3
@@ -76,14 +75,6 @@ const MapContainer = ({
       accumulation,
     });
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const accumulationDataAux = await fetchAccumulationData(dateFrom, dateTo);
-      setAccumulationData(accumulationDataAux);
-    };
-    fetchData();
-  }, [hours, dateFrom, dateTo]);
 
   const renderHydroMetricStations = () => {
     if (!showHydroMetricStations) {
@@ -210,9 +201,10 @@ const mapStateToProps = (state) => {
     showWeatherStations: state.mapFilter.showWeatherStations,
     showStreams: state.mapFilter.showStreams,
     showBasins: state.mapFilter.showBasins,
-    hours: state.intervalFilter.hours,
     dateTo: state.intervalFilter.dateTo,
     dateFrom: state.intervalFilter.dateFrom,
+    accumulationData: state.accumulationData.accumulationData,
+    accumulationLoading: state.accumulationData.loading,
   };
 };
 

@@ -16,9 +16,9 @@ const AppDataProvider = ({
   dateFrom,
   dateTo,
   accumulationDataActions: {
-    setAccumulationInterval,
+    startLoadingAccumulationData,
+    endLoadingAccumulationData,
     setAccumulationData,
-    setIntervalAndAccumulationData,
   },
   children,
 }) => {
@@ -42,7 +42,7 @@ const AppDataProvider = ({
   const [basins, setBasins] = useState([]);
   const [streams, setStreams] = useState([]);
 
-  const fetchData = (startDate, endDate) => {
+  const fetchInitialData = () => {
     Promise.all([
       Promise.resolve({}),
       fetchStations(),
@@ -55,15 +55,21 @@ const AppDataProvider = ({
         setStations(stations);
         setBasins(basins);
         setStreams(streams);
-        console.log(
-          `calling setIntervalAndAccumulationData with ${dateFrom} ${dateTo} ${JSON.stringify(
-            accumulationData
-          )}`
-        );
-        setIntervalAndAccumulationData({ dateFrom, dateTo, accumulationData });
+        setAccumulationData({ accumulationData });
       })
       .finally(() => {
         setLoading(false);
+      });
+  };
+
+  const syncAccumulationData = () => {
+    startLoadingAccumulationData();
+    fetchAccumulationData(dateFrom, dateTo)
+      .then((accumulationData) => {
+        setAccumulationData({ accumulationData });
+      })
+      .finally(() => {
+        endLoadingAccumulationData();
       });
   };
 
@@ -72,7 +78,8 @@ const AppDataProvider = ({
       config.serviceInterceptors &&
       initServiceInterceptors();
     const loginHandler = loadAuthHandler({ credentials, logout });
-    fetchData(dateFrom, dateTo);
+    if (loading) fetchInitialData();
+    else syncAccumulationData();
     return () => removeAuthHandler(loginHandler);
   }, [dateFrom, dateTo]);
 
@@ -80,7 +87,7 @@ const AppDataProvider = ({
     fetchStartDate,
     fetchEndDate,
     setFetchStartDate,
-    fetchData,
+    fetchData: fetchInitialData,
     stations,
     streams,
     basins,

@@ -1,21 +1,26 @@
 const initialState = {
-  dateFrom: null,
-  dateTo: null,
   loading: false,
   accumulationData: [],
 };
 
-const SET_INTERVAL_ACTION = 'SET_INTERVAL_ACTION';
+const SET_LOADING_ACCUMULATION_DATA_ACTION =
+  'SET_LOADING_ACCUMULATION_DATA_ACTION';
 const SET_ACCUMULATION_DATA_ACTION = 'SET_ACCUMULATION_DATA_ACTION';
-const SET_INTERVAL_AND_ACCUMULATION_DATA_ACTION =
-  'SET_INTERVAL_AND_ACCUMULATION_DATA_ACTION';
 
-const setAccumulationInterval = ({ dateFrom, dateTo }) => {
+const startLoadingAccumulationData = () => {
   return {
-    type: SET_INTERVAL_ACTION,
+    type: SET_LOADING_ACCUMULATION_DATA_ACTION,
     data: {
-      dateFrom,
-      dateTo,
+      loading: true,
+    },
+  };
+};
+
+const endLoadingAccumulationData = () => {
+  return {
+    type: SET_LOADING_ACCUMULATION_DATA_ACTION,
+    data: {
+      loading: false,
     },
   };
 };
@@ -29,50 +34,26 @@ const setAccumulationData = ({ accumulationData }) => {
   };
 };
 
-const setIntervalAndAccumulationData = ({
-  dateFrom,
-  dateTo,
-  accumulationData,
-}) => {
-  return {
-    type: SET_INTERVAL_AND_ACCUMULATION_DATA_ACTION,
-    data: {
-      dateFrom,
-      dateTo,
-      accumulationData,
-    },
-  };
-};
-
 export const accumulationDataReducer = (
   state = initialState,
-  { type, data = {} }
+  { type, data }
 ) => {
-  const { dateFrom, dateTo, accumulationData } = data;
   switch (type) {
-    case SET_INTERVAL_ACTION:
+    case SET_LOADING_ACCUMULATION_DATA_ACTION:
       if (state.loading) {
         // if loading, do not accept update and return state as it is
         return { ...state };
       }
+      const { loading } = data;
       return {
         ...state,
-        loading: true,
-        dateFrom,
-        dateTo,
+        loading,
       };
     case SET_ACCUMULATION_DATA_ACTION:
+      const { accumulationData } = data;
       return {
         ...state,
         loading: false,
-        accumulationData,
-      };
-    case SET_INTERVAL_AND_ACCUMULATION_DATA_ACTION:
-      return {
-        ...state,
-        loading: false,
-        dateFrom,
-        dateTo,
         accumulationData,
       };
     default:
@@ -81,7 +62,7 @@ export const accumulationDataReducer = (
 };
 
 export const accumulationDataActions = {
-  setAccumulationInterval,
+  startLoadingAccumulationData,
+  endLoadingAccumulationData,
   setAccumulationData,
-  setIntervalAndAccumulationData,
 };
