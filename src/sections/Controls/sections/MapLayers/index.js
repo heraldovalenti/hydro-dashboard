@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import CollapsiblePanel from '../../components/CollapsiblePanel';
 import './styles.css';
 import { bindActionCreators } from 'redux';
