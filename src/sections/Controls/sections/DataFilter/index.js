@@ -14,6 +14,7 @@ const DataFilter = (props) => {
     dateTo,
     hours,
     intervalFilterActions: { lastHours, customInterval },
+    loading,
   } = props;
   const { t } = useTranslation();
   const hourOptions = [1, 3, 6, 12, 24, 48, 168, 0].map((hourOption) => {
@@ -42,6 +43,7 @@ const DataFilter = (props) => {
           items={hourOptions}
           onChange={handleRadioChange}
           value={hours}
+          disabled={loading}
         />
         <KeyboardDateTimePicker
           label={t('control_panel_filters_from')}
@@ -61,6 +63,7 @@ const DataFilter = (props) => {
               customInterval({ dateFrom: newDate, dateTo });
           }}
           readOnly={!isCustomInterval}
+          disabled={loading}
         />
         <KeyboardDateTimePicker
           label={t('control_panel_filters_to')}
@@ -80,6 +83,7 @@ const DataFilter = (props) => {
               customInterval({ dateFrom, dateTo: newDate });
           }}
           readOnly={!isCustomInterval}
+          disabled={loading}
         />
       </div>
     </CollapsiblePanel>
@@ -90,6 +94,7 @@ const mapStateToProps = (state) => {
     hours: state.intervalFilter.hours,
     dateFrom: state.intervalFilter.dateFrom,
     dateTo: state.intervalFilter.dateTo,
+    loading: state.accumulationData.loading,
   };
 };
 const mapDispatchToProps = (dispatch) => {

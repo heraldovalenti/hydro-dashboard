@@ -18,6 +18,7 @@ export default (props) => (
           value={item.value}
           control={<Radio />}
           label={item.label}
+          disabled={props.disabled}
         />
       ))}
     </RadioGroup>
