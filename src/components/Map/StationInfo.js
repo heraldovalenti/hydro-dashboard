@@ -30,13 +30,7 @@ const LevelInfo = ({ hours, stationData }) => {
   );
 };
 
-const StationInfo = ({
-  station,
-  dateFrom,
-  dateTo,
-  accumulation,
-  closeAction,
-}) => {
+const StationInfo = ({ station, dateFrom, dateTo, accumulation, onClose }) => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [observations, setObservations] = useState([]);
@@ -77,7 +71,7 @@ const StationInfo = ({
           >
             <CloudDownloadIcon />
           </IconButton>
-          <IconButton onClick={() => closeAction()}>
+          <IconButton onClick={() => onClose()}>
             <CloseIcon />
           </IconButton>
         </div>

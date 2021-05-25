@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import {
   Map,
   Marker,
@@ -10,38 +10,22 @@ import dropIcon from '../../components/Icons/drop-icon.png';
 import levelIcon from '../../components/Icons/level-icon.png';
 import { connect } from 'react-redux';
 import { AppDataContext } from '../../providers/AppDataProvider';
+import { useHistory } from 'react-router-dom';
 import config from '../../config';
-import StationInfo from './StationInfo';
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
 import './styles.css';
-
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    backgroundColor: theme.palette.background.paper,
-    height: '100%',
-    overflowY: 'scroll',
-  },
-}));
+import { ROUTE_STATION_INFO_PAGE } from '../../pages/Routes';
 
 const MapContainer = ({
   showHydroMetricStations,
   showWeatherStations,
   showStreams,
   showBasins,
-  dateTo,
-  dateFrom,
   accumulationData,
   accumulationLoading,
   google,
 }) => {
   const { streams, basins, stations } = useContext(AppDataContext);
-  const [state, setState] = useState({
-    showingInfoWindow: false, //Hides or the shows the infoWindow
-    activeMarker: null, //Shows the active marker upon click
-    selectedStation: null, //Shows the infoWindow to the selected place upon a marker
-    accumulation: undefined,
-  });
+  const history = useHistory();
   const weatherStations = stations.filter((s) => {
     const rainOrigins = s.stationDataOriginList.filter(
       (o) => o.dimension.id === 3
@@ -55,25 +39,12 @@ const MapContainer = ({
     return levelOrigins.length > 0;
   });
 
-  const onClose = (_props) => {
-    if (state.showingInfoWindow) {
-      setState({
-        showingInfoWindow: false,
-        activeMarker: null,
-        selectedStation: null,
-        accumulation: undefined,
-      });
-    }
-  };
-
   const onMarkerClick = ({ stationId, accumulation }, marker, _e) => {
     const selectedStation = stations.filter((s) => s.id === stationId)[0];
-    setState({
-      showingInfoWindow: true,
-      activeMarker: marker,
-      selectedStation,
-      accumulation,
-    });
+    const location = {
+      pathname: `${ROUTE_STATION_INFO_PAGE}/${selectedStation.id}`,
+    };
+    history.push(location);
   };
 
   const renderHydroMetricStations = () => {
@@ -162,21 +133,8 @@ const MapContainer = ({
     ));
   };
 
-  const classes = useStyles();
-
   return (
     <div>
-      <Modal open={state.showingInfoWindow} onClose={onClose}>
-        <div className={classes.modal}>
-          <StationInfo
-            station={state.selectedStation}
-            dateFrom={dateFrom}
-            dateTo={dateTo}
-            accumulation={state.accumulation}
-            closeAction={onClose}
-          />
-        </div>
-      </Modal>
       <Map
         google={google}
         zoom={8}
@@ -201,8 +159,6 @@ const mapStateToProps = (state) => {
     showWeatherStations: state.mapFilter.showWeatherStations,
     showStreams: state.mapFilter.showStreams,
     showBasins: state.mapFilter.showBasins,
-    dateTo: state.intervalFilter.dateTo,
-    dateFrom: state.intervalFilter.dateFrom,
     accumulationData: state.accumulationData.accumulationData,
     accumulationLoading: state.accumulationData.loading,
   };

@@ -1,23 +1,25 @@
 # TODO
 
-- desde-hasta
-- exportacion de datos
 - caudal (curvas H-Q)
 - grafico y tablas
-
 - use SVG for icons
 - fix config to use absolute paths
-- implement authentication
 - fix console warnings/errors
 - update dependencies
 - include GeoTIFF, GOE
 
 # IN PROGRESS
 
-- plan de manejo de embalse mas grande
-
 # DONE
 
+- integrate react router
+- store accumulation data on redux store:
+  - load data on startup and update when date interval is changed.
+  - load Map data from store.
+- filtrado desde-hasta
+- plan de manejo de embalse mas grande
+- implement authentication
+- exportacion de datos
 - deploy site on cloud (staging)
   - build project: `npm run build:staging`
   - upload objects: `gsutil -m cp -r ./build/* gs://hydro-dashboard-staging/`
