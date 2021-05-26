@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import StationInfo from '../components/Map/StationInfo';
+import StationInfo from '../components/StationInfo';
 import { connect } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
-import { ROUTE_MAP_PAGE } from './Routes';
+import { ROUTE_ROOT } from './Routes';
 import { AppDataContext } from '../providers/AppDataProvider';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -11,6 +11,7 @@ const StationInfoPage = ({ dateFrom, dateTo, accumulationData }) => {
   const history = useHistory();
   const stationId = Number.parseInt(id);
   const { stations } = useContext(AppDataContext);
+
   const station = stations.filter((s) => s.id === stationId)[0];
   const stationAccumulations = accumulationData.filter(
     (stationAccumulation) => stationAccumulation.stationId === stationId
@@ -26,6 +27,7 @@ const StationInfoPage = ({ dateFrom, dateTo, accumulationData }) => {
   if (!station) {
     return <CircularProgress />;
   }
+
   return (
     <StationInfo
       station={station}
@@ -34,7 +36,7 @@ const StationInfoPage = ({ dateFrom, dateTo, accumulationData }) => {
       accumulation={accumulation}
       onClose={() =>
         history.push({
-          pathname: ROUTE_MAP_PAGE,
+          pathname: ROUTE_ROOT,
         })
       }
     />
