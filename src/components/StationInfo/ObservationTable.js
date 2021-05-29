@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   },
 });
 
-const ObservationTable = ({ observations: rows }) => {
+const ObservationTable = ({ observations }) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -41,7 +41,7 @@ const ObservationTable = ({ observations: rows }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {observations.map((row) => (
             <TableRow key={row.time} className={classes.tableRow}>
               <TableCell
                 className={classes.tableRow}

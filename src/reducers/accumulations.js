@@ -40,10 +40,6 @@ export const accumulationDataReducer = (
 ) => {
   switch (type) {
     case SET_LOADING_ACCUMULATION_DATA_ACTION:
-      if (state.loading) {
-        // if loading, do not accept update and return state as it is
-        return { ...state };
-      }
       const { loading } = data;
       return {
         ...state,

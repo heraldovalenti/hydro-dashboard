@@ -10,6 +10,8 @@
 
 # IN PROGRESS
 
+- separate dimensions in tabs
+
 # DONE
 
 - integrate react router

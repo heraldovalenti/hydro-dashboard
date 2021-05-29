@@ -29,10 +29,10 @@ export default {
   control_panel_filters_interval_title: 'Selección de intervalo de tiempo',
   control_panel_invalid_date_message: 'Formato de fecha no válido',
 
-  weather_station_info_header:
+  rain_info_summary:
     'Acumulado en las últimas {{hours}} horas: {{accumulation}} {{unit}}',
-  hydrometric_station_info_header:
-    'Mediciones de nivel en las últimas {{hours}} horas',
+  level_info_summary: 'Mediciones de nivel en las últimas {{hours}} horas',
+  flow_info_summary: 'Mediciones de caudal en las últimas {{hours}} horas',
   station_info_header_datetime: 'Fecha y hora',
   station_info_header_value: 'Valor observado',
   station_info_header_unit: 'Unidad',

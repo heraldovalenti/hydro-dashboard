@@ -1,5 +1,5 @@
 import { now, plusHours } from '../utils/date';
-const initialHours = 1;
+const initialHours = 24;
 const initialState = {
   hours: initialHours,
   dateFrom: plusHours(now(), -initialHours),

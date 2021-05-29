@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import initServiceInterceptors from '../services';
 import { fetchAccumulationData, fetchStations } from '../services/backend';
 import { fetchStreams } from '../services/Streams';
@@ -10,7 +10,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { accumulationDataActions } from '../reducers/accumulations';
 
-export const AppDataContext = React.createContext(null);
+export const AppDataContext = createContext(null);
 
 const AppDataProvider = ({
   dateFrom,

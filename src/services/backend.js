@@ -98,9 +98,39 @@ export const fetchObservations = async (
   }
 };
 
-export const exportObservations = async (stationId, dateFrom, dateTo) => {
+export const fetchDimensionObservations = async (
+  stationId,
+  dimensionId,
+  dateFrom,
+  dateTo,
+  page = 1,
+  size = 20
+) => {
+  try {
+    const period = toUTCInterval({ dateFrom, dateTo });
+    console.log(`fetching observations for period ${JSON.stringify(period)}`);
+    const observationsResponse = await axios({
+      method: 'post',
+      url: `${config.baseURL}${
+        config.api.observations
+      }/${stationId}/${dimensionId}?size=${size}&page=${page - 1}`,
+      data: period,
+    });
+    return observationsResponse.data;
+  } catch (e) {
+    console.log(`Error fetching observations: ${e}`);
+    return [];
+  }
+};
+
+export const exportObservations = async (
+  stationId,
+  dimensionId,
+  dateFrom,
+  dateTo
+) => {
   const period = toUTCInterval({ dateFrom, dateTo });
-  const url = `${config.baseURL}${config.api.exportObservations}/${stationId}?from=${period.from}&to=${period.to}`;
+  const url = `${config.baseURL}${config.api.exportObservations}/${stationId}/${dimensionId}?from=${period.from}&to=${period.to}`;
   window.open(url);
 };
 
