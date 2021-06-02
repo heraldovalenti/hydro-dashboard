@@ -8,3 +8,5 @@ export const isWeatherStation = (station) => {
 export const isLevelDimension = (id) => id === 1;
 export const isFlowDimension = (id) => id === 2;
 export const isRainDimension = (id) => id === 3;
+
+export const isHQModelStationDataOrigin = (sdo) => sdo.dataOrigin.id === 7;

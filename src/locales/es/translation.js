@@ -33,6 +33,8 @@ export default {
     'Acumulado en las últimas {{hours}} horas: {{accumulation}} {{unit}}',
   level_info_summary: 'Mediciones de nivel en las últimas {{hours}} horas',
   flow_info_summary: 'Mediciones de caudal en las últimas {{hours}} horas',
+  flow_info_summary_hq_model:
+    'Caudal en las últimas {{hours}} horas (estimado mediante modelo H-Q)',
   station_info_header_datetime: 'Fecha y hora',
   station_info_header_value: 'Valor observado',
   station_info_header_unit: 'Unidad',

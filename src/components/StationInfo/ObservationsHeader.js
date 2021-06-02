@@ -5,12 +5,14 @@ import {
   isRainDimension,
   isLevelDimension,
   isFlowDimension,
+  isHQModelStationDataOrigin,
 } from './stationUtil';
 import { getHoursApart } from '../../utils/date';
 import { useTranslation } from 'react-i18next';
 import { exportObservations } from '../../services/backend';
 
-export default ({ stationId, dimensionId, dateFrom, dateTo, accumulation }) => {
+export default ({ stationId, sdo, dateFrom, dateTo, accumulation }) => {
+  const { id: dimensionId } = sdo.dimension;
   const { t } = useTranslation();
   const hours = getHoursApart(dateFrom, dateTo);
   let summary = ' ';
@@ -21,7 +23,10 @@ export default ({ stationId, dimensionId, dateFrom, dateTo, accumulation }) => {
     const hours = getHoursApart(dateFrom, dateTo);
     summary = t('level_info_summary', { hours });
   } else if (isFlowDimension(dimensionId)) {
-    summary = t('flow_info_summary', { hours });
+    const isHQModel = isHQModelStationDataOrigin(sdo);
+    summary = isHQModel
+      ? t('flow_info_summary_hq_model', { hours })
+      : t('flow_info_summary', { hours });
   }
 
   return (

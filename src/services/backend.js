@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { isHQModelStationDataOrigin } from '../components/StationInfo/stationUtil';
 import config from '../config';
 import { now, plusHours, getISODateString, localToUTC } from '../utils/date';
 
@@ -98,23 +99,28 @@ export const fetchObservations = async (
   }
 };
 
-export const fetchDimensionObservations = async (
+export const fetchSDOObservations = async (
   stationId,
-  dimensionId,
+  sdo,
   dateFrom,
   dateTo,
   page = 1,
   size = 20
 ) => {
+  const { id: dimensionId } = sdo.dimension;
+  const useHQModel = isHQModelStationDataOrigin(sdo);
   try {
     const period = toUTCInterval({ dateFrom, dateTo });
     console.log(`fetching observations for period ${JSON.stringify(period)}`);
     const observationsResponse = await axios({
       method: 'post',
-      url: `${config.baseURL}${
-        config.api.observations
-      }/${stationId}/${dimensionId}?size=${size}&page=${page - 1}`,
+      url: `${config.baseURL}${config.api.observations}/${stationId}/${dimensionId}`,
       data: period,
+      params: {
+        size,
+        page: page - 1,
+        useHQModel,
+      },
     });
     return observationsResponse.data;
   } catch (e) {

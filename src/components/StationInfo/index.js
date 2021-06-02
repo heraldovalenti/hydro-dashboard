@@ -10,13 +10,13 @@ import {
   AppBar,
   IconButton,
 } from '@material-ui/core';
+import { isHQModelStationDataOrigin } from './stationUtil';
 
 const StationInfo = ({ station, dateFrom, dateTo, accumulation, onClose }) => {
   const [value, setValue] = useState(0);
   const handleChange = (_event, newValue) => {
     setValue(newValue);
   };
-  const dimensions = station.stationDataOriginList.map((sdo) => sdo.dimension);
   const observationProps = {
     stationId: station.id,
     dateFrom,
@@ -44,14 +44,16 @@ const StationInfo = ({ station, dateFrom, dateTo, accumulation, onClose }) => {
       <Box>
         <AppBar position="static">
           <Tabs value={value} onChange={handleChange}>
-            {dimensions.map((d) => (
-              <Tab label={d.description} />
-            ))}
+            {station.stationDataOriginList.map((sdo) => {
+              let label = sdo.dimension.description;
+              if (isHQModelStationDataOrigin(sdo)) label = `${label} (HQ)`;
+              return <Tab {...{ label }} />;
+            })}
           </Tabs>
         </AppBar>
-        {dimensions.map((d, i) => (
+        {station.stationDataOriginList.map((sdo, i) => (
           <Box hidden={value !== i}>
-            <Observations dimensionId={d.id} {...observationProps} />
+            <Observations sdo={sdo} {...observationProps} />
           </Box>
         ))}
       </Box>

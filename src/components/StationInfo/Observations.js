@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { fetchDimensionObservations } from '../../services/backend';
+import { fetchSDOObservations } from '../../services/backend';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Pagination from '@material-ui/lab/Pagination';
 import ObservationTable from './ObservationTable';
 import { Box } from '@material-ui/core';
 import ObservationsHeader from './ObservationsHeader';
 
-export default ({ stationId, dimensionId, dateFrom, dateTo, accumulation }) => {
+export default ({ stationId, sdo, dateFrom, dateTo, accumulation }) => {
+  const { id: dimensionId } = sdo.dimension;
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [observations, setObservations] = useState([]);
@@ -14,9 +15,9 @@ export default ({ stationId, dimensionId, dateFrom, dateTo, accumulation }) => {
   const loadObservations = async () => {
     if (!loading) {
       setLoading(true);
-      const observationsData = await fetchDimensionObservations(
+      const observationsData = await fetchSDOObservations(
         stationId,
-        dimensionId,
+        sdo,
         dateFrom,
         dateTo,
         page
@@ -35,7 +36,7 @@ export default ({ stationId, dimensionId, dateFrom, dateTo, accumulation }) => {
       {!loading && (
         <Box>
           <ObservationsHeader
-            {...{ stationId, dimensionId, dateFrom, dateTo, accumulation }}
+            {...{ stationId, sdo, dateFrom, dateTo, accumulation }}
           />
           <ObservationTable observations={observations} />
           <Pagination
