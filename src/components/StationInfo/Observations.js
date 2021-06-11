@@ -7,7 +7,6 @@ import { Box } from '@material-ui/core';
 import ObservationsHeader from './ObservationsHeader';
 
 export default ({ stationId, sdo, dateFrom, dateTo, accumulation }) => {
-  const { id: dimensionId } = sdo.dimension;
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [observations, setObservations] = useState([]);

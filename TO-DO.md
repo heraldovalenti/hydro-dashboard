@@ -10,10 +10,9 @@
 
 # IN PROGRESS
 
-- separate dimensions in tabs
-
 # DONE
 
+- separate dimensions in tabs
 - integrate react router
 - store accumulation data on redux store:
   - load data on startup and update when date interval is changed.

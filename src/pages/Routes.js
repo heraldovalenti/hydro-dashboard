@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Switch,
   Route,
   Redirect,
@@ -8,9 +8,9 @@ import {
 import Map from './Map';
 import StationInfo from './StationInfo';
 
-export const ROUTE_ROOT = '/';
-export const ROUTE_MAP_PAGE = '/map';
-export const ROUTE_STATION_INFO_PAGE = '/stationInfo';
+export const ROUTE_ROOT = `/`;
+export const ROUTE_MAP_PAGE = `/map`;
+export const ROUTE_STATION_INFO_PAGE = `/stationInfo`;
 
 export default () => {
   return (
