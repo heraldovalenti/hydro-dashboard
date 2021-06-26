@@ -6,24 +6,28 @@ import { fetchBasins } from '../services/Basins';
 import config from '../config';
 import { AuthContext } from './AuthProvider';
 import { loadAuthHandler, removeAuthHandler } from '../services/auth';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { accumulationDataActions } from '../reducers/accumulations';
+import { latestObservationsActions } from '../reducers/latestObservations';
 
 export const AppDataContext = createContext(null);
 
-const AppDataProvider = ({
-  dateFrom,
-  dateTo,
-  accumulationDataActions: {
+const AppDataProvider = ({ children }) => {
+  const {
     startLoadingAccumulationData,
     endLoadingAccumulationData,
     setAccumulationData,
-  },
-  children,
-}) => {
-  const { credentials, logout } = useContext(AuthContext);
+  } = accumulationDataActions;
+  const { latestObservationsRequest } = latestObservationsActions;
+  const { dateFrom, dateTo } = useSelector((state) => {
+    return {
+      dateTo: state.intervalFilter.dateTo,
+      dateFrom: state.intervalFilter.dateFrom,
+    };
+  });
+  const dispatch = useDispatch();
 
+  const { credentials, logout } = useContext(AuthContext);
   const currentDate = new Date();
   const [fetchStartDate, setFetchStartDate] = useState(
     new Date(
@@ -43,6 +47,8 @@ const AppDataProvider = ({
   const [streams, setStreams] = useState([]);
 
   const fetchInitialData = () => {
+    dispatch(latestObservationsRequest(1, dateFrom, dateTo));
+    dispatch(latestObservationsRequest(2, dateFrom, dateTo));
     Promise.all([
       Promise.resolve({}),
       fetchStations(),
@@ -63,13 +69,15 @@ const AppDataProvider = ({
   };
 
   const syncAccumulationData = () => {
-    startLoadingAccumulationData();
+    dispatch(latestObservationsRequest(1, dateFrom, dateTo));
+    dispatch(latestObservationsRequest(2, dateFrom, dateTo));
+    dispatch(startLoadingAccumulationData());
     fetchAccumulationData(dateFrom, dateTo)
       .then((accumulationData) => {
-        setAccumulationData({ accumulationData });
+        dispatch(setAccumulationData({ accumulationData }));
       })
       .finally(() => {
-        endLoadingAccumulationData();
+        dispatch(endLoadingAccumulationData());
       });
   };
 
@@ -101,20 +109,4 @@ const AppDataProvider = ({
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    dateTo: state.intervalFilter.dateTo,
-    dateFrom: state.intervalFilter.dateFrom,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    accumulationDataActions: bindActionCreators(
-      { ...accumulationDataActions },
-      dispatch
-    ),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AppDataProvider);
+export default AppDataProvider;

@@ -46,6 +46,9 @@ export const fetchRainData = async (stationId, dateFrom, dateTo) => {
 export const fetchAccumulationData = async (dateFrom, dateTo) => {
   try {
     const period = toUTCInterval({ dateFrom, dateTo });
+    console.log(
+      `fetching accumulation data for period ${JSON.stringify(period)}`
+    );
     const accumulationDataResponse = await axios({
       method: 'post',
       url: `${config.baseURL}${config.api.rainAccumulation}`,
@@ -125,6 +128,28 @@ export const fetchSDOObservations = async (
     return observationsResponse.data;
   } catch (e) {
     console.log(`Error fetching observations: ${e}`);
+    return [];
+  }
+};
+
+export const fetchLatestbservations = async (dimensionId, dateFrom, dateTo) => {
+  try {
+    const period = toUTCInterval({ dateFrom, dateTo });
+    const { from, to } = period;
+    console.log(
+      `fetching latest observations for period ${JSON.stringify(period)}`
+    );
+    const response = await axios({
+      method: 'get',
+      url: `${config.baseURL}${config.api.latestObservations}/${dimensionId}`,
+      params: {
+        from,
+        to,
+      },
+    });
+    return response.data;
+  } catch (e) {
+    console.log(`Error fetching latest observations: ${e}`);
     return [];
   }
 };

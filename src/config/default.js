@@ -4,6 +4,7 @@ const config = {
   api: {
     stations: '/api/stations',
     observations: '/api/observations',
+    latestObservations: '/api/observations/latestObservations',
     rainAccumulation: '/api/rain-accumulation',
     exportObservations: '/api/export/observations',
   },

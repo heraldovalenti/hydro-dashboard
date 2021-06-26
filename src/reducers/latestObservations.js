@@ -3,27 +3,28 @@ const initialState = {
   loading: false,
 };
 
-const LATEST_OBSERVATIONS_REQUEST = 'LATEST_OBSERVATIONS_REQUEST';
-const LATEST_OBSERVATIONS_SUCCESS = 'LATEST_OBSERVATIONS_SUCCESS';
-const LATEST_OBSERVATIONS_FAIL = 'LATEST_OBSERVATIONS_FAIL';
+export const LATEST_OBSERVATIONS_REQUEST = 'LATEST_OBSERVATIONS_REQUEST';
+export const LATEST_OBSERVATIONS_SUCCESS = 'LATEST_OBSERVATIONS_SUCCESS';
+export const LATEST_OBSERVATIONS_FAIL = 'LATEST_OBSERVATIONS_FAIL';
 
-const latestObservationsRequest = (dimensionId) => {
+const latestObservationsRequest = (dimensionId, dateFrom, dateTo) => {
   return {
     type: LATEST_OBSERVATIONS_REQUEST,
-    data: { dimensionId },
+    payload: { dimensionId, dateFrom, dateTo },
   };
 };
 
 const latestObservationsSuccess = (dimensionId, observations) => {
   return {
     type: LATEST_OBSERVATIONS_SUCCESS,
-    data: { dimensionId, observations },
+    payload: { dimensionId, observations },
   };
 };
 
-const latestObservationsFail = () => {
+const latestObservationsFail = (error) => {
   return {
     type: LATEST_OBSERVATIONS_FAIL,
+    payload: { error },
   };
 };
 
@@ -35,13 +36,13 @@ export const latestObservationsActions = {
 
 export const latestObservationsReducer = (
   state = initialState,
-  { type, data }
+  { type, payload }
 ) => {
   switch (type) {
     case LATEST_OBSERVATIONS_REQUEST:
       return { ...state, loading: true };
     case LATEST_OBSERVATIONS_SUCCESS:
-      const { dimensionId, observations } = data;
+      const { dimensionId, observations } = payload;
       const latestObservations = {
         ...state.latestObservations,
         [dimensionId]: observations,

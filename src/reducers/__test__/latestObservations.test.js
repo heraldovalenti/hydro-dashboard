@@ -8,7 +8,7 @@ describe('latest observation reducer and action tests', () => {
     it('on initialization is not loading and there are no observations', () => {
       const state = latestObservationsReducer(undefined, {
         type: '',
-        data: '',
+        payload: '',
       });
       const { loading, latestObservations } = state;
       expect(loading).toBeFalsy();
@@ -89,13 +89,16 @@ describe('latest observation reducer and action tests', () => {
     it('request action test', () => {
       const action = latestObservationsActions.latestObservationsRequest(1);
       expect(action.type).toBeDefined();
-      expect(action.data).toBeDefined();
-      expect(action.data.dimensionId).toBe(1);
+      expect(action.payload).toBeDefined();
+      expect(action.payload.dimensionId).toBe(1);
     });
     it('success action test', () => {
-      const action = latestObservationsActions.latestObservationsFail();
+      const errorMock = { message: 'error-mock' };
+      const action = latestObservationsActions.latestObservationsFail(
+        errorMock
+      );
       expect(action.type).toBeDefined();
-      expect(action.data).toBeUndefined();
+      expect(action.payload.error).toStrictEqual(errorMock);
     });
     it('fail action test', () => {
       const observationsMock = ['observation1', 'observation2'];
@@ -104,9 +107,9 @@ describe('latest observation reducer and action tests', () => {
         observationsMock
       );
       expect(action.type).toBeDefined();
-      expect(action.data).toBeDefined();
-      expect(action.data.dimensionId).toBe(2);
-      expect(action.data.observations).toStrictEqual(observationsMock);
+      expect(action.payload).toBeDefined();
+      expect(action.payload.dimensionId).toBe(2);
+      expect(action.payload.observations).toStrictEqual(observationsMock);
     });
   });
 });
