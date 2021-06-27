@@ -11,24 +11,24 @@ export default ({ stationId, sdo, dateFrom, dateTo, accumulation }) => {
   const [loading, setLoading] = useState(false);
   const [observations, setObservations] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
-  const loadObservations = async () => {
-    if (!loading) {
-      setLoading(true);
-      const observationsData = await fetchSDOObservations(
-        stationId,
-        sdo,
-        dateFrom,
-        dateTo,
-        page
-      );
-      setObservations(observationsData.content);
-      setTotalPages(observationsData.totalPages);
-      setLoading(false);
-    }
-  };
   useEffect(() => {
+    const loadObservations = async () => {
+      if (!loading) {
+        setLoading(true);
+        const observationsData = await fetchSDOObservations(
+          stationId,
+          sdo,
+          dateFrom,
+          dateTo,
+          page
+        );
+        setObservations(observationsData.content);
+        setTotalPages(observationsData.totalPages);
+        setLoading(false);
+      }
+    };
     loadObservations();
-  }, [page]);
+  }, [loading, stationId, sdo, dateFrom, dateTo, page]);
   return (
     <Box style={{ flex: 1 }}>
       {loading && <CircularProgress />}

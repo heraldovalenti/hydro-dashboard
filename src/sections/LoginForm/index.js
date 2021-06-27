@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       display: 'flex',
       flexDirection: 'column',
-      margin: 10,
     },
     '& fieldset': {
       borderWidth: 0,

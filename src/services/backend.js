@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { isHQModelStationDataOrigin } from '../components/StationInfo/stationUtil';
 import config from '../config';
-import { now, plusHours, getISODateString, localToUTC } from '../utils/date';
+import { getISODateString, localToUTC } from '../utils/date';
 
 export const fetchStations = async () => {
   try {
