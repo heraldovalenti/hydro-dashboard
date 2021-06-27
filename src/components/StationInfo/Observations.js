@@ -28,7 +28,7 @@ export default ({ stationId, sdo, dateFrom, dateTo, accumulation }) => {
       }
     };
     loadObservations();
-  }, [loading, stationId, sdo, dateFrom, dateTo, page]);
+  }, [page]);
   return (
     <Box style={{ flex: 1 }}>
       {loading && <CircularProgress />}

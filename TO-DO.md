@@ -1,17 +1,18 @@
 # TODO
 
-- caudal (curvas H-Q)
 - grafico y tablas
 - use SVG for icons
 - fix config to use absolute paths
-- fix console warnings/errors
 - update dependencies
 - include GeoTIFF, GOE
 
 # IN PROGRESS
 
+- fix console warnings/errors
+
 # DONE
 
+- caudal (curvas H-Q)
 - separate dimensions in tabs
 - integrate react router
 - store accumulation data on redux store:

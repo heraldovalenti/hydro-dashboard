@@ -44,15 +44,15 @@ const StationInfo = ({ station, dateFrom, dateTo, accumulation, onClose }) => {
       <Box>
         <AppBar position="static">
           <Tabs value={value} onChange={handleChange}>
-            {station.stationDataOriginList.map((sdo) => {
+            {station.stationDataOriginList.map((sdo, i) => {
               let label = sdo.dimension.description;
               if (isHQModelStationDataOrigin(sdo)) label = `${label} (HQ)`;
-              return <Tab {...{ label }} />;
+              return <Tab key={i} {...{ label }} />;
             })}
           </Tabs>
         </AppBar>
         {station.stationDataOriginList.map((sdo, i) => (
-          <Box hidden={value !== i}>
+          <Box key={i} hidden={value !== i}>
             <Observations sdo={sdo} {...observationProps} />
           </Box>
         ))}
