@@ -50,7 +50,6 @@ const DataFilter = (props) => {
           ampm={false}
           variant="inline"
           format="DD/MM/YYYY HH:mm"
-          defaultValue={dateFrom}
           value={localDateFrom}
           // maxDate={startMaxDate}
           // maxDateMessage={`The From date could not be after today's date.`}
@@ -70,7 +69,6 @@ const DataFilter = (props) => {
           ampm={false}
           variant="inline"
           format="DD/MM/YYYY HH:mm"
-          defaultValue={dateTo}
           value={localDateTo}
           // maxDate={startMaxDate}
           // maxDateMessage={`The From date could not be after today's date.`}

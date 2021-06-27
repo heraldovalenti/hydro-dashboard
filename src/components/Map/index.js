@@ -53,6 +53,7 @@ const MapContainer = ({
     }
     return hydroMetricStations.map((station) => (
       <Marker
+        key={station.id}
         position={{ lat: station.latitude, lng: station.longitude }}
         onClick={onMarkerClick}
         icon={levelIcon}
@@ -85,6 +86,7 @@ const MapContainer = ({
 
       return (
         <Marker
+          key={station.id}
           position={{ lat: station.latitude, lng: station.longitude }}
           onClick={onMarkerClick}
           icon={dropIcon}
@@ -107,8 +109,9 @@ const MapContainer = ({
     if (!showStreams) {
       return;
     }
-    return streams.map((stream) => (
+    return streams.map((stream, i) => (
       <Polyline
+        key={i}
         path={stream}
         strokeColor="#0000FF"
         strokeOpacity={0.8}
@@ -121,8 +124,9 @@ const MapContainer = ({
     if (!showBasins) {
       return;
     }
-    return basins.map((basin) => (
+    return basins.map((basin, i) => (
       <Polygon
+        key={i}
         paths={basin.data}
         strokeColor="#FF0000"
         strokeOpacity={0.8}

@@ -1,21 +1,21 @@
 import {
-  ExpansionPanel,
-  ExpansionPanelDetails,
-  ExpansionPanelSummary,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import React, { useState } from 'react';
 
-const StyledExpansionPanel = withStyles({
+const StyledAccordion = withStyles({
   root: {
     borderRadius: '4px',
     border: '1px solid #d5d5d5',
     boxShadow: '0 2px 3px rgba(0, 0, 0, 0.05)',
   },
-})(ExpansionPanel);
+})(Accordion);
 
-const StyledExpansionPanelSummary = withStyles({
+const StyledAccordionSummary = withStyles({
   content: {
     margin: '0 !important',
     minHeight: 'unset !important',
@@ -24,14 +24,14 @@ const StyledExpansionPanelSummary = withStyles({
     margin: '0 !important',
     minHeight: 'unset !important',
   },
-})(ExpansionPanelSummary);
+})(AccordionSummary);
 
-const StyledExpansionPanelDetails = withStyles({
+const StyledAccordionDetails = withStyles({
   root: {
     padding: '16px',
     paddingTop: 0,
   },
-})(ExpansionPanelDetails);
+})(AccordionDetails);
 
 export default function CollapsiblePanel({
   expanded = false,
@@ -41,17 +41,17 @@ export default function CollapsiblePanel({
   const [isExpanded, setIsExpanded] = useState(expanded);
 
   return (
-    <StyledExpansionPanel
+    <StyledAccordion
       className="collapsible--panel"
       expanded={isExpanded}
       onChange={() => setIsExpanded(!isExpanded)}
     >
-      <StyledExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+      <StyledAccordionSummary expandIcon={<ExpandMoreIcon />}>
         <h4>{title}</h4>
-      </StyledExpansionPanelSummary>
-      <StyledExpansionPanelDetails>
+      </StyledAccordionSummary>
+      <StyledAccordionDetails>
         <div className="collapsible--panel__content">{children}</div>
-      </StyledExpansionPanelDetails>
-    </StyledExpansionPanel>
+      </StyledAccordionDetails>
+    </StyledAccordion>
   );
 }
