@@ -1,5 +1,15 @@
+import {
+  flowDimension,
+  levelDimension,
+  rainDimension,
+} from '../components/StationInfo/stationUtil';
+
 const initialState = {
-  latestObservations: {},
+  latestObservations: {
+    [levelDimension]: [],
+    [flowDimension]: [],
+    [rainDimension]: [],
+  },
   loading: false,
 };
 

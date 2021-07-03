@@ -8,22 +8,38 @@ import {
 } from 'google-maps-react';
 import dropIcon from '../../components/Icons/drop-icon.png';
 import levelIcon from '../../components/Icons/level-icon.png';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { AppDataContext } from '../../providers/AppDataProvider';
 import { useHistory } from 'react-router-dom';
 import config from '../../config';
 import './styles.css';
 import { ROUTE_STATION_INFO_PAGE } from '../../pages/Routes';
+import {
+  flowDimension,
+  HQOservation,
+  levelDimension,
+} from '../StationInfo/stationUtil';
 
-const MapContainer = ({
-  showHydroMetricStations,
-  showWeatherStations,
-  showStreams,
-  showBasins,
-  accumulationData,
-  accumulationLoading,
-  google,
-}) => {
+const MapContainer = ({ google }) => {
+  const {
+    showHydroMetricStations,
+    showWeatherStations,
+    showStreams,
+    showBasins,
+    accumulationData,
+    accumulationLoading,
+    latestObservations,
+  } = useSelector((state) => {
+    return {
+      showHydroMetricStations: state.mapFilter.showHydroMetricStations,
+      showWeatherStations: state.mapFilter.showWeatherStations,
+      showStreams: state.mapFilter.showStreams,
+      showBasins: state.mapFilter.showBasins,
+      accumulationData: state.accumulationData.accumulationData,
+      accumulationLoading: state.accumulationData.loading,
+      latestObservations: state.latestObservations.latestObservations,
+    };
+  });
   const { streams, basins, stations } = useContext(AppDataContext);
   const history = useHistory();
   const weatherStations = stations.filter((s) => {
@@ -39,7 +55,7 @@ const MapContainer = ({
     return levelOrigins.length > 0;
   });
 
-  const onMarkerClick = ({ stationId, accumulation }, marker, _e) => {
+  const onMarkerClick = ({ stationId }, _marker, _e) => {
     const selectedStation = stations.filter((s) => s.id === stationId)[0];
     const location = {
       pathname: `${ROUTE_STATION_INFO_PAGE}/${selectedStation.id}`,
@@ -51,15 +67,34 @@ const MapContainer = ({
     if (!showHydroMetricStations) {
       return;
     }
-    return hydroMetricStations.map((station) => (
-      <Marker
-        key={station.id}
-        position={{ lat: station.latitude, lng: station.longitude }}
-        onClick={onMarkerClick}
-        icon={levelIcon}
-        stationId={station.id}
-      />
-    ));
+    return hydroMetricStations.map((station) => {
+      const levelObservations = latestObservations[levelDimension].filter(
+        (o) => o.station.id === station.id
+      );
+      const flowObservations = latestObservations[flowDimension].filter(
+        (o) => o.station.id === station.id
+      );
+      const hydrometric_data = HQOservation({
+        h: levelObservations[0],
+        q: flowObservations[0],
+      });
+      return (
+        <Marker
+          key={station.id}
+          position={{ lat: station.latitude, lng: station.longitude }}
+          onClick={onMarkerClick}
+          icon={levelIcon}
+          stationId={station.id}
+          label={
+            hydrometric_data && {
+              text: hydrometric_data,
+              color: '#fafafa',
+              className: `hydrometric_data neutral`,
+            }
+          }
+        />
+      );
+    });
   };
 
   const renderWeatherStations = () => {
@@ -99,7 +134,6 @@ const MapContainer = ({
               className: `accumulation_data ${severity}`,
             }
           }
-          accumulation={accumulation}
         />
       );
     });
@@ -157,19 +191,6 @@ const MapContainer = ({
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    showHydroMetricStations: state.mapFilter.showHydroMetricStations,
-    showWeatherStations: state.mapFilter.showWeatherStations,
-    showStreams: state.mapFilter.showStreams,
-    showBasins: state.mapFilter.showBasins,
-    accumulationData: state.accumulationData.accumulationData,
-    accumulationLoading: state.accumulationData.loading,
-  };
-};
-
-export default connect(mapStateToProps)(
-  GoogleApiWrapper({
-    apiKey: config.maps.key,
-  })(MapContainer)
-);
+export default GoogleApiWrapper({
+  apiKey: config.maps.key,
+})(MapContainer);

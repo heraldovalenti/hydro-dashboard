@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import CollapsiblePanel from '../../components/CollapsiblePanel';
 import RadioGroup from '../../../../components/RadioGroup';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { intervalFilterActions } from '../../../../reducers/intervalFilter';
 import { useTranslation } from 'react-i18next';
 import { KeyboardDateTimePicker } from '@material-ui/pickers';
 import { isValidDate } from '../../../../utils/date';
 
-const DataFilter = (props) => {
-  const {
-    dateFrom,
-    dateTo,
-    hours,
-    intervalFilterActions: { lastHours, customInterval },
-    loading,
-  } = props;
+const DataFilter = () => {
+  const dispatch = useDispatch();
+  const { lastHours, customInterval } = intervalFilterActions;
+  const { dateFrom, dateTo, hours, loading1, loading2 } = useSelector(
+    (state) => {
+      return {
+        hours: state.intervalFilter.hours,
+        dateFrom: state.intervalFilter.dateFrom,
+        dateTo: state.intervalFilter.dateTo,
+        loading1: state.accumulationData.loading,
+        loading2: state.latestObservations.loading,
+      };
+    }
+  );
+  const loading = loading1 && loading2;
   const { t } = useTranslation();
   const hourOptions = [1, 3, 6, 12, 24, 48, 168, 0].map((hourOption) => {
     return {
@@ -33,8 +39,8 @@ const DataFilter = (props) => {
   const handleRadioChange = (hourOption) => {
     // WARNING: hourOption received is a string, not a number
     const hours = Number.parseInt(hourOption);
-    if (hours !== 0) lastHours(hours);
-    else customInterval({ dateFrom, dateTo });
+    if (hours !== 0) dispatch(lastHours(hours));
+    else dispatch(customInterval({ dateFrom, dateTo }));
   };
   return (
     <CollapsiblePanel title={t('control_panel_filters_title')} expanded>
@@ -87,21 +93,5 @@ const DataFilter = (props) => {
     </CollapsiblePanel>
   );
 };
-const mapStateToProps = (state) => {
-  return {
-    hours: state.intervalFilter.hours,
-    dateFrom: state.intervalFilter.dateFrom,
-    dateTo: state.intervalFilter.dateTo,
-    loading: state.accumulationData.loading,
-  };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    intervalFilterActions: bindActionCreators(
-      { ...intervalFilterActions },
-      dispatch
-    ),
-  };
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(DataFilter);
+export default DataFilter;
