@@ -17,17 +17,17 @@ export const LATEST_OBSERVATIONS_REQUEST = 'LATEST_OBSERVATIONS_REQUEST';
 export const LATEST_OBSERVATIONS_SUCCESS = 'LATEST_OBSERVATIONS_SUCCESS';
 export const LATEST_OBSERVATIONS_FAIL = 'LATEST_OBSERVATIONS_FAIL';
 
-const latestObservationsRequest = (dimensionId, dateFrom, dateTo) => {
+const latestObservationsRequest = (dateFrom, dateTo) => {
   return {
     type: LATEST_OBSERVATIONS_REQUEST,
-    payload: { dimensionId, dateFrom, dateTo },
+    payload: { dateFrom, dateTo },
   };
 };
 
-const latestObservationsSuccess = (dimensionId, observations) => {
+const latestObservationsSuccess = (latestObservations) => {
   return {
     type: LATEST_OBSERVATIONS_SUCCESS,
-    payload: { dimensionId, observations },
+    payload: { latestObservations },
   };
 };
 
@@ -52,11 +52,7 @@ export const latestObservationsReducer = (
     case LATEST_OBSERVATIONS_REQUEST:
       return { ...state, loading: true };
     case LATEST_OBSERVATIONS_SUCCESS:
-      const { dimensionId, observations } = payload;
-      const latestObservations = {
-        ...state.latestObservations,
-        [dimensionId]: observations,
-      };
+      const { latestObservations } = payload;
       return { latestObservations, loading: false };
     case LATEST_OBSERVATIONS_FAIL:
       return { ...state, loading: false };

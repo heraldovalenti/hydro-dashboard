@@ -47,8 +47,7 @@ const AppDataProvider = ({ children }) => {
   const [streams, setStreams] = useState([]);
 
   const fetchInitialData = () => {
-    dispatch(latestObservationsRequest(1, dateFrom, dateTo));
-    dispatch(latestObservationsRequest(2, dateFrom, dateTo));
+    dispatch(latestObservationsRequest(dateFrom, dateTo));
     Promise.all([
       Promise.resolve({}),
       fetchStations(),
@@ -69,8 +68,7 @@ const AppDataProvider = ({ children }) => {
   };
 
   const syncAccumulationData = () => {
-    dispatch(latestObservationsRequest(1, dateFrom, dateTo));
-    dispatch(latestObservationsRequest(2, dateFrom, dateTo));
+    dispatch(latestObservationsRequest(dateFrom, dateTo));
     dispatch(startLoadingAccumulationData());
     fetchAccumulationData(dateFrom, dateTo)
       .then((accumulationData) => {

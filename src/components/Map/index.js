@@ -27,16 +27,18 @@ const MapContainer = ({ google }) => {
     showStreams,
     showBasins,
     accumulationData,
-    accumulationLoading,
     latestObservations,
   } = useSelector((state) => {
+    const accumulationLoading = state.accumulationData.loading;
+    const latestObservationsLoading = state.latestObservations.loading;
+    const loading = accumulationLoading || latestObservationsLoading;
     return {
-      showHydroMetricStations: state.mapFilter.showHydroMetricStations,
-      showWeatherStations: state.mapFilter.showWeatherStations,
+      showHydroMetricStations:
+        !loading && state.mapFilter.showHydroMetricStations,
+      showWeatherStations: !loading && state.mapFilter.showWeatherStations,
       showStreams: state.mapFilter.showStreams,
       showBasins: state.mapFilter.showBasins,
       accumulationData: state.accumulationData.accumulationData,
-      accumulationLoading: state.accumulationData.loading,
       latestObservations: state.latestObservations.latestObservations,
     };
   });
