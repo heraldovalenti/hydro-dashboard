@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import initServiceInterceptors from '../services';
-import { fetchAccumulationData, fetchStations } from '../services/backend';
+import { fetchStations } from '../services/backend';
 import { fetchStreams } from '../services/Streams';
 import { fetchBasins } from '../services/Basins';
 import config from '../config';
@@ -13,11 +13,7 @@ import { latestObservationsActions } from '../reducers/latestObservations';
 export const AppDataContext = createContext(null);
 
 const AppDataProvider = ({ children }) => {
-  const {
-    startLoadingAccumulationData,
-    endLoadingAccumulationData,
-    setAccumulationData,
-  } = accumulationDataActions;
+  const { accumulationDataRequest } = accumulationDataActions;
   const { latestObservationsRequest } = latestObservationsActions;
   const { dateFrom, dateTo } = useSelector((state) => {
     return {
@@ -48,19 +44,18 @@ const AppDataProvider = ({ children }) => {
 
   const fetchInitialData = () => {
     dispatch(latestObservationsRequest(dateFrom, dateTo));
+    dispatch(accumulationDataRequest(dateFrom, dateTo));
     Promise.all([
       Promise.resolve({}),
       fetchStations(),
       fetchBasins(),
       fetchStreams(),
-      fetchAccumulationData(dateFrom, dateTo),
     ])
-      .then(([data, stations, basins, streams, accumulationData]) => {
+      .then(([data, stations, basins, streams]) => {
         //fetch data in here
         setStations(stations);
         setBasins(basins);
         setStreams(streams);
-        setAccumulationData({ accumulationData });
       })
       .finally(() => {
         setLoading(false);
@@ -69,14 +64,7 @@ const AppDataProvider = ({ children }) => {
 
   const syncAccumulationData = () => {
     dispatch(latestObservationsRequest(dateFrom, dateTo));
-    dispatch(startLoadingAccumulationData());
-    fetchAccumulationData(dateFrom, dateTo)
-      .then((accumulationData) => {
-        dispatch(setAccumulationData({ accumulationData }));
-      })
-      .finally(() => {
-        dispatch(endLoadingAccumulationData());
-      });
+    dispatch(accumulationDataRequest(dateFrom, dateTo));
   };
 
   useEffect(() => {

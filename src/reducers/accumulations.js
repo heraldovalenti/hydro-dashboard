@@ -1,56 +1,63 @@
 const initialState = {
   loading: false,
   accumulationData: [],
+  error: {},
 };
 
-const SET_LOADING_ACCUMULATION_DATA_ACTION =
-  'SET_LOADING_ACCUMULATION_DATA_ACTION';
-const SET_ACCUMULATION_DATA_ACTION = 'SET_ACCUMULATION_DATA_ACTION';
+export const ACCUMULATION_REQUEST = 'ACCUMULATION_REQUEST';
+export const ACCUMULATION_SUCCESS = 'ACCUMULATION_SUCCESS';
+export const ACCUMULATION_FAIL = 'ACCUMULATION_FAIL';
 
-const startLoadingAccumulationData = () => {
+const accumulationDataRequest = (dateFrom, dateTo) => {
   return {
-    type: SET_LOADING_ACCUMULATION_DATA_ACTION,
-    data: {
-      loading: true,
+    type: ACCUMULATION_REQUEST,
+    payload: {
+      dateFrom,
+      dateTo,
     },
   };
 };
 
-const endLoadingAccumulationData = () => {
+const accumulationDataSuccess = (accumulationData) => {
   return {
-    type: SET_LOADING_ACCUMULATION_DATA_ACTION,
-    data: {
-      loading: false,
-    },
-  };
-};
-
-const setAccumulationData = ({ accumulationData }) => {
-  return {
-    type: SET_ACCUMULATION_DATA_ACTION,
-    data: {
+    type: ACCUMULATION_SUCCESS,
+    payload: {
       accumulationData,
+    },
+  };
+};
+
+const accumulationDataFail = (error) => {
+  return {
+    type: ACCUMULATION_FAIL,
+    payload: {
+      error,
     },
   };
 };
 
 export const accumulationDataReducer = (
   state = initialState,
-  { type, data }
+  { type, payload }
 ) => {
   switch (type) {
-    case SET_LOADING_ACCUMULATION_DATA_ACTION:
-      const { loading } = data;
+    case ACCUMULATION_REQUEST:
       return {
         ...state,
-        loading,
+        loading: true,
       };
-    case SET_ACCUMULATION_DATA_ACTION:
-      const { accumulationData } = data;
+    case ACCUMULATION_SUCCESS:
+      const { accumulationData } = payload;
+      return {
+        loading: false,
+        accumulationData,
+      };
+    case ACCUMULATION_FAIL:
+      const { error } = payload;
       return {
         ...state,
         loading: false,
-        accumulationData,
+        error,
       };
     default:
       return { ...state };
@@ -58,7 +65,7 @@ export const accumulationDataReducer = (
 };
 
 export const accumulationDataActions = {
-  startLoadingAccumulationData,
-  endLoadingAccumulationData,
-  setAccumulationData,
+  accumulationDataRequest,
+  accumulationDataSuccess,
+  accumulationDataFail,
 };
