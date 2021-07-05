@@ -65,7 +65,7 @@ const DataFilter = () => {
             const newDate = new Date(newDateRaw);
             setLocalDateFrom(newDate);
             isValidDate(newDate) &&
-              customInterval({ dateFrom: newDate, dateTo });
+              dispatch(customInterval({ dateFrom: newDate, dateTo }));
           }}
           readOnly={!isCustomInterval}
           disabled={loading}
@@ -84,7 +84,7 @@ const DataFilter = () => {
             const newDate = new Date(newDateRaw);
             setLocalDateTo(newDate);
             isValidDate(newDate) &&
-              customInterval({ dateFrom, dateTo: newDate });
+              dispatch(customInterval({ dateFrom, dateTo: newDate }));
           }}
           readOnly={!isCustomInterval}
           disabled={loading}
