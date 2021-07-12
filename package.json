@@ -1,5 +1,5 @@
 {
-  "name": "dexibit-kitchen",
+  "name": "aes-hydro-dashboard",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -50,8 +50,12 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "cypress:open": "env-cmd -f .env.test cypress open",
-    "deploy-prep": "npm run build:staging",
-    "deploy": "gsutil cp -r ./build/* gs://hydro-dashboard-staging/"
+    "deploy-prep:staging": "npm run build:staging",
+    "deploy-prep:production": "npm run build:production",
+    "deploy:staging": "gsutil cp -r ./build/* gs://hydro-dashboard-staging/",
+    "deploy:production": "gsutil cp -r ./build/* gs://hydro-dashboard-production/",
+    "deploy-prep": "yarn deploy-prep:staging",
+    "deploy": "yarn deploy:staging"
   },
   "jest": {
     "clearMocks": true,
