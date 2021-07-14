@@ -1,5 +1,3 @@
-const config = {
-  baseURL: 'https://hydro-dashboard-283320.uc.r.appspot.com',
-};
+const config = {};
 
 export default config;
