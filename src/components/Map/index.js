@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import {
   Map,
   Marker,
@@ -8,7 +8,7 @@ import {
 } from 'google-maps-react';
 import dropIcon from '../../components/Icons/drop-icon.png';
 import levelIcon from '../../components/Icons/level-icon.png';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppDataContext } from '../../providers/AppDataProvider';
 import { useHistory } from 'react-router-dom';
 import config from '../../config';
@@ -19,8 +19,10 @@ import {
   HQOservation,
   levelDimension,
 } from '../StationInfo/stationUtil';
+import { updateZoomAndCenterAction } from '../../reducers/mapPosition';
 
 const MapContainer = ({ google }) => {
+  const dispatch = useDispatch();
   const {
     showHydroMetricStations,
     showWeatherStations,
@@ -42,6 +44,11 @@ const MapContainer = ({ google }) => {
       latestObservations: state.latestObservations.latestObservations,
     };
   });
+  const { zoom: initialZoom, center: initialCenter } = useSelector(
+    (state) => state.mapPosition
+  );
+  const mapPosition = useRef({ zoom: initialZoom, center: initialCenter })
+    .current;
   const { streams, basins, stations } = useContext(AppDataContext);
   const history = useHistory();
   const weatherStations = stations.filter((s) => {
@@ -62,6 +69,12 @@ const MapContainer = ({ google }) => {
     const location = {
       pathname: `${ROUTE_STATION_INFO_PAGE}/${selectedStation.id}`,
     };
+    dispatch(
+      updateZoomAndCenterAction({
+        zoom: mapPosition.zoom,
+        center: mapPosition.center,
+      })
+    );
     history.push(location);
   };
 
@@ -176,13 +189,20 @@ const MapContainer = ({ google }) => {
   return (
     <div>
       <Map
+        onZoomChanged={(_mapProps, map) => {
+          mapPosition.zoom = map.zoom;
+        }}
+        onDragend={(_mapProps, map) => {
+          mapPosition.center.lat = map.center.lat();
+          mapPosition.center.lng = map.center.lng();
+        }}
         google={google}
-        zoom={8}
+        zoom={initialZoom}
         containerStyle={{
           width: '95%',
           height: '90%',
         }}
-        initialCenter={{ lat: -25.6558152, lng: -65.5006693 }}
+        initialCenter={initialCenter}
       >
         {renderHydroMetricStations()}
         {renderWeatherStations()}
