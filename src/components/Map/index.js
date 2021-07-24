@@ -20,6 +20,8 @@ import {
   levelDimension,
 } from '../StationInfo/stationUtil';
 import { updateZoomAndCenterAction } from '../../reducers/mapPosition';
+import { Drop } from '../../pages/Drop';
+import drop from '../../pages/drop.svg';
 
 const MapContainer = ({ google }) => {
   const dispatch = useDispatch();
@@ -93,15 +95,25 @@ const MapContainer = ({ google }) => {
         h: levelObservations[0],
         q: flowObservations[0],
       });
+      const svgMarker = {
+        path:
+          'M32,8c0,0-19,17-19,31c0,10.493,8.507,19,19,19s19-8.507,19-19C51,25,32,8,32,8z M46,39c0,11-13,14-13,14l-3-5	c0,0,11-2,14-11L46,39z',
+        fillColor: '#010101',
+        fillOpacity: 0.6,
+        strokeWeight: 1,
+        strokeColor: 'red',
+        labelOrigin: new google.maps.Point(25, 35),
+        scale: 0.5,
+      };
       return (
         <Marker
           key={station.id}
           position={{ lat: station.latitude, lng: station.longitude }}
           onClick={onMarkerClick}
-          icon={levelIcon}
+          icon={svgMarker}
           stationId={station.id}
           label={
-            hydrometric_data && {
+            /*hydrometric_data &&*/ {
               text: hydrometric_data,
               color: '#fafafa',
               className: `hydrometric_data neutral`,
@@ -113,7 +125,7 @@ const MapContainer = ({ google }) => {
   };
 
   const renderWeatherStations = () => {
-    if (!showWeatherStations) {
+    if (!showWeatherStations || true) {
       return;
     }
     return weatherStations.map((station) => {

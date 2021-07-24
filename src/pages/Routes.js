@@ -8,6 +8,7 @@ import {
 import Map from './Map';
 import StationInfo from './StationInfo';
 import Forecast from './Forecast';
+import { Drop } from './Drop';
 
 export const ROUTE_ROOT = `/`;
 export const ROUTE_MAP_PAGE = `/map`;
@@ -26,6 +27,9 @@ export default () => {
         </Route>
         <Route path={ROUTE_MAP_PAGE}>
           <Map />
+        </Route>
+        <Route path="/drop">
+          <Drop h={'2.45'} q={'0.333'} />
         </Route>
         <Route path={ROUTE_ROOT}>
           <Redirect to={ROUTE_MAP_PAGE} />
