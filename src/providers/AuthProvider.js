@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   loadCredentials,
   persistCredentials,
@@ -41,4 +41,12 @@ export default ({ children }) => {
   };
 
   return <AuthContext.Provider value={store}>{children}</AuthContext.Provider>;
+};
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth should be used in an AuthProvider');
+  }
+  return context;
 };

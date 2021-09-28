@@ -5,9 +5,11 @@
 - fix config to use absolute paths
 - update dependencies
 - include GeoTIFF, GOE
+- caudal H-Q on maps
 
 # IN PROGRESS
 
+- forecasts table
 - fix console warnings/errors
 
 # DONE

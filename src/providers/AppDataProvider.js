@@ -4,7 +4,7 @@ import { fetchStations } from '../services/backend';
 import { fetchStreams } from '../services/Streams';
 import { fetchBasins } from '../services/Basins';
 import config from '../config';
-import { AuthContext } from './AuthProvider';
+import { useAuth } from './AuthProvider';
 import { loadAuthHandler, removeAuthHandler } from '../services/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { accumulationDataActions } from '../reducers/accumulations';
@@ -23,7 +23,7 @@ const AppDataProvider = ({ children }) => {
   });
   const dispatch = useDispatch();
 
-  const { credentials, logout } = useContext(AuthContext);
+  const { credentials, logout } = useAuth();
   const currentDate = new Date();
   const [fetchStartDate, setFetchStartDate] = useState(
     new Date(
@@ -75,7 +75,7 @@ const AppDataProvider = ({ children }) => {
     if (loading) fetchInitialData();
     else syncAccumulationData();
     return () => removeAuthHandler(loginHandler);
-  }, [dateFrom, dateTo]);
+  }, []);
 
   const contextStore = {
     fetchStartDate,
@@ -93,6 +93,14 @@ const AppDataProvider = ({ children }) => {
       {children}
     </AppDataContext.Provider>
   );
+};
+
+export const useAppData = () => {
+  const context = useContext(AppDataContext);
+  if (!context) {
+    throw new Error('useAppData shoud be used in an AppDataProvider');
+  }
+  return context;
 };
 
 export default AppDataProvider;
