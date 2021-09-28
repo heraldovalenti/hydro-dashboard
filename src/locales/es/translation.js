@@ -45,4 +45,8 @@ export default {
     'Nombre de usuario o contraseña inválidos',
   auth_form_login_button: 'Iniciar sesión',
   auth_form_logout_button: 'Cerrar sesión',
+
+  forecast_page_title: 'Pronósticos',
+  forecast_page_subtitle: 'Fecha de actualización: {{date}}',
+  forecast_page_provider: 'Proveedor',
 };

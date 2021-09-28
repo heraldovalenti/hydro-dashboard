@@ -7,15 +7,20 @@ import {
 } from 'react-router-dom';
 import Map from './Map';
 import StationInfo from './StationInfo';
+import Forecast from './Forecast';
 
 export const ROUTE_ROOT = `/`;
 export const ROUTE_MAP_PAGE = `/map`;
 export const ROUTE_STATION_INFO_PAGE = `/stationInfo`;
+export const FORECAST_PAGE = `/forecast`;
 
 export default () => {
   return (
     <Router>
       <Switch>
+        <Route path={FORECAST_PAGE}>
+          <Forecast />
+        </Route>
         <Route path={`${ROUTE_STATION_INFO_PAGE}/:id`}>
           <StationInfo />
         </Route>

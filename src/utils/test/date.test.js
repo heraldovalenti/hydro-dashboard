@@ -5,6 +5,7 @@ import {
   getWeeksApart,
   localToUTC,
   isValidDate,
+  isSameDay,
 } from './../date';
 
 import moment from 'moment';
@@ -74,5 +75,18 @@ describe('is valid date verification', () => {
     expect(isValidDate({})).toBeFalsy();
     expect(isValidDate(0)).toBeFalsy();
     expect(isValidDate('foo')).toBeFalsy();
+  });
+});
+
+describe('same day verification', () => {
+  it('should be the same day for 3am and 4am', () => {
+    const d1 = '2021-09-03T03:00:00.000Z';
+    const d2 = '2021-09-03T04:00:00.000Z';
+    expect(isSameDay(d1, d2));
+  });
+  it('should be the same day for 0am and 3am', () => {
+    const d1 = '2021-09-03T00:00:00.000Z';
+    const d2 = '2021-09-03T03:00:00.000Z';
+    expect(isSameDay(d1, d2));
   });
 });

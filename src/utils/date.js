@@ -14,12 +14,17 @@ const plusHours = (now, hours) => now + hours * 1000 * 60 * 60;
 const plusDays = (now, days) => plusHours(now, days * 24);
 const getAesTimeString = (date) => moment(date).format('DD/MM/YYYY HH:mm');
 const getAesDateString = (date) => moment(date).format('DD/MM/YYYY');
+
 const localToUTC = (date) => {
   const input = moment(date);
   const utcOffset = input.utcOffset();
   return input.add(utcOffset * -1, 'minutes');
 };
 const isValidDate = (date) => date && date.getTime && !isNaN(date.getTime());
+const isBefore = (d1, d2) => moment(d1).isBefore(d2);
+const isAfter = (d1, d2) => moment(d1).isAfter(d2);
+const isSameDay = (d1, d2) => moment(d1).isSame(d2, 'day');
+const startOfDay = (date) => moment(date).startOf('day');
 export {
   getISODateString,
   getAmericanDateString,
@@ -33,4 +38,8 @@ export {
   getAesDateString,
   localToUTC,
   isValidDate,
+  isBefore,
+  isAfter,
+  isSameDay,
+  startOfDay,
 };

@@ -165,6 +165,22 @@ export const exportObservations = async (
   window.open(url);
 };
 
+export const fetchForecast = async (refresh = false) => {
+  try {
+    console.log(`fetching forecast (snapshot? ${!refresh})`);
+    const response = await axios({
+      method: 'get',
+      url: `${config.baseURL}${
+        refresh ? config.api.forecastRefresh : config.api.forecast
+      }`,
+    });
+    return response.data;
+  } catch (e) {
+    console.log(`Error fetching forecast (refreshing: ${refresh}): ${e}`);
+    return {};
+  }
+};
+
 const toUTCInterval = ({ dateFrom, dateTo }) => {
   return {
     from: getISODateString(localToUTC(dateFrom)),

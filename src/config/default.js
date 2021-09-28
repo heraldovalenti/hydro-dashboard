@@ -7,6 +7,8 @@ const config = {
     latestObservations: '/api/observations/latestObservations',
     rainAccumulation: '/api/rain-accumulation',
     exportObservations: '/api/export/observations',
+    forecast: '/api/forecast',
+    forecastRefresh: '/api/forecast/refresh',
   },
   maps: {
     key: 'AIzaSyCnILw5Ddl2uXfyvFgEtPHTw-su8JlQzA8',
