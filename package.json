@@ -55,7 +55,8 @@
     "deploy:staging": "gsutil cp -r ./build/* gs://hydro-dashboard-staging/",
     "deploy:production": "gsutil cp -r ./build/* gs://hydro-dashboard-production/",
     "deploy-prep": "yarn deploy-prep:staging",
-    "deploy": "yarn deploy:staging"
+    "deploy": "yarn gcloud-verify hydro-dashboard-283320 && yarn deploy:staging",
+    "gcloud-verify": "./gcloud-verify.sh"
   },
   "jest": {
     "clearMocks": true,
