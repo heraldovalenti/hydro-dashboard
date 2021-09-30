@@ -75,7 +75,7 @@ const AppDataProvider = ({ children }) => {
     if (loading) fetchInitialData();
     else syncAccumulationData();
     return () => removeAuthHandler(loginHandler);
-  }, []);
+  }, [dateFrom, dateTo]);
 
   const contextStore = {
     fetchStartDate,
