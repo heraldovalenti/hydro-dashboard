@@ -13,7 +13,7 @@ import { fetchForecast } from '../../services/backend';
 import { useAppData } from '../../providers/AppDataProvider';
 import { getAesTimeString } from '../../utils/date';
 
-const StationInfo = ({ onClose }) => {
+const ForecastInfo = ({ onClose }) => {
   const { loading: appLoading } = useAppData();
   const [loading, setLoading] = useState(false);
   const [forecast, setForecast] = useState({ forecasts: [], time: null });
@@ -67,4 +67,4 @@ const StationInfo = ({ onClose }) => {
     </Container>
   );
 };
-export default StationInfo;
+export default ForecastInfo;

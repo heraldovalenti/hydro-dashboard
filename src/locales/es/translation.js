@@ -49,4 +49,5 @@ export default {
   forecast_page_title: 'Pronósticos',
   forecast_page_subtitle: 'Fecha de actualización: {{date}}',
   forecast_page_provider: 'Proveedor',
+  forecast_page_detail_no_data: 'S/D',
 };

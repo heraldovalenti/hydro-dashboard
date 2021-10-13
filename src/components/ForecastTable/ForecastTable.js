@@ -11,6 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import { getAesDateString } from '../../utils/date';
 import { useTranslation } from 'react-i18next';
 import { forecastAdapter } from './utils';
+import { ForecastDetail } from './ForecastDetail';
 
 const useStyles = makeStyles({
   tableHead: {
@@ -29,6 +30,11 @@ const ForecastTable = ({ forecast: forecastInfo }) => {
     <TableContainer component={Paper}>
       <Table className={classes.table} size="small" aria-label="a dense table">
         <TableHead>
+          <TableRow>
+            <TableCell className={classes.tableHead} align="left" colSpan={20}>
+              Ciudad de SALTA
+            </TableCell>
+          </TableRow>
           <TableRow>
             <TableCell className={classes.tableHead} align="left">
               {t('forecast_page_provider')}
@@ -59,17 +65,12 @@ const ForecastTable = ({ forecast: forecastInfo }) => {
                 >
                   {provider}
                 </TableCell>
-                {forecasts[provider].map((detail, index) => {
-                  return (
-                    <TableCell
-                      key={`${provider}.${index}`}
-                      className={classes.tableRow}
-                      align="right"
-                    >
-                      {detail.toFixed(2)}
-                    </TableCell>
-                  );
-                })}
+                {forecasts[provider].map((detail, index) => (
+                  <ForecastDetail
+                    key={`${provider}.${index}`}
+                    detail={detail}
+                  />
+                ))}
               </TableRow>
             );
           })}

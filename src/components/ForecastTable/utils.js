@@ -20,7 +20,10 @@ export const forecastAdapter = (forecastInfo) => {
     for (let day of days) {
       const dayTotal = details
         .filter((d) => isSameDay(day, d.time))
-        .reduce((total, d) => total + d.value, 0);
+        .reduce(
+          (total, d) => (d.value !== null ? total + d.value : total),
+          null
+        );
       forecasts[p].push(dayTotal);
     }
   }
