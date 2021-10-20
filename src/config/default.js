@@ -1,6 +1,6 @@
 const config = {
   serviceInterceptors: false,
-  baseURL: 'https://hydro-dashboard-2021-q3.uc.r.appspot.com',
+  baseURL: 'https://ci03.simtlix.com',
   api: {
     stations: '/api/stations',
     observations: '/api/observations',
