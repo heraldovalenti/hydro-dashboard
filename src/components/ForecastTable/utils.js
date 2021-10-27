@@ -1,7 +1,7 @@
 import { isBefore, isSameDay, startOfDay } from '../../utils/date';
 
 export const forecastAdapter = (forecastInfo) => {
-  const days = forecastInfo.forecasts
+  const days = forecastInfo
     .map((f) => f.details)
     .flat()
     .map((detail) => detail.time)
@@ -11,12 +11,11 @@ export const forecastAdapter = (forecastInfo) => {
         : [...result];
     }, [])
     .sort((d1, d2) => (isBefore(d1, d2) ? -1 : 1));
-  const providers = forecastInfo.forecasts.map((f) => f.provider);
+  const providers = forecastInfo.map((f) => f.provider);
   const forecasts = {};
   for (let p of providers) {
     forecasts[p] = [];
-    const details = forecastInfo.forecasts.find((f) => f.provider === p)
-      .details;
+    const details = forecastInfo.find((f) => f.provider === p).details;
     for (let day of days) {
       const dayTotal = details
         .filter((d) => isSameDay(day, d.time))
@@ -28,4 +27,17 @@ export const forecastAdapter = (forecastInfo) => {
     }
   }
   return { days, forecasts };
+};
+
+export const groupByCities = (forecastInfo) => {
+  const cities = forecastInfo
+    .map((f) => f.city)
+    .reduce(
+      (unique, item) => (unique.includes(item) ? unique : [...unique, item]),
+      []
+    );
+  return cities.map((c) => ({
+    city: c,
+    forecast: forecastInfo.filter((f) => f.city === c),
+  }));
 };

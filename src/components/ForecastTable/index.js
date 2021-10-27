@@ -61,7 +61,7 @@ const ForecastInfo = ({ onClose }) => {
               date: getAesTimeString(forecast.time),
             })}
           </Typography>
-          <ForecastTable forecast={forecast} />
+          <ForecastTable forecast={forecast.forecasts} />
         </Box>
       )}
     </Container>

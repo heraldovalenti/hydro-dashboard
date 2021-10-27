@@ -50,4 +50,9 @@ export default {
   forecast_page_subtitle: 'Fecha de actualización: {{date}}',
   forecast_page_provider: 'Proveedor',
   forecast_page_detail_no_data: 'S/D',
+
+  city_salta: 'Ciudad de SALTA',
+  'city_coronel-moldes': 'Ciudad de CORONEL MOLDES',
+  city_cafayate: 'Ciudad de CAFAYATE',
+  city_metan: 'Ciudad de METÁN',
 };

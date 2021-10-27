@@ -2,7 +2,7 @@ import { getAesDateString } from '../../../utils/date';
 import { forecastAdapter } from '../utils';
 
 it('should contain all unique dates', () => {
-  const { days, forecasts } = forecastAdapter(mockData);
+  const { days, forecasts } = forecastAdapter(mockData.forecasts);
   expect(days).toHaveLength(3);
   expect(getAesDateString(days[0])).toBe('01/09/2021');
   expect(getAesDateString(days[1])).toBe('02/09/2021');

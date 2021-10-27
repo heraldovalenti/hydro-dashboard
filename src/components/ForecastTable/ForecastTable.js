@@ -10,10 +10,14 @@ import Paper from '@material-ui/core/Paper';
 
 import { getAesDateString } from '../../utils/date';
 import { useTranslation } from 'react-i18next';
-import { forecastAdapter } from './utils';
+import { forecastAdapter, groupByCities } from './utils';
 import { ForecastDetail } from './ForecastDetail';
 
 const useStyles = makeStyles({
+  tableMargin: {
+    marginTop: 20,
+    marginBottom: 20,
+  },
   tableHead: {
     fontWeight: 600,
   },
@@ -23,16 +27,24 @@ const useStyles = makeStyles({
 });
 
 const ForecastTable = ({ forecast: forecastInfo }) => {
+  const groupedByCity = groupByCities(forecastInfo);
+  return groupedByCity.map((cityForecast) => {
+    const { city, forecast } = cityForecast;
+    return <CityForecastTable key={city} city={city} forecastInfo={forecast} />;
+  });
+};
+
+const CityForecastTable = ({ city, forecastInfo }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const { days, forecasts } = forecastAdapter(forecastInfo);
   return (
-    <TableContainer component={Paper}>
+    <TableContainer className={classes.tableMargin} component={Paper}>
       <Table className={classes.table} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
             <TableCell className={classes.tableHead} align="left" colSpan={20}>
-              Ciudad de SALTA
+              {t(`city_${city}`)}
             </TableCell>
           </TableRow>
           <TableRow>

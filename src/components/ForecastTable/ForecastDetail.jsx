@@ -25,7 +25,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const ForecastDetail = ({ key, detail }) => {
+export const ForecastDetail = ({ detail }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const noData = detail == null;
@@ -41,7 +41,6 @@ export const ForecastDetail = ({ key, detail }) => {
   }
   return (
     <TableCell
-      key={key}
       className={`${classes.forecastDetail} ${contentStyle}`}
       align="right"
     >
