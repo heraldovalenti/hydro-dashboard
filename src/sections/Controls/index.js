@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import { AuthContext } from '../../providers/AuthProvider';
 import { useHistory } from 'react-router-dom';
 import { FORECAST_PAGE } from '../../pages/Routes';
+import { Rasters } from './sections/Rasters';
 
 export default function Controls() {
   const { logout } = useContext(AuthContext);
@@ -25,6 +26,7 @@ export default function Controls() {
       </Button>
       <MapLayers />
       <DataFilter />
+      <Rasters />
       <Button
         variant="contained"
         color="primary"

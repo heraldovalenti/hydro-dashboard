@@ -20,8 +20,10 @@ import {
   levelDimension,
 } from '../StationInfo/stationUtil';
 import { updateZoomAndCenterAction } from '../../reducers/mapPosition';
+import { useRaster } from '../../contexts/Raster';
 
 const MapContainer = ({ google }) => {
+  const { showRaster, rasterData } = useRaster();
   const dispatch = useDispatch();
   const {
     showHydroMetricStations,
@@ -185,6 +187,53 @@ const MapContainer = ({ google }) => {
       />
     ));
   };
+  const renderRaster = () => {
+    if (!showRaster) {
+      return null;
+    }
+    const { floatArray } = rasterData;
+    const squareSize = 0.06;
+    const init = { lng: -67.02585177951389, lat: -23.01110230836036 };
+    // const min = floatArray.reduce(
+    //   (min, x) => Math.min(min, x),
+    //   Number.MAX_VALUE
+    // );
+    const max = floatArray.reduce(
+      (max, x) => Math.max(max, x),
+      Number.MIN_VALUE
+    );
+    const points = floatArray
+      // .slice(0, floatArray.length)
+      .map((pointValue, index) => {
+        const row = index / 60;
+        const col = index % 60;
+        const lat = init.lat - row * squareSize * 0.6;
+        const lng = init.lng + col * squareSize;
+
+        const p1 = { lat, lng };
+        const p2 = { lat: lat + squareSize * 0.6, lng };
+        const p3 = { lat, lng: lng + squareSize };
+        const p4 = { lat: lat + squareSize * 0.6, lng: lng + squareSize };
+
+        const normalValue = pointValue / max;
+        const colorValue = normalValue * 4095;
+        return {
+          color: parseInt(colorValue).toString(16).padStart(3, '0'),
+          path: [p1, p2, p4, p3],
+        };
+      });
+    return points.map((point, i) => (
+      <Polygon
+        key={i}
+        paths={point.path}
+        strokeColor={`#${point.color}`}
+        strokeOpacity={0}
+        strokeWeight={0}
+        fillColor={`#${point.color}`}
+        fillOpacity={0.3}
+      />
+    ));
+  };
 
   return (
     <div>
@@ -208,6 +257,7 @@ const MapContainer = ({ google }) => {
         {renderWeatherStations()}
         {renderStreams()}
         {renderBasins()}
+        {renderRaster()}
       </Map>
     </div>
   );

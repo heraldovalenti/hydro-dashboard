@@ -29,6 +29,9 @@ export default {
   control_panel_filters_interval_title: 'Selección de intervalo de tiempo',
   control_panel_invalid_date_message: 'Formato de fecha no válido',
 
+  control_panel_rasters_title: 'Rasters',
+  control_panel_rasters_show: 'Visualizar en mapa',
+
   rain_info_summary:
     'Acumulado en las últimas {{hours}} horas: {{accumulation}} {{unit}}',
   level_info_summary: 'Mediciones de nivel en las últimas {{hours}} horas',
