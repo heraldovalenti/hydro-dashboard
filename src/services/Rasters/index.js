@@ -1,9 +1,22 @@
 import axios from 'axios';
-import { parseName } from './util';
 
 const BASE_URL =
-  'https://us-central1-hydro-dashboard-283320.cloudfunctions.net/rasters';
-// const BASE_URL = 'http://localhost:8081';
+  // 'https://us-central1-hydro-dashboard-283320.cloudfunctions.net/rasters';
+  'http://localhost:8083';
+export const allRasters = async () => {
+  let result = [];
+  try {
+    const response = await axios({
+      method: 'get',
+      url: `${BASE_URL}/all`,
+    });
+    return response.data;
+  } catch (e) {
+    console.error(`Error retrieving all rasters data: ${e.toString()}`);
+  }
+  return result;
+};
+
 export const listRasters = async () => {
   let result = [];
   try {
@@ -13,8 +26,7 @@ export const listRasters = async () => {
     });
     result = response.data.map((fileDescriptor) => {
       const { name, date } = fileDescriptor;
-      const parsed = parseName(name);
-      return { name, date, ...parsed };
+      return { name, date };
     });
   } catch (e) {
     console.error(`Error retrieving rasters list: ${e.toString()}`);

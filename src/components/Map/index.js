@@ -5,6 +5,9 @@ import {
   Polyline,
   Polygon,
   GoogleApiWrapper,
+  HeatMap,
+  Circle,
+  Rectangle,
 } from 'google-maps-react';
 import dropIcon from '../../components/Icons/drop-icon.png';
 import levelIcon from '../../components/Icons/level-icon.png';
@@ -23,7 +26,7 @@ import { updateZoomAndCenterAction } from '../../reducers/mapPosition';
 import { useRaster } from '../../contexts/Raster';
 
 const MapContainer = ({ google }) => {
-  const { showRaster, rasterData } = useRaster();
+  const { showRaster, selectedRaster } = useRaster();
   const dispatch = useDispatch();
   const {
     showHydroMetricStations,
@@ -188,51 +191,60 @@ const MapContainer = ({ google }) => {
     ));
   };
   const renderRaster = () => {
-    if (!showRaster) {
+    if (!showRaster || !selectedRaster?.fileData) {
       return null;
     }
-    const { floatArray } = rasterData;
+    const { Data = [] } = selectedRaster.fileData;
     const squareSize = 0.06;
     const init = { lng: -67.02585177951389, lat: -23.01110230836036 };
     // const min = floatArray.reduce(
     //   (min, x) => Math.min(min, x),
     //   Number.MAX_VALUE
     // );
-    const max = floatArray.reduce(
-      (max, x) => Math.max(max, x),
-      Number.MIN_VALUE
-    );
-    const points = floatArray
-      // .slice(0, floatArray.length)
-      .map((pointValue, index) => {
-        const row = index / 60;
-        const col = index % 60;
-        const lat = init.lat - row * squareSize * 0.6;
-        const lng = init.lng + col * squareSize;
+    const max = Data.reduce((max, x) => Math.max(max, x), Number.MIN_VALUE);
+    const points = Data.map((pointValue, index) => {
+      const row = index / 60;
+      const col = index % 60;
+      const lat = init.lat - row * squareSize * 0.6;
+      const lng = init.lng + col * squareSize;
 
-        const p1 = { lat, lng };
-        const p2 = { lat: lat + squareSize * 0.6, lng };
-        const p3 = { lat, lng: lng + squareSize };
-        const p4 = { lat: lat + squareSize * 0.6, lng: lng + squareSize };
+      const p1 = { lat, lng };
+      const p2 = { lat: lat + squareSize * 0.6, lng };
+      const p3 = { lat, lng: lng + squareSize };
+      const p4 = { lat: lat + squareSize * 0.6, lng: lng + squareSize };
 
-        const normalValue = pointValue / max;
-        const colorValue = normalValue * 4095;
-        return {
-          color: parseInt(colorValue).toString(16).padStart(3, '0'),
-          path: [p1, p2, p4, p3],
-        };
-      });
-    return points.map((point, i) => (
-      <Polygon
-        key={i}
-        paths={point.path}
-        strokeColor={`#${point.color}`}
-        strokeOpacity={0}
-        strokeWeight={0}
-        fillColor={`#${point.color}`}
-        fillOpacity={0.3}
+      const normalValue = pointValue / max;
+      const colorValue = normalValue * 4095;
+      const color = parseInt(colorValue).toString(16).padStart(3, '0');
+      const path = [p1, p2, p4, p3];
+      return { path, color, weight: pointValue, lat, lng };
+    });
+    // const positions = points.map((x) => x.position);
+
+    return (
+      <HeatMap
+        opacity={0.8}
+        positions={points}
+        radius={20}
+        disipating={false}
       />
-    ));
+    );
+    return points.map((point, i) => {
+      return (
+        <Polygon
+          key={i}
+          paths={point.path}
+          // center={point.path[0]}
+          // radius={2000}
+          // bounds={{ north: p1, south: p2, east: p3, west: p4 }}
+          strokeColor={`#${point.color}`}
+          strokeOpacity={0.1}
+          strokeWeight={0.1}
+          fillColor={`#${point.color}`}
+          fillOpacity={0.1}
+        />
+      );
+    });
   };
 
   return (
@@ -253,10 +265,10 @@ const MapContainer = ({ google }) => {
         }}
         initialCenter={initialCenter}
       >
-        {renderHydroMetricStations()}
-        {renderWeatherStations()}
-        {renderStreams()}
-        {renderBasins()}
+        {/* {renderHydroMetricStations()} */}
+        {/* {renderWeatherStations()} */}
+        {/* {renderStreams()} */}
+        {/* {renderBasins()} */}
         {renderRaster()}
       </Map>
     </div>
@@ -265,4 +277,5 @@ const MapContainer = ({ google }) => {
 
 export default GoogleApiWrapper({
   apiKey: config.maps.key,
+  libraries: ['places', 'visualization'],
 })(MapContainer);
