@@ -1,17 +1,67 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { allRasters } from '../../services/Rasters';
 
 const RasterContext = createContext({});
+const gradientColors = [
+  '#0044ff',
+  '#0088ff',
+  '#00bbff',
+  '#00ffff',
+  '#00ffbb',
+  '#00ff88',
 
+  '#00ff00',
+
+  '#44ff00',
+  '#88ff00',
+  '#bbff00',
+
+  '#ffff00',
+
+  '#ffbb00',
+  '#ff8800',
+  '#ff4400',
+
+  '#ff0000',
+
+  '#dd0000',
+  '#aa0000',
+  '#880000',
+  '#660000',
+  '#440000',
+  '#220000',
+];
 export const RasterProvider = ({ children }) => {
-  const [rasterData, setRasterData] = useState({ floatArray: [] });
+  const [loading, setLoading] = useState(true);
+  const [rastersData, setRastersData] = useState([]);
+  const [selectedRaster, setSelectedRaster] = useState({
+    Data: [],
+  });
   const [showRaster, setShowRaster] = useState(false);
+  const [opacity, setOpacity] = useState(80);
+  const [radius, setRadius] = useState(20);
+  useEffect(() => {
+    const fetch = async () => {
+      const response = await allRasters();
+      setLoading(false);
+      setRastersData(response);
+    };
+    fetch();
+  }, []);
   return (
     <RasterContext.Provider
       value={{
+        loading,
         showRaster,
         setShowRaster,
-        rasterData,
-        setRasterData,
+        rastersData,
+        selectedRaster,
+        setSelectedRaster,
+        opacity,
+        setOpacity,
+        radius,
+        setRadius,
+        gradientColors,
       }}
     >
       {children}

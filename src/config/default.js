@@ -17,6 +17,7 @@ const config = {
     rainId: 3,
     levelId: 1,
   },
+  rastersURL: 'https://us-central1-hydro-dashboard-283320.cloudfunctions.net/rasters',
 };
 
 export default config;

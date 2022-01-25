@@ -31,6 +31,7 @@ export default {
 
   control_panel_rasters_title: 'Rasters',
   control_panel_rasters_show: 'Visualizar en mapa',
+  control_panel_rasters_opacity: 'Opacidad',
 
   rain_info_summary:
     'Acumulado en las últimas {{hours}} horas: {{accumulation}} {{unit}}',

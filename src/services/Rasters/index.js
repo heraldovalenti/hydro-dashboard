@@ -1,20 +1,32 @@
 import axios from 'axios';
-import { parseName } from './util';
+import config from '../../config';
 
-const BASE_URL =
-  'https://us-central1-hydro-dashboard-283320.cloudfunctions.net/rasters';
-// const BASE_URL = 'http://localhost:8081';
+export const allRasters = async () => {
+  let result = [];
+  // return require('./mock.json');
+  // return result;
+  try {
+    const response = await axios({
+      method: 'get',
+      url: `${config.rastersURL}/all`,
+    });
+    return response.data;
+  } catch (e) {
+    console.error(`Error retrieving all rasters data: ${e.toString()}`);
+  }
+  return result;
+};
+
 export const listRasters = async () => {
   let result = [];
   try {
     const response = await axios({
       method: 'get',
-      url: `${BASE_URL}/list`,
+      url: `${config.rastersURL}/list`,
     });
     result = response.data.map((fileDescriptor) => {
       const { name, date } = fileDescriptor;
-      const parsed = parseName(name);
-      return { name, date, ...parsed };
+      return { name, date };
     });
   } catch (e) {
     console.error(`Error retrieving rasters list: ${e.toString()}`);
@@ -25,7 +37,7 @@ export const listRasters = async () => {
 export const getRaster = async (item) => {
   let result = [];
   try {
-    const url = `${BASE_URL}/get?fileName=${encodeURIComponent(item)}`;
+    const url = `${config.rastersURL}/get?fileName=${encodeURIComponent(item)}`;
     const response = await axios({
       method: 'get',
       url,
