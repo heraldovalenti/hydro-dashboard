@@ -2,6 +2,7 @@ const config = {
   serviceInterceptors: false,
   baseURL: 'https://ci03.simtlix.com',
   api: {
+    basins: '/api/basin',
     stations: '/api/stations',
     observations: '/api/observations',
     latestObservations: '/api/observations/latestObservations',
@@ -17,7 +18,8 @@ const config = {
     rainId: 3,
     levelId: 1,
   },
-  rastersURL: 'https://us-central1-hydro-dashboard-283320.cloudfunctions.net/rasters',
+  rastersURL:
+    'https://us-central1-hydro-dashboard-283320.cloudfunctions.net/rasters',
 };
 
 export default config;

@@ -3,6 +3,20 @@ import { isHQModelStationDataOrigin } from '../components/StationInfo/stationUti
 import config from '../config';
 import { getISODateString, localToUTC } from '../utils/date';
 
+export const fetchBasins = async () => {
+  try {
+    const response = await axios({
+      method: 'get',
+      url: `${config.baseURL}${config.api.basins}`,
+    });
+    const { data } = response;
+    return data;
+  } catch (e) {
+    console.log(`Error fetching basins: ${e}`);
+    return [];
+  }
+};
+
 export const fetchStations = async () => {
   try {
     const response = await axios({

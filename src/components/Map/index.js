@@ -10,7 +10,7 @@ import {
 import dropIcon from '../../components/Icons/drop-icon.png';
 import levelIcon from '../../components/Icons/level-icon.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDataContext } from '../../providers/AppDataProvider';
+import { useAppData } from '../../providers/AppDataProvider';
 import { useHistory } from 'react-router-dom';
 import config from '../../config';
 import './styles.css';
@@ -52,7 +52,7 @@ const MapContainer = ({ google }) => {
   );
   const mapPosition = useRef({ zoom: initialZoom, center: initialCenter })
     .current;
-  const { streams, basins, stations } = useContext(AppDataContext);
+  const { streams, basins, stations } = useAppData();
   const history = useHistory();
   const weatherStations = stations.filter((s) => {
     const rainOrigins = s.stationDataOriginList.filter(
@@ -177,17 +177,23 @@ const MapContainer = ({ google }) => {
     if (!showBasins) {
       return;
     }
-    return basins.map((basin, i) => (
-      <Polygon
-        key={i}
-        paths={basin.data}
-        strokeColor="#FF0000"
-        strokeOpacity={0.8}
-        strokeWeight={2}
-        fillColor="#FF8800"
-        fillOpacity={0.2}
-      />
-    ));
+    return basins.map((basin) => {
+      const { id, color, path } = basin;
+      return (
+        <Polygon
+          key={id}
+          paths={path.map((point) => ({
+            lng: Number.parseFloat(point.lng),
+            lat: Number.parseFloat(point.lat),
+          }))}
+          strokeColor="#666"
+          strokeOpacity={0.8}
+          strokeWeight={2}
+          fillColor={color}
+          fillOpacity={0.2}
+        />
+      );
+    });
   };
   const renderRaster = () => {
     if (!showRaster || !selectedRaster?.fileData) {
