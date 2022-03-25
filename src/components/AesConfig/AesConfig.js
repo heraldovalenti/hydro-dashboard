@@ -12,6 +12,7 @@ import { Refresh, Close, Save } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
 import { useGetAuthToken } from '../../hooks/aes';
 import { useUpdateAuthToken } from '../../hooks/aes/useUpdateAuthToken';
+import { AesConnectionHealthCheck } from './AesConnectionHealthCheck';
 
 const useStyles = makeStyles((theme) => ({
   root: { flexGrow: 1 },
@@ -39,16 +40,14 @@ export const AesConfig = ({ onClose }) => {
             </Grid>
             <Grid item xs={4} container direction="row-reverse">
               <Grid item xs={2}>
-                <IconButton onClick={() => refresh()}>
-                  <Refresh />
-                </IconButton>
-              </Grid>
-              <Grid item xs={2}>
                 <IconButton onClick={() => onClose()}>
                   <Close />
                 </IconButton>
               </Grid>
             </Grid>
+          </Grid>
+          <Grid item xs={12} container>
+            <AesConnectionHealthCheck />
           </Grid>
           <Grid item container xs={12}>
             <Grid item xs={12}>
@@ -63,6 +62,9 @@ export const AesConfig = ({ onClose }) => {
                     value={token}
                     onChange={(e) => setToken(e.target.value)}
                   />
+                  <IconButton onClick={() => refresh()}>
+                    <Refresh />
+                  </IconButton>
                   <IconButton onClick={() => update(token.trim())}>
                     <Save />
                   </IconButton>

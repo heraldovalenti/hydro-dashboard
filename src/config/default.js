@@ -11,6 +11,7 @@ const config = {
     forecast: '/api/forecast',
     forecastRefresh: '/api/forecast/refresh',
     aes: '/api/aes',
+    healthCheck: '/api/health-check',
   },
   maps: {
     key: 'AIzaSyCnILw5Ddl2uXfyvFgEtPHTw-su8JlQzA8',

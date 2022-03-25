@@ -62,4 +62,6 @@ export default {
 
   app_config_aes_title: 'Configuraciones AES',
   app_config_aes_label_auth_token: 'Token FedAuth para OneDrive',
+  app_config_aes_action_health_check: 'Verificar conexión',
+  app_config_aes_action_update_observations: 'Actualizar datos de OneDrive',
 };
