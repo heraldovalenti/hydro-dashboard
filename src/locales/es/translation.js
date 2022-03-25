@@ -59,4 +59,7 @@ export default {
   'city_coronel-moldes': 'Ciudad de CORONEL MOLDES',
   city_cafayate: 'Ciudad de CAFAYATE',
   city_metan: 'Ciudad de METÁN',
+
+  app_config_aes_title: 'Configuraciones AES',
+  app_config_aes_label_auth_token: 'Token FedAuth para OneDrive',
 };

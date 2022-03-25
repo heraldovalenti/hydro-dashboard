@@ -8,16 +8,21 @@ import {
 import Map from './Map';
 import StationInfo from './StationInfo';
 import Forecast from './Forecast';
+import { AppConfigPage } from './AesConfigPage';
 
 export const ROUTE_ROOT = `/`;
 export const ROUTE_MAP_PAGE = `/map`;
 export const ROUTE_STATION_INFO_PAGE = `/stationInfo`;
 export const FORECAST_PAGE = `/forecast`;
+export const AES_PAGE = `/aes`;
 
 export default () => {
   return (
     <Router>
       <Switch>
+        <Route path={AES_PAGE}>
+          <AppConfigPage />
+        </Route>
         <Route path={FORECAST_PAGE}>
           <Forecast />
         </Route>

@@ -9,8 +9,10 @@ import MomentUtils from '@date-io/moment';
 import COLORS from './types/colors';
 import AuthProvider from './providers/AuthProvider';
 import AuthChecker from './layouts/AuthChecker';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 library.add(fas);
+const queryClient = new QueryClient();
 
 const App = () => {
   const theme = createMuiTheme({
@@ -20,18 +22,21 @@ const App = () => {
     palette: {
       primary: {
         main: COLORS.TURQUOISE.BASE,
+        background: COLORS.LIGHT_BLUE.BASE,
       },
     },
   });
 
   return (
-    <ThemeProvider theme={theme}>
-      <MuiPickersUtilsProvider utils={MomentUtils}>
-        <AuthProvider>
-          <AuthChecker />
-        </AuthProvider>
-      </MuiPickersUtilsProvider>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <MuiPickersUtilsProvider utils={MomentUtils}>
+          <AuthProvider>
+            <AuthChecker />
+          </AuthProvider>
+        </MuiPickersUtilsProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 };
 

@@ -10,6 +10,7 @@ const config = {
     exportObservations: '/api/export/observations',
     forecast: '/api/forecast',
     forecastRefresh: '/api/forecast/refresh',
+    aes: '/api/aes',
   },
   maps: {
     key: 'AIzaSyCnILw5Ddl2uXfyvFgEtPHTw-su8JlQzA8',

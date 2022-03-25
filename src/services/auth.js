@@ -53,7 +53,7 @@ const loadAuthHandler = ({ credentials, logout }) => {
       return response;
     },
     (error) => {
-      if (error.response.status === 401) {
+      if (error.response?.status === 401) {
         console.log(`wrong credentials, loading authentication form`);
         logout(error.response.status);
       }

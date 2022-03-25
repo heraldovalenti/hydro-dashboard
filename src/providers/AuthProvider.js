@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, createContext } from 'react';
 import {
   loadCredentials,
   persistCredentials,
   destroyCredentials,
 } from '../services/auth';
 
-export const AuthContext = React.createContext(null);
+export const AuthContext = createContext(null);
 
 export default ({ children }) => {
   const [credentials, setCredentials] = useState(null);
