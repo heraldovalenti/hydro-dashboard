@@ -1,6 +1,6 @@
 const config = {
   serviceInterceptors: false,
-  baseURL: 'http://localhost:8080',
+  baseURL: 'http://aes-local:8080',
   api: {
     basins: '/api/basin',
     stations: '/api/stations',
