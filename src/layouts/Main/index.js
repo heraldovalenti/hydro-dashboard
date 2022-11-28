@@ -6,7 +6,7 @@ import Controls from '../../sections/Controls';
 import Visualizations from '../../sections/Visualizations';
 import EmptyState from '../../sections/EmptyState';
 import SimulationIcon from '../../components/Icons/Simulation';
-import Logo from '../../components/Icons/Logo';
+import LogoAES from '../../components/Icons/aes-title.png';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { AppDataContext } from '../../providers/AppDataProvider';
@@ -44,7 +44,7 @@ const Main = () => {
             <Controls />
           </SlideDrawer>
           <Header
-            title={<Logo height={50} width={100} />}
+            title={<img src={LogoAES} height={50} />}
             subtitle={t('page_header_text')}
           />
           <Visualizations />
