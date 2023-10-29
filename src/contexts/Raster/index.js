@@ -69,7 +69,7 @@ export const RasterProvider = ({ children }) => {
   );
 };
 
-export const useRaster = () => {
+export const useRasterContext = () => {
   const context = useContext(RasterContext);
   if (!context) {
     throw new Error('useRaster must be used inside a RasterProvider');

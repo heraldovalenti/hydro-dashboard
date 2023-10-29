@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RadioGroup from '../../../../components/RadioGroup';
-import { useRaster } from '../../../../contexts/Raster';
+import { useRasterContext } from '../../../../contexts/Raster';
 import { BlueSlider } from '../../components/BlueSlider';
 import CollapsiblePanel from '../../components/CollapsiblePanel';
 import LayerFilter from '../MapLayers/layerFilter';
@@ -17,7 +17,7 @@ export const Rasters = () => {
     opacity,
     setOpacity,
     gradientColors,
-  } = useRaster();
+  } = useRasterContext();
   const { t } = useTranslation();
   const [rasterOptions, setRasterOptions] = useState([]);
   const [selected, setSelected] = useState({});
@@ -79,6 +79,7 @@ export const Rasters = () => {
           {gradientColors.map((c, i) => {
             return (
               <ListItem
+                key={c}
                 title={c}
                 color={c}
                 style={{
