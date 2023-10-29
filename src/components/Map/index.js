@@ -220,7 +220,7 @@ const MapContainer = ({ google }) => {
   );
 };
 
-export default GoogleApiWrapper({
+export const MapComponent = GoogleApiWrapper({
   apiKey: config.maps.key,
   libraries: ['places', 'visualization'],
 })(MapContainer);
