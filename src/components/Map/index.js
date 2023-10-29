@@ -21,7 +21,8 @@ import {
   levelDimension,
 } from '../StationInfo/stationUtil';
 import { updateZoomAndCenterAction } from '../../reducers/mapPosition';
-import { useRaster } from '../../contexts/Raster';
+import { useRasters } from '../../hooks/useRasters';
+import { useMapPosition } from '../../hooks/useMapPosition';
 
 const MapContainer = ({ google }) => {
   const { showRaster, selectedRaster, opacity, gradientColors } = useRaster();
@@ -47,11 +48,7 @@ const MapContainer = ({ google }) => {
       latestObservations: state.latestObservations.latestObservations,
     };
   });
-  const { zoom: initialZoom, center: initialCenter } = useSelector(
-    (state) => state.mapPosition
-  );
-  const mapPosition = useRef({ zoom: initialZoom, center: initialCenter })
-    .current;
+  const { mapPosition, initialZoom, initialCenter } = useMapPosition();
   const { streams, basins, stations } = useAppData();
   const history = useHistory();
   const weatherStations = stations.filter((s) => {
