@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { allRasters } from '../../services/Rasters';
+import { allRasters, rasterTypes } from '../../services/Rasters';
 
 const RasterContext = createContext({});
 const gradientColors = [
@@ -42,9 +42,13 @@ export const RasterProvider = ({ children }) => {
   const [radius, setRadius] = useState(20);
   useEffect(() => {
     const fetch = async () => {
-      const response = await allRasters();
+      const response = await Promise.all([
+        allRasters({ type: rasterTypes.WRF }),
+        allRasters({ type: rasterTypes.SQPE }),
+      ]);
+      const [r1, r2] = response;
       setLoading(false);
-      setRastersData(response);
+      setRastersData([...r1.fileList, ...r2.fileList]);
     };
     fetch();
   }, []);

@@ -1,7 +1,12 @@
 import axios from 'axios';
 import config from '../../config';
 
-export const allRasters = async () => {
+export const rasterTypes = {
+  WRF: 'WRF',
+  SQPE: 'SQPE',
+};
+
+export const allRasters = async ({ type, from, to }) => {
   let result = [];
   // return require('./mock.json');
   // return result;
@@ -9,6 +14,11 @@ export const allRasters = async () => {
     const response = await axios({
       method: 'get',
       url: `${config.rastersURL}/all`,
+      params: {
+        type,
+        from,
+        to,
+      },
     });
     return response.data;
   } catch (e) {
