@@ -55,7 +55,7 @@ export const useRasters = () => {
       'rgba(0, 124, 255, 0.1)',
       ...gradientColors.slice(
         0,
-        (max / gradientColors.length) * (100 / gradientColors.length)
+        (max / gradientColors.length) * (100 / gradientColors.length) + 1
       ),
     ];
     return (
