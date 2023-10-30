@@ -1,7 +1,8 @@
-import React, { useCallback, useRef } from 'react';
-import { HeatMap } from 'google-maps-react';
+import React, { useCallback, useMemo, useRef } from 'react';
+import { HeatMap, Marker } from 'google-maps-react';
 import { useRasterContext } from '../contexts/Raster';
 import { useSelector } from 'react-redux';
+import { transformRasterData } from '../utils/transformRasterData';
 
 export const useRasters = () => {
   const { zoom: initialZoom, center: initialCenter } = useSelector(
@@ -15,22 +16,28 @@ export const useRasters = () => {
     opacity,
     gradientColors,
   } = useRasterContext();
+  const limits = useMemo(
+    () => [
+      { lat: -23, lng: -67 },
+      { lat: -23, lng: -63.5 },
+      { lat: -28, lng: -67 },
+      { lat: -28, lng: -63.5 },
+    ],
+    []
+  );
+  const renderLimits = useCallback(() => {
+    return limits.map(({ lat, lng }) => {
+      return <Marker key={`${lat}_${lng}`} position={{ lat, lng }} />;
+    });
+  }, [limits]);
   const renderRaster = useCallback(() => {
     if (!showRaster || !selectedRaster?.fileData) {
       return null;
     }
-    const { Data = [] } = selectedRaster.fileData;
-    const squareSize = 0.06;
-    const init = { lng: -67.02585177951389, lat: -23.01110230836036 };
+    const { Data = [], Width, Height } = selectedRaster.fileData;
+    const [init, , , end] = limits;
+    const points = transformRasterData(init, end, { Data, Height, Width });
     const max = Data.reduce((m, x) => Math.max(m, x), Number.MIN_VALUE);
-    const points = Data.map((pointValue, index) => {
-      const row = index / 60;
-      const col = index % 60;
-      const lat = init.lat - row * squareSize * 0.6;
-      const lng = init.lng + col * squareSize;
-
-      return { weight: pointValue, lat, lng };
-    });
 
     // zooms> z=5/r=3 z=6/r=6 z=7/r=10 z=8/r=18 z=9/r=30(32)
     const zoomRadius = {
@@ -60,12 +67,21 @@ export const useRasters = () => {
         gradient={gradient}
       />
     );
-  }, [gradientColors, opacity, selectedRaster.fileData, showRaster]);
+  }, [
+    gradientColors,
+    limits,
+    mapPosition.zoom,
+    opacity,
+    selectedRaster.fileData,
+    showRaster,
+  ]);
+
   return {
     showRaster,
     selectedRaster,
     opacity,
     gradientColors,
     renderRaster,
+    renderLimits,
   };
 };

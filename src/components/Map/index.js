@@ -24,7 +24,10 @@ import { useRasters } from '../../hooks/useRasters';
 import { useMapPosition } from '../../hooks/useMapPosition';
 
 const MapContainer = ({ google }) => {
-  const { renderRaster } = useRasters();
+  const {
+    renderRaster,
+    // renderLimits
+  } = useRasters();
   const dispatch = useDispatch();
   const {
     showHydroMetricStations,
@@ -215,6 +218,7 @@ const MapContainer = ({ google }) => {
         {renderStreams()}
         {renderBasins()}
         {renderRaster()}
+        {/* {renderLimits()} */}
       </Map>
     </div>
   );
