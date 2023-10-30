@@ -1,4 +1,10 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+} from 'react';
 import initServiceInterceptors from '../services';
 import { fetchStations } from '../services/backend';
 import { fetchStreams } from '../services/Streams';
@@ -42,7 +48,7 @@ const AppDataProvider = ({ children }) => {
   const [basins, setBasins] = useState([]);
   const [streams, setStreams] = useState([]);
 
-  const fetchInitialData = () => {
+  const fetchInitialData = useCallback(() => {
     dispatch(latestObservationsRequest(dateFrom, dateTo));
     dispatch(accumulationDataRequest(dateFrom, dateTo));
     Promise.all([
@@ -51,31 +57,54 @@ const AppDataProvider = ({ children }) => {
       fetchBasins(),
       fetchStreams(),
     ])
-      .then(([data, stations, basins, streams]) => {
+      .then(([, _stations, _basins, _streams]) => {
         //fetch data in here
-        setStations(stations);
-        setBasins(basins);
-        setStreams(streams);
+        setStations(_stations);
+        setBasins(_basins);
+        setStreams(_streams);
       })
       .finally(() => {
         setLoading(false);
       });
-  };
+  }, [
+    accumulationDataRequest,
+    dateFrom,
+    dateTo,
+    dispatch,
+    latestObservationsRequest,
+  ]);
 
-  const syncAccumulationData = () => {
+  const syncAccumulationData = useCallback(() => {
     dispatch(latestObservationsRequest(dateFrom, dateTo));
     dispatch(accumulationDataRequest(dateFrom, dateTo));
-  };
+  }, [
+    accumulationDataRequest,
+    dateFrom,
+    dateTo,
+    dispatch,
+    latestObservationsRequest,
+  ]);
 
   useEffect(() => {
-    process.env.REACT_APP_ENV === 'development' &&
-      config.serviceInterceptors &&
+    if (
+      process.env.REACT_APP_ENV === 'development' &&
+      config.serviceInterceptors
+    ) {
       initServiceInterceptors();
+    }
     const loginHandler = loadAuthHandler({ credentials, logout });
     if (loading) fetchInitialData();
     else syncAccumulationData();
     return () => removeAuthHandler(loginHandler);
-  }, [dateFrom, dateTo]);
+  }, [
+    credentials,
+    dateFrom,
+    dateTo,
+    fetchInitialData,
+    loading,
+    logout,
+    syncAccumulationData,
+  ]);
 
   const contextStore = {
     fetchStartDate,

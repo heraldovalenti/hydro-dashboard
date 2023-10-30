@@ -44,7 +44,7 @@ const Main = () => {
             <Controls />
           </SlideDrawer>
           <Header
-            title={<img src={LogoAES} height={50} />}
+            title={<img src={LogoAES} height={50} alt="aes-logo" />}
             subtitle={t('page_header_text')}
           />
           <Visualizations />

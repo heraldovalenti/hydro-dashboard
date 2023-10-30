@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Refresh, Close } from '@material-ui/icons';
 import {
   Box,
@@ -17,17 +17,20 @@ const ForecastInfo = ({ onClose }) => {
   const { loading: appLoading } = useAppData();
   const [loading, setLoading] = useState(false);
   const [forecast, setForecast] = useState({ forecasts: [], time: null });
-  const loadForecast = async (refresh = false) => {
-    if (!loading) {
-      setLoading(true);
-      const responseForecast = await fetchForecast(refresh);
-      setForecast(responseForecast);
-      setLoading(false);
-    }
-  };
+  const loadForecast = useCallback(
+    async (refresh = false) => {
+      if (!loading) {
+        setLoading(true);
+        const responseForecast = await fetchForecast(refresh);
+        setForecast(responseForecast);
+        setLoading(false);
+      }
+    },
+    [loading]
+  );
   useEffect(() => {
     if (!appLoading) loadForecast();
-  }, [appLoading]);
+  }, [appLoading, loadForecast]);
   const { t } = useTranslation();
   return (
     <Container

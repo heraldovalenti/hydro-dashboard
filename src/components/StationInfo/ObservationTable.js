@@ -7,6 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { getAesTimeString } from '../../utils/date';
 import { useTranslation } from 'react-i18next';
@@ -20,10 +21,12 @@ const useStyles = makeStyles({
   },
 });
 
-const ObservationTable = ({ observations }) => {
+const ObservationTable = ({ observations, loading }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-
+  if (loading) {
+    return <CircularProgress />;
+  }
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} size="small" aria-label="a dense table">

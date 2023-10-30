@@ -41,11 +41,11 @@ export const useRasters = () => {
 
     // zooms> z=5/r=3 z=6/r=6 z=7/r=10 z=8/r=18 z=9/r=30(32)
     const zoomRadius = {
-      [5]: 3,
-      [6]: 6,
-      [7]: 10,
-      [8]: 18,
-      [9]: 32,
+      5: 3,
+      6: 6,
+      7: 10,
+      8: 18,
+      9: 32,
     };
     const zoom = mapPosition.zoom;
     let radius = 3;

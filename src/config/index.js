@@ -12,7 +12,7 @@ const environmentConfig = {
   test,
   staging,
   local,
-  ['aes-server']: aesServer,
+  'aes-server': aesServer,
 };
 
 const config = {
