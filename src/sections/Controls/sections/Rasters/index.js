@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RadioGroup from '../../../../components/RadioGroup';
-import { useRasterContext } from '../../../../contexts/Raster';
+import { useRasterContext } from '../../../../providers/RastersProvider';
 import { BlueSlider } from '../../components/BlueSlider';
 import CollapsiblePanel from '../../components/CollapsiblePanel';
 import LayerFilter from '../MapLayers/layerFilter';

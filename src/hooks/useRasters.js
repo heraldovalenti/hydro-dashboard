@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useRef } from 'react';
 import { HeatMap, Marker } from 'google-maps-react';
-import { useRasterContext } from '../contexts/Raster';
+import { useRasterContext } from '../providers/RastersProvider';
 import { useSelector } from 'react-redux';
 import { transformRasterData } from '../utils/transformRasterData';
 

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { allRasters, rasterTypes } from '../../services/Rasters';
+import { allRasters, rasterTypes } from '../services/Rasters';
 
 const RasterContext = createContext({});
 const gradientColors = [
