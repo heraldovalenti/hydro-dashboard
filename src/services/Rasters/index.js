@@ -7,7 +7,7 @@ export const rasterTypes = {
 };
 
 export const allRasters = async ({ type, from, to }) => {
-  let result = [];
+  let result = { fileList: [], total: 0 };
   // return require('./mock.json');
   // return result;
   try {
@@ -28,13 +28,13 @@ export const allRasters = async ({ type, from, to }) => {
 };
 
 export const listRasters = async () => {
-  let result = [];
+  let result = { fileList: [], total: 0 };
   try {
     const response = await axios({
       method: 'get',
       url: `${config.rastersURL}/list`,
     });
-    result = response.data.map((fileDescriptor) => {
+    result = response.data.fileList.map((fileDescriptor) => {
       const { name, date } = fileDescriptor;
       return { name, date };
     });

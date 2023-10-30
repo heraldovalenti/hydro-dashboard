@@ -1,6 +1,6 @@
 import { listRasters } from '.';
 
-test.skip('list raster test', async () => {
+test('list raster test', async () => {
   const list = await listRasters();
-  expect(list).toHaveLength(156);
+  expect(list).toHaveLength(3);
 }, 20_000);
