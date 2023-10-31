@@ -42,8 +42,9 @@ export default ({ stationId, sdo, dateFrom, dateTo, accumulation }) => {
 
   useEffect(() => {
     const loadAllObservations = async () => {
-      const result = await fetchObservationsPage(1, 1000);
-      setAllObservations(result.content);
+      const { content } = await fetchObservationsPage(1, 1000);
+      content.sort((o1, o2) => new Date(o1.time) - new Date(o2.time));
+      setAllObservations(content);
       setLoadingAll(false);
     };
     loadAllObservations();
