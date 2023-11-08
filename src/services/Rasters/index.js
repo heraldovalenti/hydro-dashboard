@@ -7,13 +7,11 @@ export const rasterTypes = {
 };
 
 export const allRasters = async ({ type, from, to }) => {
-  let result = { fileList: [], total: 0 };
-  // return require('./mock.json');
-  // return result;
+  const result = { fileList: [], total: 0 };
   try {
     const response = await axios({
       method: 'get',
-      url: `${config.rastersURL}/all`,
+      url: `${config.rastersURL}${config.api.rasters}/all`,
       params: {
         type,
         from,
@@ -32,7 +30,7 @@ export const listRasters = async () => {
   try {
     const response = await axios({
       method: 'get',
-      url: `${config.rastersURL}/list`,
+      url: `${config.rastersURL}${config.api.rasters}/list`,
     });
     result = response.data.fileList.map((fileDescriptor) => {
       const { name, date } = fileDescriptor;
@@ -47,7 +45,9 @@ export const listRasters = async () => {
 export const getRaster = async (item) => {
   let result = [];
   try {
-    const url = `${config.rastersURL}/get?fileName=${encodeURIComponent(item)}`;
+    const url = `${config.rastersURL}${
+      config.api.rasters
+    }/get?fileName=${encodeURIComponent(item)}`;
     const response = await axios({
       method: 'get',
       url,

@@ -12,6 +12,7 @@ const config = {
     forecastRefresh: '/api/forecast/refresh',
     aes: '/api/aes',
     healthCheck: '/api/health-check',
+    rasters: '/rasters',
   },
   maps: {
     key: 'AIzaSyCnILw5Ddl2uXfyvFgEtPHTw-su8JlQzA8',
@@ -20,8 +21,7 @@ const config = {
     rainId: 3,
     levelId: 1,
   },
-  rastersURL:
-    'https://us-central1-hydro-dashboard-283320.cloudfunctions.net/rasters',
+  rastersURL: 'https://us-central1-hydro-dashboard-283320.cloudfunctions.net',
 };
 
 export default config;
