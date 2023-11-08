@@ -12,13 +12,13 @@ export function* onAccumulationData() {
 function* accumulationData(action) {
   try {
     const { dateFrom, dateTo } = action.payload;
-    const accumulationData = yield call(
+    const accumulationDataResponse = yield call(
       fetchAccumulationData,
       dateFrom,
       dateTo
     );
     yield put(
-      accumulationDataActions.accumulationDataSuccess(accumulationData)
+      accumulationDataActions.accumulationDataSuccess(accumulationDataResponse)
     );
   } catch (error) {
     yield put(accumulationDataActions.accumulationDataFail(error));
