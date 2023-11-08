@@ -50,7 +50,8 @@ export const RasterProvider = ({ children }) => {
       setLoading(false);
       setRastersData([...r1.fileList, ...r2.fileList]);
     };
-    fetch();
+    setTimeout(() => fetch(), 1000); // to allow interceptors be initialized
+    // fetch();
   }, []);
   return (
     <RasterContext.Provider

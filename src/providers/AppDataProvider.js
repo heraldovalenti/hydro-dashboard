@@ -84,7 +84,6 @@ const AppDataProvider = ({ children }) => {
     dispatch,
     latestObservationsRequest,
   ]);
-
   useEffect(() => {
     if (
       process.env.REACT_APP_ENV === 'development' &&
@@ -92,6 +91,8 @@ const AppDataProvider = ({ children }) => {
     ) {
       initServiceInterceptors();
     }
+  }, []);
+  useEffect(() => {
     const loginHandler = loadAuthHandler({ credentials, logout });
     if (loading) fetchInitialData();
     else syncAccumulationData();
