@@ -1,8 +1,18 @@
-const saveInterception = ({ path, response, status }) => {
-  window.localStorage[path] = JSON.stringify({ response, status });
+const saveInterception = ({
+  url,
+  response,
+  status,
+  // params
+}) => {
+  const { pathname } = new URL(url);
+  window.localStorage[pathname] = JSON.stringify({ response, status });
 };
 
-const getInterception = (path) => {
-  return JSON.parse(window.localStorage.getItem(path));
+const getInterception = ({
+  url,
+  // params
+}) => {
+  const { pathname } = new URL(url);
+  return JSON.parse(window.localStorage.getItem(pathname));
 };
 export { saveInterception, getInterception };
