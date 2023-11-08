@@ -1,16 +1,5 @@
 import config from '../../config';
-import { fetchRainData, fetchLevelData, periodForHours } from '../backend';
-
-describe('fetch rain data verification', () => {
-  it('basic scenario', async () => {
-    console.log(config.baseURL);
-    console.log(config.constants.rainId);
-    console.log(config.api.rainAccumulation);
-    const result = await fetchRainData(27, 24);
-    expect(result).toBeDefined();
-    console.log(JSON.stringify(result));
-  });
-});
+import { fetchLevelData, periodForHours } from '../backend';
 
 describe('fetch level data verification', () => {
   it('basic scenario', async () => {
