@@ -12,7 +12,7 @@ export const fetchBasins = async () => {
     const { data } = response;
     return data;
   } catch (e) {
-    console.log(`Error fetching basins: ${e}`);
+    console.warn(`Error fetching basins: ${e}`);
     return [];
   }
 };
@@ -26,7 +26,7 @@ export const fetchStations = async () => {
     const { data } = response;
     return data;
   } catch (e) {
-    console.log(`Error fetching stations: ${e}`);
+    console.warn(`Error fetching stations: ${e}`);
     return [];
   }
 };
@@ -52,7 +52,7 @@ export const fetchRainData = async (stationId, dateFrom, dateTo) => {
       accumulation: accumulationResponse.data,
     };
   } catch (e) {
-    console.log(`Error fetching station rain data: ${e}`);
+    console.warn(`Error fetching station rain data: ${e}`);
     return {};
   }
 };
@@ -70,7 +70,7 @@ export const fetchAccumulationData = async (dateFrom, dateTo) => {
     });
     return accumulationDataResponse.data;
   } catch (e) {
-    console.log(`Error fetching accumulation data: ${e}`);
+    console.warn(`Error fetching accumulation data: ${e}`);
     return [];
   }
 };
@@ -88,7 +88,7 @@ export const fetchLevelData = async (stationId, dateFrom, dateTo) => {
       observations: observationsResponse.data,
     };
   } catch (e) {
-    console.log(`Error fetching station level data: ${e}`);
+    console.warn(`Error fetching station level data: ${e}`);
     return {};
   }
 };
@@ -111,7 +111,7 @@ export const fetchObservations = async (
     });
     return observationsResponse.data;
   } catch (e) {
-    console.log(`Error fetching observations: ${e}`);
+    console.warn(`Error fetching observations: ${e}`);
     return [];
   }
 };
@@ -141,7 +141,7 @@ export const fetchSDOObservations = async (
     });
     return observationsResponse.data;
   } catch (e) {
-    console.log(`Error fetching observations: ${e}`);
+    console.warn(`Error fetching observations: ${e}`);
     return [];
   }
 };
@@ -163,7 +163,7 @@ export const fetchLatestbservations = async (dimensionId, dateFrom, dateTo) => {
     });
     return response.data;
   } catch (e) {
-    console.log(`Error fetching latest observations: ${e}`);
+    console.warn(`Error fetching latest observations: ${e}`);
     return [];
   }
 };
@@ -190,7 +190,7 @@ export const fetchForecast = async (refresh = false) => {
     });
     return response.data;
   } catch (e) {
-    console.log(`Error fetching forecast (refreshing: ${refresh}): ${e}`);
+    console.warn(`Error fetching forecast (refreshing: ${refresh}): ${e}`);
     return {};
   }
 };

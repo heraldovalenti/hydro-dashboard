@@ -22,7 +22,7 @@ export const allRasters = async ({ type, from, to }) => {
     });
     return response.data;
   } catch (e) {
-    console.error(`Error retrieving all rasters data: ${e.toString()}`);
+    console.warn(`Error retrieving all rasters data: ${e.toString()}`);
   }
   return result;
 };
@@ -39,7 +39,7 @@ export const listRasters = async () => {
       return { name, date };
     });
   } catch (e) {
-    console.error(`Error retrieving rasters list: ${e.toString()}`);
+    console.warn(`Error retrieving rasters list: ${e.toString()}`);
   }
   return result;
 };
@@ -54,7 +54,7 @@ export const getRaster = async (item) => {
     });
     result = response.data;
   } catch (e) {
-    console.error(`Error retrieving raster ${item}: ${e.toString()}`);
+    console.warn(`Error retrieving raster ${item}: ${e.toString()}`);
   }
   return result;
 };
