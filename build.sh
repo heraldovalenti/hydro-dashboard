@@ -2,6 +2,7 @@
 
 DOCKER_BUILDER=node:16-alpine
 DOCKER_TAG=us-central1-docker.pkg.dev/hydro-dashboard-283320/aes-docker-repo/aes-web
+SKIP_APP_BUILD=0
 
 VERSION=$1
 if [[ -z $VERSION ]]
@@ -17,26 +18,36 @@ then
   exit 1
 fi
 
-docker run --rm \
-    -w /aes \
-    -v $HOME/.npm:/root/.npm \
-    -v $HOME/.yarn:/root/.yarn \
-    -v $PWD:/aes \
-    $DOCKER_BUILDER yarn
+for ARG in $@
+do
+  if [[ $ARG == "--skipAppBuild" ]]; then SKIP_APP_BUILD=1; fi
+done
 
-docker run --rm \
-    -w /aes \
-    -v $HOME/.npm:/root/.npm \
-    -v $HOME/.yarn:/root/.yarn \
-    -v $PWD:/aes \
-    $DOCKER_BUILDER yarn clean
+if [[ $SKIP_APP_BUILD == 0 ]]; then
+  echo "executing app build..."
+  docker run --rm \
+      -w /aes \
+      -v $HOME/.npm:/root/.npm \
+      -v $HOME/.yarn:/root/.yarn \
+      -v $PWD:/aes \
+      $DOCKER_BUILDER yarn
 
-docker run --rm \
-    -w /aes \
-    -v $HOME/.npm:/root/.npm \
-    -v $HOME/.yarn:/root/.yarn \
-    -v $PWD:/aes \
-    $DOCKER_BUILDER yarn build:aes-server
+  docker run --rm \
+      -w /aes \
+      -v $HOME/.npm:/root/.npm \
+      -v $HOME/.yarn:/root/.yarn \
+      -v $PWD:/aes \
+      $DOCKER_BUILDER yarn clean
+
+  docker run --rm \
+      -w /aes \
+      -v $HOME/.npm:/root/.npm \
+      -v $HOME/.yarn:/root/.yarn \
+      -v $PWD:/aes \
+      $DOCKER_BUILDER yarn build:aes-server
+else
+  echo "skipping app build..."
+fi
 
 docker build -t aes-web:$VERSION .
 
