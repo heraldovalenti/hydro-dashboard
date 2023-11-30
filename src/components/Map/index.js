@@ -22,6 +22,7 @@ import {
 import { updateZoomAndCenterAction } from '../../reducers/mapPosition';
 import { useRasters } from '../../hooks/useRasters';
 import { useMapPosition } from '../../hooks/useMapPosition';
+import { useStationFilters } from '../../hooks/useStationFilters';
 
 const MapContainer = ({ google }) => {
   const {
@@ -29,27 +30,18 @@ const MapContainer = ({ google }) => {
     // renderLimits
   } = useRasters();
   const dispatch = useDispatch();
+  const { accumulationData, latestObservations } = useSelector((state) => {
+    return {
+      accumulationData: state.accumulationData.accumulationData,
+      latestObservations: state.latestObservations.latestObservations,
+    };
+  });
   const {
     showHydroMetricStations,
     showWeatherStations,
     showStreams,
     showBasins,
-    accumulationData,
-    latestObservations,
-  } = useSelector((state) => {
-    const accumulationLoading = state.accumulationData.loading;
-    const latestObservationsLoading = state.latestObservations.loading;
-    const loading = accumulationLoading || latestObservationsLoading;
-    return {
-      showHydroMetricStations:
-        !loading && state.mapFilter.showHydroMetricStations,
-      showWeatherStations: !loading && state.mapFilter.showWeatherStations,
-      showStreams: state.mapFilter.showStreams,
-      showBasins: state.mapFilter.showBasins,
-      accumulationData: state.accumulationData.accumulationData,
-      latestObservations: state.latestObservations.latestObservations,
-    };
-  });
+  } = useStationFilters();
   const { mapPosition, initialZoom, initialCenter } = useMapPosition();
   const { streams, basins, stations } = useAppData();
   const history = useHistory();
