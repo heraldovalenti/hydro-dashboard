@@ -91,7 +91,7 @@ export const AesConfig = ({ onClose }) => {
                   </IconButton>
                   <IconButton
                     onClick={() =>
-                      update({ ...authTokens, rtFa: fedAuthToken.trim() })
+                      update({ ...authTokens, rtFa: rtFaToken.trim() })
                     }
                   >
                     <Save />
