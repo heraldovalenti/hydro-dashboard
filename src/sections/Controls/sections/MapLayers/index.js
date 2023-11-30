@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { mapFilterActions } from '../../../../reducers/mapFilter';
 import { useTranslation } from 'react-i18next';
 import LayerFilter from './layerFilter';
+import { useStationFilters } from '../../../../hooks/useStationFilters';
 
 const MapLayers = (props) => {
   const {
@@ -13,11 +14,15 @@ const MapLayers = (props) => {
     showWeatherStations,
     showStreams,
     showBasins,
+    hideEmptyStations,
+  } = useStationFilters();
+  const {
     mapFilterActions: {
       toggleHydroMetricStations,
       toggleWeatherStations,
       toggleStreams,
       toggleBasins,
+      toggleEmptyStationsStations,
     },
   } = props;
   const { t } = useTranslation();
@@ -44,17 +49,14 @@ const MapLayers = (props) => {
           checked={showBasins}
           description={t('control_panel_layers_basins')}
         />
+        <LayerFilter
+          onClick={toggleEmptyStationsStations}
+          checked={hideEmptyStations}
+          description={t('control_panel_layers_empty_stations')}
+        />
       </div>
     </CollapsiblePanel>
   );
-};
-const mapStateToProps = (state) => {
-  return {
-    showHydroMetricStations: state.mapFilter.showHydroMetricStations,
-    showWeatherStations: state.mapFilter.showWeatherStations,
-    showStreams: state.mapFilter.showStreams,
-    showBasins: state.mapFilter.showBasins,
-  };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -62,4 +64,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MapLayers);
+export default connect(undefined, mapDispatchToProps)(MapLayers);

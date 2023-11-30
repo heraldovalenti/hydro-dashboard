@@ -6,6 +6,7 @@ export const useStationFilters = () => {
     showWeatherStations,
     showStreams,
     showBasins,
+    hideEmptyStations,
   } = useSelector((state) => {
     const accumulationLoading = state.accumulationData.loading;
     const latestObservationsLoading = state.latestObservations.loading;
@@ -16,6 +17,7 @@ export const useStationFilters = () => {
       showWeatherStations: !loading && state.mapFilter.showWeatherStations,
       showStreams: state.mapFilter.showStreams,
       showBasins: state.mapFilter.showBasins,
+      hideEmptyStations: state.mapFilter.hideEmptyStations,
     };
   });
 
@@ -24,5 +26,6 @@ export const useStationFilters = () => {
     showWeatherStations,
     showStreams,
     showBasins,
+    hideEmptyStations,
   };
 };

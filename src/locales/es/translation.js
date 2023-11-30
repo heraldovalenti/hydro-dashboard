@@ -14,6 +14,7 @@ export default {
   control_panel_layers_weather_stations: 'Estaciones meteorológicas',
   control_panel_layers_streams: 'Cauces',
   control_panel_layers_basins: 'Cuencas',
+  control_panel_layers_empty_stations: 'Ocultar estaciones sin datos',
 
   control_panel_filters_title: 'Intervalo de tiempo',
   control_panel_filters_last_0_hours: 'Personalizado',

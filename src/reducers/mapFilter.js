@@ -3,6 +3,7 @@ const initialState = {
   showWeatherStations: true,
   showStreams: true,
   showBasins: true,
+  hideEmptyStations: false,
 };
 
 const MAP_FILTER_TOGGLE_HYDRO_METRIC_STATIONS =
@@ -10,6 +11,7 @@ const MAP_FILTER_TOGGLE_HYDRO_METRIC_STATIONS =
 const MAP_FILTER_TOGGLE_WEATHER_STATIONS = 'MAP_FILTER_TOGGLE_WEATHER_STATIONS';
 const MAP_FILTER_TOGGLE_STREAMS = 'MAP_FILTER_TOGGLE_STREAMS';
 const MAP_FILTER_TOGGLE_BASINS = 'MAP_FILTER_TOGGLE_BASINS';
+const MAP_FILTER_TOGGLE_EMPTY_STATIONS = 'MAP_FILTER_TOGGLE_EMPTY_STATIONS';
 
 const toggleHydroMetricStations = () => {
   return {
@@ -35,6 +37,12 @@ const toggleBasins = () => {
   };
 };
 
+const toggleEmptyStationsStations = () => {
+  return {
+    type: MAP_FILTER_TOGGLE_EMPTY_STATIONS,
+  };
+};
+
 export const mapFilterReducer = (state = initialState, action) => {
   switch (action.type) {
     case MAP_FILTER_TOGGLE_HYDRO_METRIC_STATIONS:
@@ -57,6 +65,11 @@ export const mapFilterReducer = (state = initialState, action) => {
         ...state,
         showBasins: !state.showBasins,
       };
+    case MAP_FILTER_TOGGLE_EMPTY_STATIONS:
+      return {
+        ...state,
+        hideEmptyStations: !state.hideEmptyStations,
+      };
     default:
       return { ...state };
   }
@@ -67,4 +80,5 @@ export const mapFilterActions = {
   toggleWeatherStations,
   toggleStreams,
   toggleBasins,
+  toggleEmptyStationsStations,
 };
