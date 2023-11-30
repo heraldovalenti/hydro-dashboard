@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { updateAuthToken } from '../../services/aes';
+import { updateAuthTokens } from '../../services/aes';
 import { queryKeys } from '../../constants';
 
-export const useUpdateAuthToken = () => {
+export const useUpdateAuthTokens = () => {
   const queryClient = useQueryClient();
   const { isLoading, mutateAsync } = useMutation(
-    (token) => updateAuthToken(token),
+    (authTokens) => updateAuthTokens(authTokens),
     {
       onSuccess: () => queryClient.invalidateQueries(queryKeys.AES_AUTH_TOKEN),
     }

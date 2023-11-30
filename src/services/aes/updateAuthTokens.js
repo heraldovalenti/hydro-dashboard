@@ -1,9 +1,9 @@
 import axios from 'axios';
 import config from '../../config';
 
-export const updateAuthToken = async (token) => {
-  const data = { value: token };
-  const url = `${config.baseURL}${config.api.aes}/authToken`;
+export const updateAuthTokens = async ({ fedAuth, rtFa }) => {
+  const data = { fedAuth, rtFa };
+  const url = `${config.baseURL}${config.api.aes}/authTokens`;
   try {
     const response = await axios({
       url,

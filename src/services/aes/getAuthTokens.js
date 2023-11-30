@@ -1,8 +1,8 @@
 import axios from 'axios';
 import config from '../../config';
 
-export const getAuthToken = async () => {
-  const url = `${config.baseURL}${config.api.aes}/authToken`;
+export const getAuthTokens = async () => {
+  const url = `${config.baseURL}${config.api.aes}/authTokens`;
   try {
     const response = await axios({
       url,
