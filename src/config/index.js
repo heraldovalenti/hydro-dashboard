@@ -4,6 +4,7 @@ import production from './production';
 import test from './test';
 import staging from './staging';
 import local from './local';
+import aesServer from './aes-server';
 
 const environmentConfig = {
   development,
@@ -11,6 +12,7 @@ const environmentConfig = {
   test,
   staging,
   local,
+  ['aes-server']: aesServer,
 };
 
 const config = {

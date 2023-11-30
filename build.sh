@@ -1,16 +1,48 @@
-#/bin/bash
-docker run --rm \
-    -w /aes \
-    -v $HOME/.npm:/root/.npm \
-    -v $HOME/.yarn:/root/.yarn \
-    -v $PWD:/aes \
-    node:14-alpine yarn
+#!/bin/bash
+
+DOCKER_BUILDER=node:16-alpine
+DOCKER_TAG=us-central1-docker.pkg.dev/hydro-dashboard-283320/aes-docker-repo/aes-web
+
+VERSION=$1
+if [[ -z $VERSION ]]
+then
+  echo "Missing Version argument"
+  exit 1
+fi
+
+VERSION_EXISTS=$(git tag --list | grep $VERSION | wc -l)
+if [[ $VERSION_EXISTS -gt 0 ]]
+then
+  echo "Version $VERSION already exists"
+  exit 1
+fi
 
 docker run --rm \
     -w /aes \
     -v $HOME/.npm:/root/.npm \
     -v $HOME/.yarn:/root/.yarn \
     -v $PWD:/aes \
-    node:14-alpine yarn build:local
+    $DOCKER_BUILDER yarn
 
-docker build -t aes-web .
+docker run --rm \
+    -w /aes \
+    -v $HOME/.npm:/root/.npm \
+    -v $HOME/.yarn:/root/.yarn \
+    -v $PWD:/aes \
+    $DOCKER_BUILDER yarn clean
+
+docker run --rm \
+    -w /aes \
+    -v $HOME/.npm:/root/.npm \
+    -v $HOME/.yarn:/root/.yarn \
+    -v $PWD:/aes \
+    $DOCKER_BUILDER yarn build:aes-server
+
+docker build -t aes-web:$VERSION .
+
+docker tag aes-web:$VERSION $DOCKER_TAG:$VERSION
+
+docker push $DOCKER_TAG:$VERSION
+
+git tag $VERSION
+git push origin $VERSION
