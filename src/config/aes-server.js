@@ -1,5 +1,5 @@
 const config = {
-  baseURL: 'http://10.186.4.68:8080',
+  baseURL: process.env.PUBLIC_URL,
 };
 
 export default config;
