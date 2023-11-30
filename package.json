@@ -48,7 +48,7 @@
     "build:staging": "env-cmd -f .env.staging npm run build",
     "build:development": "env-cmd -f .env.development npm run build",
     "build:production": "env-cmd -f .env.production npm run build",
-    "build:aes-server": "env-cmd -f .env.aes-server npm run build",
+    "build:aes-server": "env-cmd -f conf/.env npm run build",
     "test": "react-scripts test --coverage --watchAll=false",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
