@@ -4,7 +4,7 @@ import { fetchLevelData, periodForHours } from '../backend';
 describe('fetch level data verification', () => {
   it('basic scenario', async () => {
     console.log(config.baseURL);
-    console.log(config.constants.rainId);
+    console.log(config.constants.dimensions.rainId);
     console.log(config.api.rainAccumulation);
     const result = await fetchLevelData(27, 24);
     expect(result).toBeDefined();

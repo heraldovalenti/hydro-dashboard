@@ -72,7 +72,7 @@ export const fetchAccumulationData = async (dateFrom, dateTo) => {
 };
 
 export const fetchLevelData = async (stationId, dateFrom, dateTo) => {
-  const url = `${config.baseURL}${config.api.observations}/${stationId}/${config.constants.levelId}`;
+  const url = `${config.baseURL}${config.api.observations}/${stationId}/${config.constants.dimensions.levelId}`;
   if (config.serviceInterceptors) {
     const mockResponse = getInterception({ url });
     if (mockResponse) {

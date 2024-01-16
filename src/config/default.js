@@ -18,8 +18,10 @@ const config = {
     key: 'AIzaSyCnILw5Ddl2uXfyvFgEtPHTw-su8JlQzA8',
   },
   constants: {
-    rainId: 3,
-    levelId: 1,
+    dimensions: {
+      rainId: 3,
+      levelId: 1,
+    },
   },
   rastersURL: 'https://us-central1-hydro-dashboard-283320.cloudfunctions.net',
 };

@@ -14,13 +14,6 @@ const config = {
     healthCheck: '/api/health-check',
     rasters: '/rasters',
   },
-  maps: {
-    key: 'AIzaSyCnILw5Ddl2uXfyvFgEtPHTw-su8JlQzA8',
-  },
-  constants: {
-    rainId: 3,
-    levelId: 1,
-  },
   rastersURL: 'https://us-central1-hydro-dashboard-283320.cloudfunctions.net',
 };
 
