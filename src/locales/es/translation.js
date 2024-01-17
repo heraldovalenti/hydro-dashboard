@@ -43,6 +43,7 @@ export default {
   station_info_header_datetime: 'Fecha y hora',
   station_info_header_value: 'Valor observado',
   station_info_header_unit: 'Unidad',
+  station_info_link_description: 'Ver origen de datos en {{origin}}',
 
   auth_form_username_label: 'Nombre de usuario',
   auth_form_password_label: 'Contraseña',

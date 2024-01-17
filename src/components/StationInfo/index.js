@@ -11,6 +11,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import { isHQModelStationDataOrigin } from './stationUtil';
+import { StationOriginLink } from './StationOriginLink';
 
 const StationInfo = ({ station, dateFrom, dateTo, accumulation, onClose }) => {
   const [value, setValue] = useState(0);
@@ -40,6 +41,9 @@ const StationInfo = ({ station, dateFrom, dateTo, accumulation, onClose }) => {
             <CloseIcon />
           </IconButton>
         </Box>
+      </Box>
+      <Box>
+        <StationOriginLink station={station} />
       </Box>
       <Box>
         <AppBar position="static">
