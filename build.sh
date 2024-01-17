@@ -1,7 +1,8 @@
 #!/bin/bash
 
+IMAGE_NAME=aes-web
 DOCKER_BUILDER=node:16-alpine
-DOCKER_TAG=us-central1-docker.pkg.dev/hydro-dashboard-283320/aes-docker-repo/aes-web
+DOCKER_TAG=us-central1-docker.pkg.dev/hydro-dashboard-283320/aes-docker-repo/$IMAGE_NAME
 SKIP_APP_BUILD=0
 
 VERSION=$1
@@ -49,9 +50,9 @@ else
   echo "skipping app build..."
 fi
 
-docker build -t aes-web:$VERSION .
+docker build -t $IMAGE_NAME:$VERSION .
 
-docker tag aes-web:$VERSION $DOCKER_TAG:$VERSION
+docker tag $IMAGE_NAME:$VERSION $DOCKER_TAG:$VERSION
 
 docker push $DOCKER_TAG:$VERSION
 
