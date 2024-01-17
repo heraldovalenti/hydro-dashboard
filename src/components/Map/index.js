@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   Map,
   Marker,
@@ -8,7 +8,7 @@ import {
 } from 'google-maps-react';
 import dropIcon from '../../components/Icons/drop-icon.png';
 import levelIcon from '../../components/Icons/level-icon.png';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useAppData } from '../../providers/AppDataProvider';
 import { useHistory } from 'react-router-dom';
 import config from '../../config';
@@ -19,7 +19,6 @@ import {
   HQOservation,
   levelDimension,
 } from '../StationInfo/stationUtil';
-import { updateZoomAndCenterAction } from '../../reducers/mapPosition';
 import { useRasters } from '../../hooks/useRasters';
 import { useMapPosition } from '../../hooks/useMapPosition';
 import { useStationFilters } from '../../hooks/useStationFilters';
@@ -30,7 +29,6 @@ const MapContainer = ({ google }) => {
     renderRaster,
     // renderLimits
   } = useRasters();
-  const dispatch = useDispatch();
   const { accumulationData, latestObservations } = useSelector((state) => {
     return {
       accumulationData: state.accumulationData.accumulationData,
@@ -44,7 +42,12 @@ const MapContainer = ({ google }) => {
     showBasins,
     hideEmptyStations,
   } = useStationFilters();
-  const { mapPosition, initialZoom, initialCenter } = useMapPosition();
+  const {
+    mapPosition,
+    initialZoom,
+    initialCenter,
+    updateZoomAndCenter,
+  } = useMapPosition();
   const { streams, basins, stations } = useAppData();
   const history = useHistory();
   const weatherStations = stations.filter((s) => {
@@ -60,20 +63,27 @@ const MapContainer = ({ google }) => {
     return levelOrigins.length > 0;
   });
 
-  // eslint-disable-next-line no-unused-vars
-  const onMarkerClick = ({ stationId }, _marker, _e) => {
-    const selectedStation = stations.filter((s) => s.id === stationId)[0];
-    const location = {
-      pathname: `${ROUTE_STATION_INFO_PAGE}/${selectedStation.id}`,
-    };
-    dispatch(
-      updateZoomAndCenterAction({
+  const onMarkerClick = useCallback(
+    // eslint-disable-next-line no-unused-vars
+    ({ stationId }, _marker, _e) => {
+      const selectedStation = stations.filter((s) => s.id === stationId)[0];
+      const location = {
+        pathname: `${ROUTE_STATION_INFO_PAGE}/${selectedStation.id}`,
+      };
+      updateZoomAndCenter({
         zoom: mapPosition.zoom,
         center: mapPosition.center,
-      })
-    );
-    history.push(location);
-  };
+      });
+      history.push(location);
+    },
+    [
+      history,
+      mapPosition.center,
+      mapPosition.zoom,
+      stations,
+      updateZoomAndCenter,
+    ]
+  );
 
   const renderHydroMetricStations = () => {
     if (!showHydroMetricStations) {
