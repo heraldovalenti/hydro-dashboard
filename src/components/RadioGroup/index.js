@@ -12,9 +12,9 @@ export default (props) => (
       value={props.value}
       onChange={(event) => props.onChange(event.target.value)}
     >
-      {props.items.map((item) => (
+      {props.items.map((item, index) => (
         <FormControlLabel
-          key={item.value}
+          key={`${item.value}_${index}`}
           value={item.value}
           control={<Radio />}
           label={item.label}
