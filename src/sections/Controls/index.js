@@ -8,6 +8,7 @@ import { AuthContext } from '../../providers/AuthProvider';
 import { useHistory } from 'react-router-dom';
 import { FORECAST_PAGE } from '../../pages/Routes';
 import { Rasters } from './sections/Rasters';
+import { BasinFilter } from './sections/BasinFilter';
 
 export default function Controls() {
   const { logout } = useContext(AuthContext);
@@ -27,6 +28,7 @@ export default function Controls() {
       <MapLayers />
       <DataFilter />
       <Rasters />
+      <BasinFilter />
       <Button
         variant="contained"
         color="primary"

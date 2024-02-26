@@ -16,6 +16,9 @@ export default {
   control_panel_layers_basins: 'Cuencas',
   control_panel_layers_empty_stations: 'Ocultar estaciones sin datos',
 
+  control_panel_layers_basins_filter_title: 'Cuencas visibles',
+  control_panel_layers_basins_filter_item: 'Cuenca {{basin}}',
+
   control_panel_filters_title: 'Intervalo de tiempo',
   control_panel_filters_last_0_hours: 'Personalizado',
   control_panel_filters_last_1_hours: 'Última hora',

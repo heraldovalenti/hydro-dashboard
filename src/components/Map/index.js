@@ -34,6 +34,7 @@ import {
   // DefaultRenderer,
   SuperClusterAlgorithm,
 } from '@googlemaps/markerclusterer';
+import { useBasinFilter } from '../../hooks/useBasinFilter';
 
 const MapContainer = ({ google }) => {
   const {
@@ -59,6 +60,7 @@ const MapContainer = ({ google }) => {
     initialCenter,
     updateZoomAndCenter,
   } = useMapPosition();
+  const { shouldHideBasin } = useBasinFilter();
   const { streams, basins, stations } = useAppData();
   const history = useHistory();
   const weatherStations = useMemo(() => {
@@ -194,6 +196,9 @@ const MapContainer = ({ google }) => {
     }
     return basins.map((basin) => {
       const { id, color, path } = basin;
+      if (shouldHideBasin(id)) {
+        return null;
+      }
       return (
         <Polygon
           key={id}
