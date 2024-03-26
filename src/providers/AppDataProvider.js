@@ -5,11 +5,9 @@ import React, {
   useContext,
   useCallback,
 } from 'react';
-import initServiceInterceptors from '../services';
 import { fetchStations } from '../services/backend';
 import { fetchStreams } from '../services/Streams';
 import { fetchBasins } from '../services/Basins';
-import config from '../config';
 import { useAuth } from './AuthProvider';
 import { loadAuthHandler, removeAuthHandler } from '../services/auth';
 import { useDispatch, useSelector } from 'react-redux';
@@ -84,14 +82,6 @@ const AppDataProvider = ({ children }) => {
     dispatch,
     latestObservationsRequest,
   ]);
-  useEffect(() => {
-    if (
-      process.env.REACT_APP_ENV === 'development' &&
-      config.serviceInterceptors
-    ) {
-      initServiceInterceptors();
-    }
-  }, []);
   useEffect(() => {
     const loginHandler = loadAuthHandler({ credentials, logout });
     if (loading) fetchInitialData();

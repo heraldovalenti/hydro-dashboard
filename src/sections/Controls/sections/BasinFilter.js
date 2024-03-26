@@ -9,10 +9,6 @@ export const BasinFilter = () => {
   const { t } = useTranslation();
   const { toggleBasinVisibility, shouldHideBasin } = useBasinFilter();
   const { basins } = useAppData();
-  console.log(
-    'BasinFilter()',
-    basins.map((b) => ({ id: b.id, hiden: shouldHideBasin(b.id) }))
-  );
   return (
     <CollapsiblePanel title={t('control_panel_layers_basins_filter_title')}>
       <div style={{ width: '100%' }} className="control-panel">
@@ -24,6 +20,7 @@ export const BasinFilter = () => {
               description={t('control_panel_layers_basins_filter_item', {
                 basin: b.id,
               })}
+              key={b.id}
             />
           );
         })}

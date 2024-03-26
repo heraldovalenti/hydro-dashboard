@@ -41,13 +41,15 @@ export default function initServiceInterceptors() {
           default:
             return Promise.reject(mockXHR);
         }
-      } else {
+      } else if (error.response) {
         saveInterception({
           status: error.response.status,
           response: error.response,
           url: error.response.config.url,
           params: error.response.config.params,
         });
+      } else {
+        console.warn('could not save interception', error);
       }
 
       return Promise.reject(error);
