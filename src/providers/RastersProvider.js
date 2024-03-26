@@ -45,13 +45,13 @@ export const RasterProvider = ({ children }) => {
       const response = await Promise.all([
         allRasters({ type: rasterTypes.WRF }),
         allRasters({ type: rasterTypes.SQPE }),
+        allRasters({ type: rasterTypes.ACUM }),
       ]);
-      const [r1, r2] = response;
+      const [r1, r2, r3] = response;
       setLoading(false);
-      setRastersData([...r1.fileList, ...r2.fileList]);
+      setRastersData([...r1.fileList, ...r2.fileList, ...r3.fileList]);
     };
-    setTimeout(() => fetch(), 1000); // to allow interceptors be initialized
-    // fetch();
+    fetch();
   }, []);
   return (
     <RasterContext.Provider

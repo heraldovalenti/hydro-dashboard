@@ -5,13 +5,14 @@ import { getInterception } from '../../mocks/saveInterception';
 export const rasterTypes = {
   WRF: 'WRF',
   SQPE: 'SQPE',
+  ACUM: 'ACUM',
 };
 
 export const allRasters = async ({ type, from, to }) => {
   const result = { fileList: [], total: 0 };
   const url = `${config.rastersURL}${config.api.rasters}/all`;
   if (config.serviceInterceptors) {
-    const mockResponse = getInterception({ url });
+    const mockResponse = getInterception({ url, params: { type, from, to } });
     if (mockResponse) {
       return mockResponse.response.data;
     }
@@ -28,7 +29,7 @@ export const allRasters = async ({ type, from, to }) => {
     });
     return response.data;
   } catch (e) {
-    console.warn(`Error retrieving all rasters data: ${e.toString()}`);
+    console.warn('Error retrieving all rasters data', e);
   }
   return result;
 };
@@ -45,7 +46,7 @@ export const listRasters = async () => {
       return { name, date };
     });
   } catch (e) {
-    console.warn(`Error retrieving rasters list: ${e.toString()}`);
+    console.warn('Error retrieving rasters list', e);
   }
   return result;
 };
@@ -62,7 +63,7 @@ export const getRaster = async (item) => {
     });
     result = response.data;
   } catch (e) {
-    console.warn(`Error retrieving raster ${item}: ${e.toString()}`);
+    console.warn(`Error retrieving raster ${item}`, e);
   }
   return result;
 };
