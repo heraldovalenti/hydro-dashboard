@@ -14,6 +14,17 @@ const plusHours = (now, hours) => now + hours * 1000 * 60 * 60;
 const plusDays = (now, days) => plusHours(now, days * 24);
 const getAesTimeString = (date) => moment(date).format('DD/MM/YYYY HH:mm');
 const getAesDateString = (date) => moment(date).format('DD/MM/YYYY');
+const roundToMinutes = (date, toMinutes = 10) => {
+  const input = moment(date);
+  const inputZeroed = input.set('seconds', 0).set('milliseconds', 0);
+  const inputMinutes = inputZeroed.get('minutes');
+  if (toMinutes > 0) {
+    const diff = toMinutes - (inputMinutes % toMinutes);
+    return inputZeroed.add(diff, 'minutes');
+  }
+  const diff = inputMinutes % toMinutes;
+  return inputZeroed.add(-diff, 'minutes');
+};
 
 const localToUTC = (date) => {
   const input = moment(date);
@@ -42,4 +53,5 @@ export {
   isAfter,
   isSameDay,
   startOfDay,
+  roundToMinutes,
 };

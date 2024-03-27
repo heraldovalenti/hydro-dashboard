@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import CollapsiblePanel from '../../components/CollapsiblePanel';
 import RadioGroup from '../../../../components/RadioGroup';
 import { useSelector, useDispatch } from 'react-redux';
-import { intervalFilterActions } from '../../../../reducers/intervalFilter';
+import { updateInterval } from '../../../../reducers/intervalFilter';
 import { useTranslation } from 'react-i18next';
 import { KeyboardDateTimePicker } from '@material-ui/pickers';
 import { isValidDate } from '../../../../utils/date';
 
 const DataFilter = () => {
   const dispatch = useDispatch();
-  const { lastHours, customInterval } = intervalFilterActions;
   const { dateFrom, dateTo, hours, loading1, loading2 } = useSelector(
     (state) => {
       return {
@@ -38,9 +37,9 @@ const DataFilter = () => {
   }, [dateFrom, dateTo]);
   const handleRadioChange = (hourOption) => {
     // WARNING: hourOption received is a string, not a number
-    const hours = Number.parseInt(hourOption);
-    if (hours !== 0) dispatch(lastHours(hours));
-    else dispatch(customInterval({ dateFrom, dateTo }));
+    dispatch(
+      updateInterval({ hours: Number.parseInt(hourOption), dateFrom, dateTo })
+    );
   };
   return (
     <CollapsiblePanel title={t('control_panel_filters_title')} expanded>
@@ -60,12 +59,13 @@ const DataFilter = () => {
           // maxDate={startMaxDate}
           // maxDateMessage={`The From date could not be after today's date.`}
           invalidDateMessage={t('control_panel_invalid_date_message')}
-          autoOk={true}
+          autoOk
           onChange={(newDateRaw) => {
             const newDate = new Date(newDateRaw);
             setLocalDateFrom(newDate);
-            isValidDate(newDate) &&
-              dispatch(customInterval({ dateFrom: newDate, dateTo }));
+            if (isValidDate(newDate)) {
+              dispatch(updateInterval({ dateFrom: newDate, dateTo }));
+            }
           }}
           readOnly={!isCustomInterval}
           disabled={loading}
@@ -79,12 +79,13 @@ const DataFilter = () => {
           // maxDate={startMaxDate}
           // maxDateMessage={`The From date could not be after today's date.`}
           invalidDateMessage={t('control_panel_invalid_date_message')}
-          autoOk={true}
+          autoOk
           onChange={(newDateRaw) => {
             const newDate = new Date(newDateRaw);
             setLocalDateTo(newDate);
-            isValidDate(newDate) &&
-              dispatch(customInterval({ dateFrom, dateTo: newDate }));
+            if (isValidDate(newDate)) {
+              dispatch(updateInterval({ dateFrom, dateTo: newDate }));
+            }
           }}
           readOnly={!isCustomInterval}
           disabled={loading}

@@ -6,6 +6,7 @@ import {
   localToUTC,
   isValidDate,
   isSameDay,
+  roundToMinutes,
 } from './../date';
 
 import moment from 'moment';
@@ -88,5 +89,48 @@ describe('same day verification', () => {
     const d1 = '2021-09-03T00:00:00.000Z';
     const d2 = '2021-09-03T03:00:00.000Z';
     expect(isSameDay(d1, d2));
+  });
+});
+
+describe('round time verification', () => {
+  it('should round up to 04:10 when is 04:06', () => {
+    const date = '2023-03-27T04:06:02.001Z';
+    const actual = roundToMinutes(date);
+    expect(actual.toISOString()).toBe('2023-03-27T04:10:00.000Z');
+  });
+  it('should round up to 04:20 when is 04:11', () => {
+    const date = '2023-03-27T04:11:02.001Z';
+    const actual = roundToMinutes(date);
+    expect(actual.toISOString()).toBe('2023-03-27T04:20:00.000Z');
+  });
+  it('should round up to 05:00 when is 04:52', () => {
+    const date = '2023-03-27T04:52:02.001Z';
+    const actual = roundToMinutes(date);
+    expect(actual.toISOString()).toBe('2023-03-27T05:00:00.000Z');
+  });
+  it('should round up to next day at 00:00 when is 23:52', () => {
+    const date = '2023-03-27T23:52:02.001Z';
+    const actual = roundToMinutes(date);
+    expect(actual.toISOString()).toBe('2023-03-28T00:00:00.000Z');
+  });
+  it('should round down to 04:00 when is 04:06 with round to -10 minutes', () => {
+    const date = '2023-03-27T04:06:02.001Z';
+    const actual = roundToMinutes(date, -10);
+    expect(actual.toISOString()).toBe('2023-03-27T04:00:00.000Z');
+  });
+  it('should round down to 04:10 when is 04:17 with round to -10 minutes', () => {
+    const date = '2023-03-27T04:17:02.001Z';
+    const actual = roundToMinutes(date, -10);
+    expect(actual.toISOString()).toBe('2023-03-27T04:10:00.000Z');
+  });
+  it('should round up to 05:00 when is 04:52 with round to 15 minutes', () => {
+    const date = '2023-03-27T04:52:02.001Z';
+    const actual = roundToMinutes(date, 15);
+    expect(actual.toISOString()).toBe('2023-03-27T05:00:00.000Z');
+  });
+  it('should round down to 04:45 when is 04:56 with round to -15 minutes', () => {
+    const date = '2023-03-27T04:56:02.001Z';
+    const actual = roundToMinutes(date, -15);
+    expect(actual.toISOString()).toBe('2023-03-27T04:45:00.000Z');
   });
 });
