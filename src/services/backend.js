@@ -48,12 +48,6 @@ export const fetchStations = async () => {
 
 export const fetchAccumulationData = async (dateFrom, dateTo) => {
   const url = `${config.baseURL}${config.api.rainAccumulation}`;
-  if (config.serviceInterceptors) {
-    const mockResponse = getInterception({ url });
-    if (mockResponse) {
-      return mockResponse.response.data;
-    }
-  }
   try {
     const period = toUTCInterval({ dateFrom, dateTo });
     console.log(
@@ -165,17 +159,13 @@ export const fetchSDOObservations = async (
 
 export const fetchLatestbservations = async (dimensionId, dateFrom, dateTo) => {
   const url = `${config.baseURL}${config.api.latestObservations}/${dimensionId}`;
-  if (config.serviceInterceptors) {
-    const mockResponse = getInterception({ url });
-    if (mockResponse) {
-      return mockResponse.response.data;
-    }
-  }
   try {
     const period = toUTCInterval({ dateFrom, dateTo });
     const { from, to } = period;
     console.log(
-      `fetching latest observations for period ${JSON.stringify(period)}`
+      `fetching ${dimensionId} latest observations for period ${JSON.stringify(
+        period
+      )}`
     );
     const response = await axios({
       method: 'get',

@@ -1,6 +1,15 @@
 import { useSelector } from 'react-redux';
+import { useLatestObservations } from './useLatestObservations';
+import { useAccumulationData } from './useAccumulationData';
+import { useMemo } from 'react';
 
 export const useStationFilters = () => {
+  const { isLoading: isAccumulationDataLoading } = useAccumulationData();
+  const { isLoading: isLatestObservationsLoading } = useLatestObservations();
+  const isLoading = useMemo(
+    () => isAccumulationDataLoading || isLatestObservationsLoading,
+    [isAccumulationDataLoading, isLatestObservationsLoading]
+  );
   const {
     showHydroMetricStations,
     showWeatherStations,
@@ -8,13 +17,9 @@ export const useStationFilters = () => {
     showBasins,
     hideEmptyStations,
   } = useSelector((state) => {
-    const accumulationLoading = state.accumulationData.loading;
-    const latestObservationsLoading = state.latestObservations.loading;
-    const loading = accumulationLoading || latestObservationsLoading;
     return {
-      showHydroMetricStations:
-        !loading && state.mapFilter.showHydroMetricStations,
-      showWeatherStations: !loading && state.mapFilter.showWeatherStations,
+      showHydroMetricStations: state.mapFilter.showHydroMetricStations,
+      showWeatherStations: state.mapFilter.showWeatherStations,
       showStreams: state.mapFilter.showStreams,
       showBasins: state.mapFilter.showBasins,
       hideEmptyStations: state.mapFilter.hideEmptyStations,
@@ -22,8 +27,8 @@ export const useStationFilters = () => {
   });
 
   return {
-    showHydroMetricStations,
-    showWeatherStations,
+    showHydroMetricStations: !isLoading && showHydroMetricStations,
+    showWeatherStations: !isLoading && showWeatherStations,
     showStreams,
     showBasins,
     hideEmptyStations,

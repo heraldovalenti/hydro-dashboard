@@ -6,21 +6,21 @@ import { updateInterval } from '../../../../reducers/intervalFilter';
 import { useTranslation } from 'react-i18next';
 import { KeyboardDateTimePicker } from '@material-ui/pickers';
 import { isValidDate } from '../../../../utils/date';
+import { useAccumulationData } from '../../../../hooks/useAccumulationData';
+import { useLatestObservations } from '../../../../hooks/useLatestObservations';
 
 const DataFilter = () => {
   const dispatch = useDispatch();
-  const { dateFrom, dateTo, hours, loading1, loading2 } = useSelector(
-    (state) => {
-      return {
-        hours: state.intervalFilter.hours,
-        dateFrom: state.intervalFilter.dateFrom,
-        dateTo: state.intervalFilter.dateTo,
-        loading1: state.accumulationData.loading,
-        loading2: state.latestObservations.loading,
-      };
-    }
-  );
-  const loading = loading1 && loading2;
+  const { isLoading: isAccumulationDataLoading } = useAccumulationData();
+  const { isLoading: isLatestObservationsLoading } = useLatestObservations();
+  const { dateFrom, dateTo, hours } = useSelector((state) => {
+    return {
+      hours: state.intervalFilter.hours,
+      dateFrom: state.intervalFilter.dateFrom,
+      dateTo: state.intervalFilter.dateTo,
+    };
+  });
+  const loading = isAccumulationDataLoading || isLatestObservationsLoading;
   const { t } = useTranslation();
   const hourOptions = [1, 3, 6, 12, 24, 48, 168, 0].map((hourOption) => {
     return {

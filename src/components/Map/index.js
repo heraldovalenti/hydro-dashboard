@@ -14,17 +14,12 @@ import {
 } from 'google-maps-react';
 import dropIcon from '../../components/Icons/drop-icon.png';
 import levelIcon from '../../components/Icons/level-icon.png';
-import { useSelector } from 'react-redux';
 import { useAppData } from '../../providers/AppDataProvider';
 import { useHistory } from 'react-router-dom';
 import config from '../../config';
 import './styles.css';
 import { ROUTE_STATION_INFO_PAGE } from '../../pages/Routes';
-import {
-  flowDimension,
-  HQOservation,
-  levelDimension,
-} from '../StationInfo/stationUtil';
+import { HQOservation } from '../StationInfo/stationUtil';
 import { useRasters } from '../../hooks/useRasters';
 import { useMapPosition } from '../../hooks/useMapPosition';
 import { useStationFilters } from '../../hooks/useStationFilters';
@@ -35,18 +30,17 @@ import {
   SuperClusterAlgorithm,
 } from '@googlemaps/markerclusterer';
 import { useBasinFilter } from '../../hooks/useBasinFilter';
+import { useAccumulationData } from '../../hooks/useAccumulationData';
+import { useLatestObservations } from '../../hooks/useLatestObservations';
 
 const MapContainer = ({ google }) => {
   const {
     renderRaster,
     // renderLimits
   } = useRasters();
-  const { accumulationData, latestObservations } = useSelector((state) => {
-    return {
-      accumulationData: state.accumulationData.accumulationData,
-      latestObservations: state.latestObservations.latestObservations,
-    };
-  });
+  const { accumulationData } = useAccumulationData();
+  const { flowObservations, levelObservations } = useLatestObservations();
+
   const {
     showHydroMetricStations,
     showWeatherStations,
@@ -142,15 +136,15 @@ const MapContainer = ({ google }) => {
     }
     return hydroMetricStations
       .map((station) => {
-        const levelObservations = latestObservations[levelDimension].filter(
+        const stationLevelObservations = levelObservations.filter(
           (o) => o.station.id === station.id
         );
-        const flowObservations = latestObservations[flowDimension].filter(
+        const stationFlowObservations = flowObservations.filter(
           (o) => o.station.id === station.id
         );
         const hydrometric_data = HQOservation({
-          h: levelObservations[0],
-          q: flowObservations[0],
+          h: stationLevelObservations[0],
+          q: stationFlowObservations[0],
         });
         if (!hydrometric_data && hideEmptyStations) {
           return null;

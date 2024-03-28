@@ -5,8 +5,10 @@ import { useParams, useHistory } from 'react-router-dom';
 import { ROUTE_ROOT } from './Routes';
 import { AppDataContext } from '../providers/AppDataProvider';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { useAccumulationData } from '../hooks/useAccumulationData';
 
-const StationInfoPage = ({ dateFrom, dateTo, accumulationData }) => {
+const StationInfoPage = ({ dateFrom, dateTo }) => {
+  const { accumulationData } = useAccumulationData();
   const { id } = useParams();
   const history = useHistory();
   const stationId = Number.parseInt(id);
@@ -47,8 +49,6 @@ const mapStateToProps = (state) => {
   return {
     dateTo: state.intervalFilter.dateTo,
     dateFrom: state.intervalFilter.dateFrom,
-    accumulationData: state.accumulationData.accumulationData,
-    accumulationLoading: state.accumulationData.loading,
   };
 };
 

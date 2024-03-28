@@ -10,22 +10,17 @@ import { fetchStreams } from '../services/Streams';
 import { fetchBasins } from '../services/Basins';
 import { useAuth } from './AuthProvider';
 import { loadAuthHandler, removeAuthHandler } from '../services/auth';
-import { useDispatch, useSelector } from 'react-redux';
-import { accumulationDataActions } from '../reducers/accumulations';
-import { latestObservationsActions } from '../reducers/latestObservations';
+import { useSelector } from 'react-redux';
 
 export const AppDataContext = createContext(null);
 
 const AppDataProvider = ({ children }) => {
-  const { accumulationDataRequest } = accumulationDataActions;
-  const { latestObservationsRequest } = latestObservationsActions;
   const { dateFrom, dateTo } = useSelector((state) => {
     return {
       dateTo: state.intervalFilter.dateTo,
       dateFrom: state.intervalFilter.dateFrom,
     };
   });
-  const dispatch = useDispatch();
 
   const { credentials, logout } = useAuth();
   const currentDate = new Date();
@@ -47,16 +42,8 @@ const AppDataProvider = ({ children }) => {
   const [streams, setStreams] = useState([]);
 
   const fetchInitialData = useCallback(() => {
-    dispatch(latestObservationsRequest(dateFrom, dateTo));
-    dispatch(accumulationDataRequest(dateFrom, dateTo));
-    Promise.all([
-      Promise.resolve({}),
-      fetchStations(),
-      fetchBasins(),
-      fetchStreams(),
-    ])
-      .then(([, _stations, _basins, _streams]) => {
-        //fetch data in here
+    Promise.all([fetchStations(), fetchBasins(), fetchStreams()])
+      .then(([_stations, _basins, _streams]) => {
         setStations(_stations);
         setBasins(_basins);
         setStreams(_streams);
@@ -64,38 +51,13 @@ const AppDataProvider = ({ children }) => {
       .finally(() => {
         setLoading(false);
       });
-  }, [
-    accumulationDataRequest,
-    dateFrom,
-    dateTo,
-    dispatch,
-    latestObservationsRequest,
-  ]);
+  }, []);
 
-  const syncAccumulationData = useCallback(() => {
-    dispatch(latestObservationsRequest(dateFrom, dateTo));
-    dispatch(accumulationDataRequest(dateFrom, dateTo));
-  }, [
-    accumulationDataRequest,
-    dateFrom,
-    dateTo,
-    dispatch,
-    latestObservationsRequest,
-  ]);
   useEffect(() => {
     const loginHandler = loadAuthHandler({ credentials, logout });
     if (loading) fetchInitialData();
-    else syncAccumulationData();
     return () => removeAuthHandler(loginHandler);
-  }, [
-    credentials,
-    dateFrom,
-    dateTo,
-    fetchInitialData,
-    loading,
-    logout,
-    syncAccumulationData,
-  ]);
+  }, [credentials, dateFrom, dateTo, fetchInitialData, loading, logout]);
 
   const contextStore = {
     fetchStartDate,

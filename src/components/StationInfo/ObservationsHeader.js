@@ -20,7 +20,6 @@ export default ({ stationId, sdo, dateFrom, dateTo, accumulation }) => {
     const unit = 'mm';
     summary = t('rain_info_summary', { hours, accumulation, unit });
   } else if (isLevelDimension(dimensionId)) {
-    const hours = getHoursApart(dateFrom, dateTo);
     summary = t('level_info_summary', { hours });
   } else if (isFlowDimension(dimensionId)) {
     const isHQModel = isHQModelStationDataOrigin(sdo);

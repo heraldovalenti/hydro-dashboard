@@ -9,8 +9,6 @@ import { basinFilterReducer } from './basinFilter';
 const reducerMap = {
   mapFilter: mapFilterReducer,
   intervalFilter: intervalFilterReducer,
-  accumulationData: accumulationDataReducer,
-  latestObservations: latestObservationsReducer,
   mapPosition: mapPositionReducer,
   basinFilter: basinFilterReducer,
 };
