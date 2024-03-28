@@ -12,7 +12,16 @@ import AuthChecker from './layouts/AuthChecker';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 library.add(fas);
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      cacheTime: 60_000,
+      staleTime: 60_000,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = () => {
   const theme = createMuiTheme({
