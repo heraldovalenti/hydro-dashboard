@@ -30,7 +30,7 @@ const customInterval = ({ dateFrom, dateTo }) => {
   };
 };
 
-export const updateInterval = ({ hours, dateFrom, dateTo }) => {
+export const updateIntervalAction = ({ hours, dateFrom, dateTo }) => {
   if (hours && hours > 0) {
     return lastHours(hours);
   } else {

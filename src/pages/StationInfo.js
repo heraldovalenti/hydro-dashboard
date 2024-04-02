@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
 import StationInfo from '../components/StationInfo';
-import { connect } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { ROUTE_ROOT } from './Routes';
 import { AppDataContext } from '../providers/AppDataProvider';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useAccumulationData } from '../hooks/useAccumulationData';
+import { useDateInterval } from '../hooks/useDateInterval';
 
-const StationInfoPage = ({ dateFrom, dateTo }) => {
+const StationInfoPage = () => {
+  const { from, to } = useDateInterval();
   const { accumulationData } = useAccumulationData();
   const { id } = useParams();
   const history = useHistory();
@@ -33,8 +34,8 @@ const StationInfoPage = ({ dateFrom, dateTo }) => {
   return (
     <StationInfo
       station={station}
-      dateFrom={dateFrom}
-      dateTo={dateTo}
+      dateFrom={from}
+      dateTo={to}
       accumulation={accumulation}
       onClose={() =>
         history.push({
@@ -45,11 +46,4 @@ const StationInfoPage = ({ dateFrom, dateTo }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    dateTo: state.intervalFilter.dateTo,
-    dateFrom: state.intervalFilter.dateFrom,
-  };
-};
-
-export default connect(mapStateToProps)(StationInfoPage);
+export default StationInfoPage;

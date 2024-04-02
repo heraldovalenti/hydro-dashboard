@@ -1,26 +1,21 @@
 import { useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { queryKeys } from '../constants/queryKeys';
-import { useSelector } from 'react-redux';
 import { fetchLatestbservations } from '../services/backend';
 import {
   flowDimension,
   levelDimension,
 } from '../components/StationInfo/stationUtil';
+import { useDateInterval } from './useDateInterval';
 
 export const useLatestObservations = () => {
-  const { dateFrom, dateTo } = useSelector((state) => {
-    return {
-      dateTo: state.intervalFilter.dateTo,
-      dateFrom: state.intervalFilter.dateFrom,
-    };
-  });
+  const { from, to } = useDateInterval();
   const { data, isLoading } = useQuery(
-    [queryKeys.LATEST_OBSERVATIONS, dateFrom, dateTo],
+    [queryKeys.LATEST_OBSERVATIONS, from, to],
     async () => {
       const [levelObservations, flowObservations] = await Promise.all([
-        fetchLatestbservations(levelDimension, dateFrom, dateTo),
-        fetchLatestbservations(flowDimension, dateFrom, dateTo),
+        fetchLatestbservations(levelDimension, from, to),
+        fetchLatestbservations(flowDimension, from, to),
       ]);
       return { levelObservations, flowObservations };
     }

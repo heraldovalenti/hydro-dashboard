@@ -10,18 +10,10 @@ import { fetchStreams } from '../services/Streams';
 import { fetchBasins } from '../services/Basins';
 import { useAuth } from './AuthProvider';
 import { loadAuthHandler, removeAuthHandler } from '../services/auth';
-import { useSelector } from 'react-redux';
 
 export const AppDataContext = createContext(null);
 
 const AppDataProvider = ({ children }) => {
-  const { dateFrom, dateTo } = useSelector((state) => {
-    return {
-      dateTo: state.intervalFilter.dateTo,
-      dateFrom: state.intervalFilter.dateFrom,
-    };
-  });
-
   const { credentials, logout } = useAuth();
   const currentDate = new Date();
   const [fetchStartDate, setFetchStartDate] = useState(
@@ -57,7 +49,7 @@ const AppDataProvider = ({ children }) => {
     const loginHandler = loadAuthHandler({ credentials, logout });
     if (loading) fetchInitialData();
     return () => removeAuthHandler(loginHandler);
-  }, [credentials, dateFrom, dateTo, fetchInitialData, loading, logout]);
+  }, [credentials, fetchInitialData, loading, logout]);
 
   const contextStore = {
     fetchStartDate,

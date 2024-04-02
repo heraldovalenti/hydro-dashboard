@@ -1,25 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import CollapsiblePanel from '../../components/CollapsiblePanel';
 import RadioGroup from '../../../../components/RadioGroup';
-import { useSelector, useDispatch } from 'react-redux';
-import { updateInterval } from '../../../../reducers/intervalFilter';
 import { useTranslation } from 'react-i18next';
 import { KeyboardDateTimePicker } from '@material-ui/pickers';
 import { isValidDate } from '../../../../utils/date';
 import { useAccumulationData } from '../../../../hooks/useAccumulationData';
 import { useLatestObservations } from '../../../../hooks/useLatestObservations';
+import { useDateInterval } from '../../../../hooks/useDateInterval';
 
 const DataFilter = () => {
-  const dispatch = useDispatch();
   const { isLoading: isAccumulationDataLoading } = useAccumulationData();
   const { isLoading: isLatestObservationsLoading } = useLatestObservations();
-  const { dateFrom, dateTo, hours } = useSelector((state) => {
-    return {
-      hours: state.intervalFilter.hours,
-      dateFrom: state.intervalFilter.dateFrom,
-      dateTo: state.intervalFilter.dateTo,
-    };
-  });
+  const { from, to, hours, updateInterval } = useDateInterval();
   const loading = isAccumulationDataLoading || isLatestObservationsLoading;
   const { t } = useTranslation();
   const hourOptions = [1, 3, 6, 12, 24, 48, 168, 0].map((hourOption) => {
@@ -28,18 +20,20 @@ const DataFilter = () => {
       value: hourOption,
     };
   });
-  const [localDateTo, setLocalDateTo] = useState(dateTo);
-  const [localDateFrom, setLocalDateFrom] = useState(dateFrom);
+  const [localDateTo, setLocalDateTo] = useState(to);
+  const [localDateFrom, setLocalDateFrom] = useState(from);
   const isCustomInterval = hours === 0;
   useEffect(() => {
-    setLocalDateTo(dateTo);
-    setLocalDateFrom(dateFrom);
-  }, [dateFrom, dateTo]);
+    setLocalDateTo(to);
+    setLocalDateFrom(from);
+  }, [from, to]);
   const handleRadioChange = (hourOption) => {
-    // WARNING: hourOption received is a string, not a number
-    dispatch(
-      updateInterval({ hours: Number.parseInt(hourOption), dateFrom, dateTo })
-    );
+    updateInterval({
+      // WARNING: hourOption received is a string, not a number
+      hours: Number.parseInt(hourOption),
+      from,
+      to,
+    });
   };
   return (
     <CollapsiblePanel title={t('control_panel_filters_title')} expanded>
@@ -64,7 +58,7 @@ const DataFilter = () => {
             const newDate = new Date(newDateRaw);
             setLocalDateFrom(newDate);
             if (isValidDate(newDate)) {
-              dispatch(updateInterval({ dateFrom: newDate, dateTo }));
+              updateInterval({ from: newDate, to });
             }
           }}
           readOnly={!isCustomInterval}
@@ -84,7 +78,7 @@ const DataFilter = () => {
             const newDate = new Date(newDateRaw);
             setLocalDateTo(newDate);
             if (isValidDate(newDate)) {
-              dispatch(updateInterval({ dateFrom, dateTo: newDate }));
+              updateInterval({ from, to: newDate });
             }
           }}
           readOnly={!isCustomInterval}

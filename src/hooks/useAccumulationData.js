@@ -1,19 +1,14 @@
 import { useQuery } from 'react-query';
 import { queryKeys } from '../constants/queryKeys';
-import { useSelector } from 'react-redux';
 import { fetchAccumulationData } from '../services/backend';
+import { useDateInterval } from './useDateInterval';
 
 export const useAccumulationData = () => {
-  const { dateFrom, dateTo } = useSelector((state) => {
-    return {
-      dateTo: state.intervalFilter.dateTo,
-      dateFrom: state.intervalFilter.dateFrom,
-    };
-  });
+  const { from, to } = useDateInterval();
   const { data = [], isLoading } = useQuery(
-    [queryKeys.ACCUMULATION_DATA, dateFrom, dateTo],
+    [queryKeys.ACCUMULATION_DATA, from, to],
     async () => {
-      const accumulationData = await fetchAccumulationData(dateFrom, dateTo);
+      const accumulationData = await fetchAccumulationData(from, to);
       return accumulationData;
     }
   );
