@@ -1,6 +1,5 @@
 import axios from 'axios';
 import config from '../../config';
-import { getInterception } from '../../mocks/saveInterception';
 
 export const rasterTypes = {
   WRF: 'WRF',
@@ -11,12 +10,6 @@ export const rasterTypes = {
 export const allRasters = async ({ type, from, to }) => {
   const result = { fileList: [], total: 0 };
   const url = `${config.rastersURL}${config.api.rasters}/all`;
-  if (config.serviceInterceptors) {
-    const mockResponse = getInterception({ url, params: { type, from, to } });
-    if (mockResponse) {
-      return mockResponse.response.data;
-    }
-  }
   try {
     const response = await axios({
       method: 'get',

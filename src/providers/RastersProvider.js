@@ -1,5 +1,7 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useMemo } from 'react';
 import { allRasters, rasterTypes } from '../services/Rasters';
+import { useQuery } from 'react-query';
+import { queryKeys } from '../constants/queryKeys';
 
 const RasterContext = createContext({});
 const gradientColors = [
@@ -32,34 +34,55 @@ const gradientColors = [
   '#220000',
 ];
 export const RasterProvider = ({ children }) => {
-  const [loading, setLoading] = useState(true);
-  const [rastersData, setRastersData] = useState([]);
   const [selectedRaster, setSelectedRaster] = useState({
     Data: [],
   });
   const [showRaster, setShowRaster] = useState(false);
   const [opacity, setOpacity] = useState(80);
   const [radius, setRadius] = useState(20);
-  useEffect(() => {
-    const fetch = async () => {
-      const response = await Promise.all([
-        allRasters({ type: rasterTypes.WRF }),
-        allRasters({ type: rasterTypes.SQPE }),
-        allRasters({ type: rasterTypes.ACUM }),
-      ]);
-      const [r1, r2, r3] = response;
-      setLoading(false);
-      setRastersData([...r1.fileList, ...r2.fileList, ...r3.fileList]);
-    };
-    fetch();
-  }, []);
+
+  const reactQueryOptions = {
+    cacheTime: 600_000,
+    staleTime: 600_000,
+  };
+  const { data: wrfData = [], isLoading: wrfLoading } = useQuery(
+    [queryKeys.RASTERS_WRF],
+    async () => {
+      const rasters = await allRasters({ type: rasterTypes.WRF });
+      return rasters.fileList;
+    },
+    reactQueryOptions
+  );
+
+  const { data: sqpeData = [], isLoading: sqpeLoading } = useQuery(
+    [queryKeys.RASTERS_SQPE],
+    async () => {
+      const rasters = await allRasters({ type: rasterTypes.SQPE });
+      return rasters.fileList;
+    },
+    reactQueryOptions
+  );
+
+  const { data: acumData = [], isLoading: acumLoading } = useQuery(
+    [queryKeys.RASTERS_ACUM],
+    async () => {
+      const rasters = await allRasters({ type: rasterTypes.ACUM });
+      return rasters.fileList;
+    },
+    reactQueryOptions
+  );
+  const rastersData = useMemo(
+    () => [...wrfData, ...sqpeData, ...acumData],
+
+    [wrfData, sqpeData, acumData]
+  );
+
   return (
     <RasterContext.Provider
       value={{
-        loading,
+        rastersData,
         showRaster,
         setShowRaster,
-        rastersData,
         selectedRaster,
         setSelectedRaster,
         opacity,
@@ -67,6 +90,12 @@ export const RasterProvider = ({ children }) => {
         radius,
         setRadius,
         gradientColors,
+        wrfData,
+        wrfLoading,
+        sqpeData,
+        sqpeLoading,
+        acumData,
+        acumLoading,
       }}
     >
       {children}

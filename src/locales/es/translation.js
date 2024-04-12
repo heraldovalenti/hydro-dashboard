@@ -36,6 +36,9 @@ export default {
   control_panel_rasters_title: 'Rasters',
   control_panel_rasters_show: 'Visualizar en mapa',
   control_panel_rasters_opacity: 'Opacidad',
+  control_panel_rasters_model_wrf: 'WRF',
+  control_panel_rasters_model_sqpe: 'SQPE',
+  control_panel_rasters_model_acum: 'Acumulado',
 
   rain_info_summary:
     'Acumulado en las últimas {{hours}} horas: {{accumulation}} {{unit}}',

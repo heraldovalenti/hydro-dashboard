@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RadioGroup from '../../../../components/RadioGroup';
 import { useRasterContext } from '../../../../providers/RastersProvider';
 import { BlueSlider } from '../../components/BlueSlider';
 import CollapsiblePanel from '../../components/CollapsiblePanel';
 import LayerFilter from '../MapLayers/layerFilter';
-import { List, ListItem, ListItemText } from '@material-ui/core';
+import {
+  List,
+  ListItem,
+  ListItemText,
+  Box,
+  CircularProgress,
+} from '@material-ui/core';
 
 export const Rasters = () => {
   const {
-    loading,
     showRaster,
     setShowRaster,
     rastersData,
@@ -17,23 +22,49 @@ export const Rasters = () => {
     opacity,
     setOpacity,
     gradientColors,
+    wrfData,
+    wrfLoading,
+    sqpeData,
+    sqpeLoading,
+    acumData,
+    acumLoading,
   } = useRasterContext();
   const { t } = useTranslation();
-  const [rasterOptions, setRasterOptions] = useState([]);
   const [selected, setSelected] = useState({});
   const toggleShowRaster = () => setShowRaster(!showRaster);
-  useEffect(() => {
-    if (!loading && rastersData) {
-      const options = rastersData.map(({ fileDescriptor }) => {
+  const wrfOptions = useMemo(
+    () =>
+      wrfData.map(({ fileDescriptor }) => {
         const { name } = fileDescriptor;
         return {
           label: name,
           value: name,
         };
-      });
-      setRasterOptions(options);
-    }
-  }, [loading, rastersData]);
+      }),
+    [wrfData]
+  );
+  const sqpeOptions = useMemo(
+    () =>
+      sqpeData.map(({ fileDescriptor }) => {
+        const { name } = fileDescriptor;
+        return {
+          label: name,
+          value: name,
+        };
+      }),
+    [sqpeData]
+  );
+  const acumOptions = useMemo(
+    () =>
+      acumData.map(({ fileDescriptor }) => {
+        const { name } = fileDescriptor;
+        return {
+          label: name,
+          value: name,
+        };
+      }),
+    [acumData]
+  );
 
   const handleRadioChange = (item) => {
     setShowRaster(!showRaster);
@@ -65,12 +96,48 @@ export const Rasters = () => {
           max={100}
           valueLabelDisplay="auto"
         />
-        <RadioGroup
-          items={rasterOptions}
-          onChange={handleRadioChange}
-          value={selected}
-          disabled={loading}
-        />
+        <Box my={2}>
+          <RadioGroup
+            legend={t('control_panel_rasters_model_wrf')}
+            items={wrfOptions}
+            onChange={handleRadioChange}
+            value={selected}
+            disabled={wrfLoading}
+          />
+          {wrfLoading && (
+            <Box my={2}>
+              <CircularProgress />
+            </Box>
+          )}
+        </Box>
+        <Box my={2}>
+          <RadioGroup
+            legend={t('control_panel_rasters_model_sqpe')}
+            items={sqpeOptions}
+            onChange={handleRadioChange}
+            value={selected}
+            disabled={sqpeLoading}
+          />
+          {sqpeLoading && (
+            <Box my={2}>
+              <CircularProgress />
+            </Box>
+          )}
+        </Box>
+        <Box my={2}>
+          <RadioGroup
+            legend={t('control_panel_rasters_model_acum')}
+            items={acumOptions}
+            onChange={handleRadioChange}
+            value={selected}
+            disabled={acumLoading}
+          />
+          {acumLoading && (
+            <Box my={2}>
+              <CircularProgress />
+            </Box>
+          )}
+        </Box>
         <List
           style={{
             marginInline: 32,
