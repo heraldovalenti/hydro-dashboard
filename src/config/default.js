@@ -3,7 +3,7 @@ const config = {
   baseURL: 'https://hydro-dashboard-283320.uc.r.appspot.com',
   api: {
     basins: '/api/basin',
-    stations: '/api/stations',
+    stations: '/api/stations/actives',
     observations: '/api/observations',
     latestObservations: '/api/observations/latestObservations',
     rainAccumulation: '/api/rain-accumulation',
