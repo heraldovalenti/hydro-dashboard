@@ -9,12 +9,14 @@ import Map from './Map';
 import StationInfo from './StationInfo';
 import Forecast from './Forecast';
 import { AppConfigPage } from './AesConfigPage';
+import { StationList } from './StationList';
 
-export const ROUTE_ROOT = `/`;
-export const ROUTE_MAP_PAGE = `/map`;
-export const ROUTE_STATION_INFO_PAGE = `/stationInfo`;
-export const FORECAST_PAGE = `/forecast`;
-export const AES_PAGE = `/aes`;
+export const ROUTE_ROOT = '/';
+export const ROUTE_MAP_PAGE = '/map';
+export const ROUTE_STATION_INFO_PAGE = '/stationInfo';
+export const FORECAST_PAGE = '/forecast';
+export const AES_PAGE = '/aes';
+export const STATION_LIST_PAGE = '/stations';
 
 export default () => {
   return (
@@ -22,6 +24,9 @@ export default () => {
       <Switch>
         <Route path={AES_PAGE}>
           <AppConfigPage />
+        </Route>
+        <Route path={STATION_LIST_PAGE}>
+          <StationList />
         </Route>
         <Route path={FORECAST_PAGE}>
           <Forecast />

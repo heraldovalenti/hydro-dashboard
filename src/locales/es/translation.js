@@ -46,6 +46,15 @@ export default {
   flow_info_summary: 'Mediciones de caudal en las últimas {{hours}} horas',
   flow_info_summary_hq_model:
     'Caudal en las últimas {{hours}} horas (estimado mediante modelo H-Q)',
+
+  station_table_title: 'Estaciones',
+  station_table_header_id: 'ID',
+  station_table_header_description: 'Descripción',
+  station_table_header_latitude: 'Latitud',
+  station_table_header_longitude: 'Longitud',
+  station_table_header_active: 'Activa',
+  station_table_header_origin: 'Origen',
+
   station_info_header_datetime: 'Fecha y hora',
   station_info_header_value: 'Valor observado',
   station_info_header_unit: 'Unidad',

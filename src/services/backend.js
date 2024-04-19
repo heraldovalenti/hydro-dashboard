@@ -26,7 +26,7 @@ export const fetchBasins = async () => {
 };
 
 export const fetchStations = async () => {
-  const url = `${config.baseURL}${config.api.stations}`;
+  const url = `${config.baseURL}${config.api.stations}/actives`;
   if (config.serviceInterceptors) {
     const mockResponse = getInterception({ url });
     if (mockResponse) {
