@@ -8,6 +8,8 @@ export default {
   page_loading_no_data_subtitle:
     'Dame unos momentos para que cargue los datos desde el servidor',
 
+  pagination_all_elements: 'Todos',
+
   control_panel_title: 'Panel de Control',
   control_panel_layers_title: 'Capas del mapa',
   control_panel_layers_hydro_metric_stations: 'Estaciones hidrométricas',
