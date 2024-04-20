@@ -13,7 +13,6 @@ import {
   Typography,
   IconButton,
   CircularProgress,
-  Switch,
   Grid,
   TablePagination,
 } from '@material-ui/core';
@@ -25,6 +24,7 @@ import { queryKeys } from '../../constants/queryKeys';
 import { listStations } from '../../services/stations';
 import { useSort } from '../../hooks/useSort';
 import { usePagination } from '../../hooks/usePagination';
+import { StationStatusSwitch } from '../StationStatusSwitch';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -56,7 +56,6 @@ export const StationList = ({ onClose }) => {
     page,
     size,
     setPage,
-    pageForServer,
     rowsPerPage,
     rowsPerPageOptions,
     updateRowsPerPage,
@@ -68,10 +67,10 @@ export const StationList = ({ onClose }) => {
     totalPages: 0,
   };
   const { data = defaultStations, isLoading } = useQuery(
-    [queryKeys.STATIONS, loading, size, pageForServer, sort],
+    [queryKeys.STATIONS, loading, size, page, sort],
     async () => {
       if (loading) return defaultStations;
-      const result = await listStations({ size, page: pageForServer, sort });
+      const result = await listStations({ size, page, sort });
       return result;
     }
   );
@@ -152,11 +151,7 @@ export const StationList = ({ onClose }) => {
                   <TableCell align="right">{s.latitude}</TableCell>
                   <TableCell align="right">{s.longitude}</TableCell>
                   <TableCell align="right">
-                    <Switch
-                      checked={s.active}
-                      color="primary"
-                      onChange={() => {}}
-                    />
+                    <StationStatusSwitch station={s} />
                   </TableCell>
                 </TableRow>
               );
@@ -167,7 +162,7 @@ export const StationList = ({ onClose }) => {
       <TablePagination
         className={pagination}
         count={totalElements}
-        page={page}
+        page={isLoading ? 0 : page}
         color="primary"
         onChangePage={(_event, selectedPage) => setPage(selectedPage)}
         rowsPerPage={rowsPerPage}

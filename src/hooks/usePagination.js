@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 // import { useTranslation } from 'react-i18next';
 
 export const usePagination = () => {
@@ -10,17 +10,16 @@ export const usePagination = () => {
     // { label: t('pagination_all_elements'), value: -1 },
   ];
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[1]);
-  const [page, setPage] = useState(1);
-  const pageForServer = useMemo(() => page - 1, [page]);
+  const [page, setPage] = useState(0);
   const updateRowsPerPage = useCallback((event) => {
     const selectedRowsPerPage = parseInt(event.target.value, 10);
     setRowsPerPage(selectedRowsPerPage);
-    setPage(1);
+    setPage(0);
   }, []);
   return {
     size: rowsPerPage,
     page,
-    pageForServer,
+    pageForServer: page,
     setPage,
     rowsPerPage,
     rowsPerPageOptions,
