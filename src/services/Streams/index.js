@@ -1,5 +1,4 @@
-import { streams } from './streams';
-
+import streams from './streams.json';
 const StreamRepository = {
   list: async () => streams,
 };
@@ -7,6 +6,6 @@ const StreamRepository = {
 export { StreamRepository };
 
 export const fetchStreams = async () => {
-  const streams = await StreamRepository.list();
-  return streams;
+  const result = await StreamRepository.list();
+  return result;
 };

@@ -32,6 +32,7 @@ import {
 import { useBasinFilter } from '../../hooks/useBasinFilter';
 import { useAccumulationData } from '../../hooks/useAccumulationData';
 import { useLatestObservations } from '../../hooks/useLatestObservations';
+import { useStreamFilter } from '../../hooks/useStreamFilter';
 
 const MapContainer = ({ google }) => {
   const {
@@ -55,6 +56,7 @@ const MapContainer = ({ google }) => {
     updateZoomAndCenter,
   } = useMapPosition();
   const { shouldHideBasin } = useBasinFilter();
+  const { shouldHideStream } = useStreamFilter();
   const { streams, basins, stations } = useAppData();
   const history = useHistory();
   const weatherStations = useMemo(() => {
@@ -173,15 +175,22 @@ const MapContainer = ({ google }) => {
     if (!showStreams) {
       return;
     }
-    return streams.map((stream, i) => (
-      <Polyline
-        key={i}
-        path={stream}
-        strokeColor="#0000FF"
-        strokeOpacity={0.8}
-        strokeWeight={2}
-      />
-    ));
+    return streams.map(({ streamName, streamPaths }) => {
+      if (shouldHideStream(streamName)) {
+        return null;
+      }
+      return streamPaths.map((streamPath, i) => {
+        return (
+          <Polyline
+            key={`${streamName}_${i}`}
+            path={streamPath}
+            strokeColor="#0000FF"
+            strokeOpacity={0.8}
+            strokeWeight={2}
+          />
+        );
+      });
+    });
   };
 
   const renderBasins = () => {
