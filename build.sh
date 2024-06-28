@@ -3,7 +3,7 @@
 IMAGE_NAME=aes-web
 DOCKER_BUILDER=node:16-alpine
 DOCKER_TAG=us-central1-docker.pkg.dev/hydro-dashboard-283320/aes-docker-repo/$IMAGE_NAME
-SKIP_APP_BUILD=0
+USE_DOCKER_BUILDER=0
 
 VERSION=$1
 if [[ -z $VERSION ]]
@@ -21,10 +21,10 @@ fi
 
 for ARG in $@
 do
-  if [[ $ARG == "--skipAppBuild" ]]; then SKIP_APP_BUILD=1; fi
+  if [[ $ARG == "--useDockerBuilder" ]]; then USE_DOCKER_BUILDER=1; fi
 done
 
-if [[ $SKIP_APP_BUILD == 0 ]]; then
+if [[ $USE_DOCKER_BUILDER == 1 ]]; then
   echo "executing app build..."
   docker run --rm \
       -w /aes \
@@ -48,6 +48,11 @@ if [[ $SKIP_APP_BUILD == 0 ]]; then
       $DOCKER_BUILDER yarn build:aes-server
 else
   echo "skipping app build..."
+fi
+
+if [ ! -d build ]; then
+  echo "Build directory is missing, cannot continue"
+  exit 1
 fi
 
 docker build -t $IMAGE_NAME:$VERSION .
