@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import { isHQModelStationDataOrigin } from './stationUtil';
 import { StationOriginLink } from './StationOriginLink';
-import { useMapPosition } from '../../hooks/useMapPosition';
+import { useStationNavigation } from '../../hooks/useStationNavigation';
 
 const StationInfo = ({ station, dateFrom, dateTo, accumulation, onClose }) => {
   const [value, setValue] = useState(0);
@@ -25,18 +25,11 @@ const StationInfo = ({ station, dateFrom, dateTo, accumulation, onClose }) => {
     dateTo,
     accumulation,
   };
-  const { updateZoomAndCenter } = useMapPosition();
-  const setStationPosition = useCallback(() => {
-    const { latitude: lat, longitude: lng } = station;
-    updateZoomAndCenter({
-      center: {
-        lat,
-        lng,
-      },
-      zoom: 14,
-    });
+  const { stationNavigation } = useStationNavigation();
+  const navigateToStation = useCallback(() => {
+    stationNavigation(station);
     onClose();
-  }, [onClose, station, updateZoomAndCenter]);
+  }, [onClose, station, stationNavigation]);
   return (
     <Container
       style={{
@@ -50,10 +43,10 @@ const StationInfo = ({ station, dateFrom, dateTo, accumulation, onClose }) => {
           {station.description}
         </Typography>
         <Box id="actions">
-          <IconButton onClick={() => onClose()}>
-            <GpsFixed onClick={setStationPosition} />
+          <IconButton onClick={navigateToStation}>
+            <GpsFixed />
           </IconButton>
-          <IconButton onClick={() => onClose()}>
+          <IconButton onClick={onClose}>
             <Close />
           </IconButton>
         </Box>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   makeStyles,
   Box,
@@ -16,7 +16,7 @@ import {
   Grid,
   TablePagination,
 } from '@material-ui/core';
-import { Close } from '@material-ui/icons';
+import { Close, GpsFixed } from '@material-ui/icons';
 import { useAppData } from '../../providers/AppDataProvider';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
@@ -25,6 +25,9 @@ import { listStations } from '../../services/stations';
 import { useSort } from '../../hooks/useSort';
 import { usePagination } from '../../hooks/usePagination';
 import { StationStatusSwitch } from '../StationStatusSwitch';
+import { useStationNavigation } from '../../hooks/useStationNavigation';
+import { useHistory } from 'react-router-dom';
+import { ROUTE_ROOT } from '../../pages/Routes';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -75,6 +78,18 @@ export const StationList = ({ onClose }) => {
     }
   );
   const { content: stations, totalElements } = data;
+
+  const history = useHistory();
+  const { stationNavigation } = useStationNavigation();
+  const goToStationOnMap = useCallback(
+    (station) => {
+      stationNavigation(station);
+      history.push({
+        pathname: ROUTE_ROOT,
+      });
+    },
+    [history, stationNavigation]
+  );
 
   const { t } = useTranslation();
   return (
@@ -146,7 +161,14 @@ export const StationList = ({ onClose }) => {
             {stations.map((s) => {
               return (
                 <TableRow key={s.id}>
-                  <TableCell align="right">{s.id}</TableCell>
+                  <TableCell align="right">
+                    <Box>
+                      <IconButton onClick={() => goToStationOnMap(s)}>
+                        <GpsFixed />
+                      </IconButton>
+                      {s.id}
+                    </Box>
+                  </TableCell>
                   <TableCell>{s.description}</TableCell>
                   <TableCell align="right">{s.latitude}</TableCell>
                   <TableCell align="right">{s.longitude}</TableCell>
