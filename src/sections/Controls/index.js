@@ -5,15 +5,14 @@ import DataFilter from './sections/DataFilter';
 import { useTranslation } from 'react-i18next';
 import Button from '@material-ui/core/Button';
 import { AuthContext } from '../../providers/AuthProvider';
-import { useHistory } from 'react-router-dom';
-import { FORECAST_PAGE } from '../../pages/Routes';
 import { Rasters } from './sections/Rasters';
 import { BasinFilter } from './sections/BasinFilter';
 import { StreamFilter } from './sections/StreamFilter';
+import { useNavigation } from '../../hooks/useNavigation';
 
 export default function Controls() {
   const { logout } = useContext(AuthContext);
-  const history = useHistory();
+  const { goToForecast } = useNavigation();
   const { t } = useTranslation();
   return (
     <div className="controls">
@@ -21,7 +20,7 @@ export default function Controls() {
       <Button
         variant="contained"
         color="primary"
-        onClick={() => history.push({ pathname: FORECAST_PAGE })}
+        onClick={goToForecast}
         style={{ width: '100%' }}
       >
         {t('forecast_page_title')}

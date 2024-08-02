@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import { isHQModelStationDataOrigin } from './stationUtil';
 import { StationOriginLink } from './StationOriginLink';
-import { useStationNavigation } from '../../hooks/useStationNavigation';
+import { useStationFocus } from '../../hooks/useStationFocus';
 
 const StationInfo = ({ station, dateFrom, dateTo, accumulation, onClose }) => {
   const [value, setValue] = useState(0);
@@ -25,11 +25,11 @@ const StationInfo = ({ station, dateFrom, dateTo, accumulation, onClose }) => {
     dateTo,
     accumulation,
   };
-  const { stationNavigation } = useStationNavigation();
+  const { focusStation } = useStationFocus();
   const navigateToStation = useCallback(() => {
-    stationNavigation(station);
+    focusStation(station);
     onClose();
-  }, [onClose, station, stationNavigation]);
+  }, [onClose, station, focusStation]);
   return (
     <Container
       style={{

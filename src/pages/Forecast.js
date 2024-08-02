@@ -1,17 +1,8 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import ForecastTable from '../components/ForecastTable';
-import { ROUTE_ROOT } from './Routes';
+import { useNavigation } from '../hooks/useNavigation';
 
 export default () => {
-  const history = useHistory();
-  return (
-    <ForecastTable
-      onClose={() =>
-        history.push({
-          pathname: ROUTE_ROOT,
-        })
-      }
-    />
-  );
+  const { goToMain } = useNavigation();
+  return <ForecastTable onClose={goToMain} />;
 };

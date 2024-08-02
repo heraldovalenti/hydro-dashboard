@@ -15,10 +15,8 @@ import {
 import dropIcon from '../../components/Icons/drop-icon.png';
 import levelIcon from '../../components/Icons/level-icon.png';
 import { useAppData } from '../../providers/AppDataProvider';
-import { useHistory } from 'react-router-dom';
 import config from '../../config';
 import './styles.css';
-import { ROUTE_STATION_INFO_PAGE } from '../../pages/Routes';
 import { HQOservation } from '../StationInfo/stationUtil';
 import { useRasters } from '../../hooks/useRasters';
 import { useMapPosition } from '../../hooks/useMapPosition';
@@ -33,6 +31,7 @@ import { useBasinFilter } from '../../hooks/useBasinFilter';
 import { useAccumulationData } from '../../hooks/useAccumulationData';
 import { useLatestObservations } from '../../hooks/useLatestObservations';
 import { useStreamFilter } from '../../hooks/useStreamFilter';
+import { useNavigation } from '../../hooks/useNavigation';
 
 const MapContainer = ({ google }) => {
   const {
@@ -58,7 +57,6 @@ const MapContainer = ({ google }) => {
   const { shouldHideBasin } = useBasinFilter();
   const { shouldHideStream } = useStreamFilter();
   const { streams, basins, stations } = useAppData();
-  const history = useHistory();
   const weatherStations = useMemo(() => {
     return stations.filter((s) => {
       const rainOrigins = s.stationDataOriginList.filter(
@@ -118,18 +116,21 @@ const MapContainer = ({ google }) => {
     [accumulationData]
   );
 
+  const { goToStationDetails } = useNavigation();
   const onMarkerClick = useCallback(
-    (stationId) => {
-      const location = {
-        pathname: `${ROUTE_STATION_INFO_PAGE}/${stationId}`,
-      };
+    (station) => {
+      goToStationDetails(station);
       updateZoomAndCenter({
         zoom: mapPosition.zoom,
         center: mapPosition.center,
       });
-      history.push(location);
     },
-    [history, mapPosition.center, mapPosition.zoom, updateZoomAndCenter]
+    [
+      goToStationDetails,
+      mapPosition.center,
+      mapPosition.zoom,
+      updateZoomAndCenter,
+    ]
   );
 
   const renderHydroMetricStations = () => {
@@ -155,7 +156,7 @@ const MapContainer = ({ google }) => {
           <Marker
             key={station.id}
             position={{ lat: station.latitude, lng: station.longitude }}
-            onClick={() => onMarkerClick(station.id)}
+            onClick={() => onMarkerClick(station)}
             icon={levelIcon}
             stationId={station.id}
             label={
@@ -314,7 +315,7 @@ const MapContainer = ({ google }) => {
           stationId: id,
           label,
         });
-        marker.addListener('click', () => onMarkerClick(id));
+        marker.addListener('click', () => onMarkerClick(station));
         return marker;
       });
     stationMarkers.current = markers;

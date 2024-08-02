@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import {
   makeStyles,
   Box,
@@ -25,9 +25,7 @@ import { listStations } from '../../services/stations';
 import { useSort } from '../../hooks/useSort';
 import { usePagination } from '../../hooks/usePagination';
 import { StationStatusSwitch } from '../StationStatusSwitch';
-import { useStationNavigation } from '../../hooks/useStationNavigation';
-import { useHistory } from 'react-router-dom';
-import { ROUTE_ROOT } from '../../pages/Routes';
+import { useStationFocus } from '../../hooks/useStationFocus';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -79,17 +77,7 @@ export const StationList = ({ onClose }) => {
   );
   const { content: stations, totalElements } = data;
 
-  const history = useHistory();
-  const { stationNavigation } = useStationNavigation();
-  const goToStationOnMap = useCallback(
-    (station) => {
-      stationNavigation(station);
-      history.push({
-        pathname: ROUTE_ROOT,
-      });
-    },
-    [history, stationNavigation]
-  );
+  const { focusStation } = useStationFocus();
 
   const { t } = useTranslation();
   return (
@@ -163,7 +151,7 @@ export const StationList = ({ onClose }) => {
                 <TableRow key={s.id}>
                   <TableCell align="right">
                     <Box>
-                      <IconButton onClick={() => goToStationOnMap(s)}>
+                      <IconButton onClick={() => focusStation(s)}>
                         <GpsFixed />
                       </IconButton>
                       {s.id}

@@ -1,9 +1,11 @@
 import { useCallback } from 'react';
 import { useMapPosition } from './useMapPosition';
+import { useNavigation } from './useNavigation';
 
-export const useStationNavigation = () => {
+export const useStationFocus = () => {
+  const { goToMap } = useNavigation();
   const { updateZoomAndCenter } = useMapPosition();
-  const stationNavigation = useCallback(
+  const focusStation = useCallback(
     (station) => {
       const { latitude: lat, longitude: lng } = station;
       updateZoomAndCenter({
@@ -13,10 +15,11 @@ export const useStationNavigation = () => {
         },
         zoom: 14,
       });
+      goToMap();
     },
-    [updateZoomAndCenter]
+    [goToMap, updateZoomAndCenter]
   );
   return {
-    stationNavigation,
+    focusStation,
   };
 };

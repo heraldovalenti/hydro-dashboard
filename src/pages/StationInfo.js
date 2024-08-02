@@ -1,17 +1,17 @@
 import React, { useContext } from 'react';
 import StationInfo from '../components/StationInfo';
-import { useParams, useHistory } from 'react-router-dom';
-import { ROUTE_ROOT } from './Routes';
+import { useParams } from 'react-router-dom';
 import { AppDataContext } from '../providers/AppDataProvider';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useAccumulationData } from '../hooks/useAccumulationData';
 import { useDateInterval } from '../hooks/useDateInterval';
+import { useNavigation } from '../hooks/useNavigation';
 
 const StationInfoPage = () => {
   const { from, to } = useDateInterval();
   const { accumulationData } = useAccumulationData();
   const { id } = useParams();
-  const history = useHistory();
+  const { goToMain } = useNavigation();
   const stationId = Number.parseInt(id);
   const { stations } = useContext(AppDataContext);
 
@@ -37,11 +37,7 @@ const StationInfoPage = () => {
       dateFrom={from}
       dateTo={to}
       accumulation={accumulation}
-      onClose={() =>
-        history.push({
-          pathname: ROUTE_ROOT,
-        })
-      }
+      onClose={goToMain}
     />
   );
 };
