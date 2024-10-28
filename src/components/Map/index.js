@@ -32,6 +32,7 @@ import { useAccumulationData } from '../../hooks/useAccumulationData';
 import { useLatestObservations } from '../../hooks/useLatestObservations';
 import { useStreamFilter } from '../../hooks/useStreamFilter';
 import { useNavigation } from '../../hooks/useNavigation';
+import { useStreamLevel } from '../../hooks/useStreamLevel';
 
 const MapContainer = ({ google }) => {
   const {
@@ -40,6 +41,7 @@ const MapContainer = ({ google }) => {
   } = useRasters();
   const { accumulationData } = useAccumulationData();
   const { flowObservations, levelObservations } = useLatestObservations();
+  const { streamLevelData } = useStreamLevel();
 
   const {
     showHydroMetricStations,
@@ -172,7 +174,7 @@ const MapContainer = ({ google }) => {
       .filter((m) => !isNull(m));
   };
 
-  const renderStreams = () => {
+  const renderStreams = useCallback(() => {
     if (!showStreams) {
       return;
     }
@@ -180,19 +182,28 @@ const MapContainer = ({ google }) => {
       if (shouldHideStream(streamName)) {
         return null;
       }
+      const found = streamLevelData.find((x) => x.streamName === streamName);
+      let streamColor = '#666';
+      if (found) {
+        const { streamLevel } = found;
+        if (streamLevel < 0.5) streamColor = '#31859c';
+        if (streamLevel >= 0.5 && streamLevel < 1) streamColor = '#f3d41a';
+        if (streamLevel >= 1 && streamLevel < 2) streamColor = '#e36d25';
+        if (streamLevel >= 2) streamColor = '#ff0000';
+      }
       return streamPaths.map((streamPath, i) => {
         return (
           <Polyline
             key={`${streamName}_${i}`}
             path={streamPath}
-            strokeColor="#0000FF"
-            strokeOpacity={0.8}
+            strokeColor={streamColor}
+            strokeOpacity={1}
             strokeWeight={2}
           />
         );
       });
     });
-  };
+  }, [shouldHideStream, showStreams, streamLevelData, streams]);
 
   const renderBasins = () => {
     if (!showBasins) {

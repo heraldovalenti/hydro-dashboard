@@ -7,6 +7,7 @@ const config = {
     observations: '/api/observations',
     latestObservations: '/api/observations/latestObservations',
     rainAccumulation: '/api/rain-accumulation',
+    streamLevel: '/api/stream-level',
     exportObservations: '/api/export/observations',
     forecast: '/api/forecast',
     forecastRefresh: '/api/forecast/refresh',

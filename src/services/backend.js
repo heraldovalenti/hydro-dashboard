@@ -65,6 +65,26 @@ export const fetchAccumulationData = async (dateFrom, dateTo) => {
   }
 };
 
+export const fetchStreamLevelData = async (dateFrom, dateTo) => {
+  const url = `${config.baseURL}${config.api.streamLevel}`;
+  try {
+    const period = toUTCInterval({ dateFrom, dateTo });
+    const { from, to } = period;
+    const streamLevelDataResponse = await axios({
+      method: 'get',
+      url,
+      params: {
+        from,
+        to,
+      },
+    });
+    return streamLevelDataResponse.data;
+  } catch (e) {
+    console.warn(`Error fetching stream-level data: ${e}`);
+    return [];
+  }
+};
+
 export const fetchLevelData = async (stationId, dateFrom, dateTo) => {
   const url = `${config.baseURL}${config.api.observations}/${stationId}/${config.constants.dimensions.levelId}`;
   if (config.serviceInterceptors) {
