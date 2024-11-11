@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef } from 'react';
-import { HeatMap, Marker } from 'google-maps-react';
+import { HeatMap, Marker, Rectangle } from 'google-maps-react';
 import { useRasterContext } from '../providers/RastersProvider';
 import { useSelector } from 'react-redux';
 import { transformRasterData } from '../utils/transformRasterData';
@@ -26,8 +26,14 @@ export const useRasters = () => {
     []
   );
   const renderLimits = useCallback(() => {
-    return limits.map(({ lat, lng }) => {
-      return <Marker key={`${lat}_${lng}`} position={{ lat, lng }} />;
+    return limits.map(({ lat, lng }, index) => {
+      return (
+        <Marker
+          key={`${lat}_${lng}`}
+          position={{ lat, lng }}
+          label={`#${index} lat=${lat} lng=${lng}`}
+        />
+      );
     });
   }, [limits]);
   const renderRaster = useCallback(() => {
@@ -76,6 +82,45 @@ export const useRasters = () => {
     showRaster,
   ]);
 
+  const renderRasterV2 = useCallback(() => {
+    if (!showRaster || !selectedRaster?.fileData) {
+      return null;
+    }
+    const { Data = [], Width, Height } = selectedRaster.fileData;
+    const [init, , , end] = limits;
+    const points = transformRasterData(init, end, { Data, Height, Width });
+
+    const { lat: initLat, lng: initLng } = init;
+    const { lat: endLat, lng: endLng } = end;
+    const widthDiff = Math.abs((endLng - initLng) / Width) / 1;
+    const heightDiff = Math.abs((endLat - initLat) / Height) / 1;
+
+    return points.map((point) => {
+      const { lat, lng, weight } = point;
+      let color = gradientColors[0];
+      if (weight > 0 && weight < 100) {
+        color = gradientColors[Math.floor(weight / 5)];
+      } else if (weight >= 100) {
+        color = gradientColors[gradientColors.length];
+      }
+      return (
+        <Rectangle
+          key={`${lat}_${lng}`}
+          bounds={{
+            north: lat,
+            south: lat - heightDiff,
+            east: lng + widthDiff,
+            west: lng,
+          }}
+          label={`${weight}`}
+          strokeOpacity={0}
+          fillColor={color}
+          fillOpacity={opacity / 100}
+        />
+      );
+    });
+  }, [gradientColors, limits, opacity, selectedRaster.fileData, showRaster]);
+
   return {
     showRaster,
     selectedRaster,
@@ -83,5 +128,6 @@ export const useRasters = () => {
     gradientColors,
     renderRaster,
     renderLimits,
+    renderRasterV2,
   };
 };

@@ -38,7 +38,7 @@ export const RasterProvider = ({ children }) => {
     Data: [],
   });
   const [showRaster, setShowRaster] = useState(false);
-  const [opacity, setOpacity] = useState(80);
+  const [opacity, setOpacity] = useState(60);
   const [radius, setRadius] = useState(20);
 
   const reactQueryOptions = {

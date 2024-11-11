@@ -36,7 +36,7 @@ import { useStreamLevel } from '../../hooks/useStreamLevel';
 
 const MapContainer = ({ google }) => {
   const {
-    renderRaster,
+    renderRasterV2,
     // renderLimits
   } = useRasters();
   const { accumulationData } = useAccumulationData();
@@ -415,7 +415,7 @@ const MapContainer = ({ google }) => {
         {renderHydroMetricStations()}
         {renderStreams()}
         {renderBasins()}
-        {renderRaster()}
+        {renderRasterV2()}
       </Map>
     </div>
   );

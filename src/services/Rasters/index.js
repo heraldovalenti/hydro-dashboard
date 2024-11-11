@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '../../config';
+// import response from './mockResponse.json';
 
 export const rasterTypes = {
   WRF: 'WRF',
@@ -8,6 +9,7 @@ export const rasterTypes = {
 };
 
 export const allRasters = async ({ type, from, to }) => {
+  // return response;
   const result = { fileList: [], total: 0 };
   const url = `${config.rastersURL}${config.api.rasters}/all`;
   try {
