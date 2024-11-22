@@ -78,16 +78,12 @@ const MapContainer = ({ google }) => {
 
   const accumulationForStation = useCallback(
     (stationId) => {
-      const stationAccumulations = accumulationData.filter(
+      const stationAccumulations = accumulationData.find(
         (stationAccumulation) => stationAccumulation.stationId === stationId
       );
       let accumulation = undefined;
-      if (
-        stationAccumulations[0] &&
-        stationAccumulations[0].rainAccumulationList[0]
-      ) {
-        accumulation =
-          stationAccumulations[0].rainAccumulationList[0].accumulation;
+      if (stationAccumulations) {
+        accumulation = stationAccumulations.accumulation || 0.0;
       }
       if (accumulation === undefined) {
         return {

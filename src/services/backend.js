@@ -54,9 +54,9 @@ export const fetchAccumulationData = async (dateFrom, dateTo) => {
       `fetching accumulation data for period ${JSON.stringify(period)}`
     );
     const accumulationDataResponse = await axios({
-      method: 'post',
+      method: 'get',
       url,
-      data: period,
+      params: period,
     });
     return accumulationDataResponse.data;
   } catch (e) {

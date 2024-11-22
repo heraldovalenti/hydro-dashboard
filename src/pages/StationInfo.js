@@ -16,15 +16,12 @@ const StationInfoPage = () => {
   const { stations } = useContext(AppDataContext);
 
   const station = stations.filter((s) => s.id === stationId)[0];
-  const stationAccumulations = accumulationData.filter(
+  const stationAccumulations = accumulationData.find(
     (stationAccumulation) => stationAccumulation.stationId === stationId
   );
   let accumulation = undefined;
-  if (
-    stationAccumulations[0] &&
-    stationAccumulations[0].rainAccumulationList[0]
-  ) {
-    const value = stationAccumulations[0].rainAccumulationList[0].accumulation;
+  if (stationAccumulations) {
+    const value = stationAccumulations.accumulation || 0.0;
     accumulation = `${value.toFixed(0)}`;
   }
   if (!station) {
