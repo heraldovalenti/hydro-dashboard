@@ -42,6 +42,21 @@ const config = {
         id: 9,
         link: 'https://genexlinea.aesibu.com/datos/index_ar.html',
       },
+      weatherCloud: {
+        id: 10,
+        link: 'https://app.weathercloud.net/d$stationId#evolution',
+        externalIdPlaceholder: '$stationId',
+      },
+      pwsWeather: {
+        id: 11,
+        link: 'https://www.pwsweather.com/station/$stationId',
+        externalIdPlaceholder: '$stationId',
+      },
+      rp5: {
+        id: 12,
+        link: 'https://rp5.ru/$stationId',
+        externalIdPlaceholder: '$stationId',
+      },
     },
   },
   rastersURL: 'https://us-central1-hydro-dashboard-283320.cloudfunctions.net',
