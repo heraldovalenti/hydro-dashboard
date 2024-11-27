@@ -17,7 +17,7 @@ const environmentConfig = {
 
 const config = {
   ...defaultConfig,
-  ...environmentConfig[process.env.REACT_APP_ENV],
+  ...environmentConfig[import.meta.env.MODE],
 };
 
 export default config;

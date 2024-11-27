@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import TableCell from '@material-ui/core/TableCell';
-import { makeStyles } from '@material-ui/core';
+import TableCell from '@mui/material/TableCell';
+import { makeStyles } from '@mui/styles';
 import COLORS from '../../types/colors';
 
 const useStyles = makeStyles({

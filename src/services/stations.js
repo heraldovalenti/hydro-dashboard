@@ -1,10 +1,10 @@
-import axios from 'axios';
+import { hydroBackendApiClient } from '../clients/httpClient';
 import config from '../config';
 
 export const listStations = async ({ size, page, sort }) => {
-  const url = `${config.baseURL}${config.api.stations}`;
+  const url = `${config.api.stations}`;
   try {
-    const response = await axios({
+    const response = await hydroBackendApiClient.request({
       method: 'get',
       url,
       params: {
@@ -22,11 +22,11 @@ export const listStations = async ({ size, page, sort }) => {
 };
 
 const setStationStatus = async (id, status) => {
-  const url = `${config.baseURL}${config.api.stations}/${id}/${
+  const url = `${config.api.stations}/${id}/${
     status ? 'activate' : 'deactivate'
   }`;
   try {
-    const response = await axios({
+    const response = await hydroBackendApiClient.request({
       method: 'post',
       url,
     });

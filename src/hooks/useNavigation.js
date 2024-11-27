@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   ROUTE_MAP_PAGE,
   ROUTE_ROOT,
@@ -8,11 +8,7 @@ import {
 import { useCallback } from 'react';
 
 export const useNavigation = () => {
-  const history = useHistory();
-
-  const navigate = useCallback((pathname) => history.push({ pathname }), [
-    history,
-  ]);
+  const navigate = useNavigate();
 
   const goToMain = useCallback(() => navigate(ROUTE_ROOT), [navigate]);
 

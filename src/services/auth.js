@@ -1,15 +1,10 @@
 import axios from 'axios';
 import AES from 'crypto-js/aes';
 import Utf8 from 'crypto-js/enc-utf8';
+import { hydroBackendApiClient } from '../clients/httpClient';
 
 const AUTH_CREDENTIALS_KEY = 'aes-auth-key';
 const AUTH_CREDENTIALS_SECRET = 'BD97F625F4DE6275773A8681DCD77B20';
-
-const setAuthToken = (token) => {
-  if (token) {
-    axios.defaults.headers.common['x-api-key'] = `${token}`;
-  }
-};
 
 const loadCredentials = async () => {
   const encryptedCredentials = localStorage.getItem(AUTH_CREDENTIALS_KEY);
@@ -38,7 +33,7 @@ const destroyCredentials = async () => {
 };
 
 const loadAuthHandler = ({ credentials, logout }) => {
-  const credentialHandler = axios.interceptors.request.use(
+  const credentialHandler = hydroBackendApiClient.interceptors.request.use(
     (config) => {
       config.auth = credentials;
       return config;
@@ -48,7 +43,7 @@ const loadAuthHandler = ({ credentials, logout }) => {
       return Promise.reject(error);
     }
   );
-  const expirationHandler = axios.interceptors.response.use(
+  const expirationHandler = hydroBackendApiClient.interceptors.response.use(
     (response) => {
       return response;
     },
@@ -64,12 +59,11 @@ const loadAuthHandler = ({ credentials, logout }) => {
 };
 
 const removeAuthHandler = ({ credentialHandler, expirationHandler }) => {
-  axios.interceptors.request.eject(credentialHandler);
-  axios.interceptors.response.eject(expirationHandler);
+  hydroBackendApiClient.interceptors.request.eject(credentialHandler);
+  hydroBackendApiClient.interceptors.response.eject(expirationHandler);
 };
 
 export {
-  setAuthToken,
   loadAuthHandler,
   removeAuthHandler,
   loadCredentials,

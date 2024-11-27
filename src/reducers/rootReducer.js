@@ -4,6 +4,7 @@ import { intervalFilterReducer } from './intervalFilter';
 import { mapPositionReducer } from './mapPosition';
 import { basinFilterReducer } from './basinFilter';
 import { streamFilterReducer } from './streamFilter';
+import { mapStyleReducer } from './mapStyle';
 
 const reducerMap = {
   mapFilter: mapFilterReducer,
@@ -11,6 +12,7 @@ const reducerMap = {
   mapPosition: mapPositionReducer,
   basinFilter: basinFilterReducer,
   streamFilter: streamFilterReducer,
+  mapStyle: mapStyleReducer,
 };
 
-export default combineReducers(reducerMap);
+export const rootReducer = combineReducers(reducerMap);

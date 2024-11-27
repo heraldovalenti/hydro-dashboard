@@ -11,6 +11,12 @@ export default {
   pagination_all_elements: 'Todos',
 
   control_panel_title: 'Panel de Control',
+
+  control_panel_styles_title: 'Estilo de mapa',
+  control_panel_styles_roadmap: 'Natural',
+  control_panel_styles_night_map: 'Nocturno',
+  control_panel_styles_desert_map: 'Desierto',
+
   control_panel_layers_title: 'Capas del mapa',
   control_panel_layers_hydro_metric_stations: 'Estaciones hidrométricas',
   control_panel_layers_weather_stations: 'Estaciones meteorológicas',

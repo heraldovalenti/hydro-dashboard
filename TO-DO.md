@@ -7,6 +7,24 @@
 - include GeoTIFF, GOE
 - caudal H-Q on maps
 
+- upgrade from google-maps-react library:
+
+  - https://developers.google.com/codelabs/maps-platform/maps-platform-101-react-js#0
+  - rotate map key and move to .env file
+
+- AES GSHEET:
+
+  - add maroma and medina stations #DONE
+  - add gsheet healthcheck #DONE
+  - move gsheet auth token to DB #DONE
+  - update observations by date interval #DONE
+  - add update for historic data
+  - add link to spreadsheet on stations with gsheet origin
+
+- migrate Away from makeStyles: Replace makeStyles with the styled API:
+  - import { makeStyles } from '@mui/styles';
+  - https://chat.deepseek.com/a/chat/s/b2fd73bb-3f18-4eda-acd6-d9cfdc9bf068
+
 # IN PROGRESS
 
 - forecasts table

@@ -1,5 +1,5 @@
 const config = {
-  baseURL: process.env.PUBLIC_URL,
+  baseURL: import.meta.env.BASE_URL,
 };
 
 export default config;

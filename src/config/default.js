@@ -16,7 +16,8 @@ const config = {
     rasters: '/rasters',
   },
   maps: {
-    key: 'AIzaSyCnILw5Ddl2uXfyvFgEtPHTw-su8JlQzA8',
+    // key: 'AIzaSyCnILw5Ddl2uXfyvFgEtPHTw-su8JlQzA8',
+    key: 'AIzaSyCu5sDOSY-Qxo6ffxD_1YT0L1OIJWzrLxA',
   },
   constants: {
     dimensions: {

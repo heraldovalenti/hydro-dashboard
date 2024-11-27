@@ -1,6 +1,6 @@
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@mui/styles';
 import COLORS from '../../../../types/colors';
-import { Switch } from '@material-ui/core';
+import { Switch } from '@mui/material';
 
 const BlueSwitch = withStyles({
   switchBase: {

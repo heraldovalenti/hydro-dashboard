@@ -3,9 +3,10 @@ import { isHQModelStationDataOrigin } from '../components/StationInfo/stationUti
 import config from '../config';
 import { getISODateString, localToUTC } from '../utils/date';
 import { getInterception } from '../mocks/saveInterception';
+import { hydroBackendApiClient } from '../clients/httpClient';
 
 export const fetchBasins = async () => {
-  const url = `${config.baseURL}${config.api.basins}`;
+  const url = `${config.api.basins}`;
   if (config.serviceInterceptors) {
     const mockResponse = getInterception({ url });
     if (mockResponse) {
@@ -13,7 +14,7 @@ export const fetchBasins = async () => {
     }
   }
   try {
-    const response = await axios({
+    const response = await hydroBackendApiClient.request({
       method: 'get',
       url,
     });
@@ -26,7 +27,7 @@ export const fetchBasins = async () => {
 };
 
 export const fetchStations = async () => {
-  const url = `${config.baseURL}${config.api.stations}/actives`;
+  const url = `${config.api.stations}/actives`;
   if (config.serviceInterceptors) {
     const mockResponse = getInterception({ url });
     if (mockResponse) {
@@ -34,7 +35,7 @@ export const fetchStations = async () => {
     }
   }
   try {
-    const response = await axios({
+    const response = await hydroBackendApiClient.request({
       method: 'get',
       url,
     });
@@ -47,13 +48,10 @@ export const fetchStations = async () => {
 };
 
 export const fetchAccumulationData = async (dateFrom, dateTo) => {
-  const url = `${config.baseURL}${config.api.rainAccumulation}`;
+  const url = `${config.api.rainAccumulation}`;
   try {
     const period = toUTCInterval({ dateFrom, dateTo });
-    console.log(
-      `fetching accumulation data for period ${JSON.stringify(period)}`
-    );
-    const accumulationDataResponse = await axios({
+    const accumulationDataResponse = await hydroBackendApiClient.request({
       method: 'get',
       url,
       params: period,
@@ -66,11 +64,11 @@ export const fetchAccumulationData = async (dateFrom, dateTo) => {
 };
 
 export const fetchStreamLevelData = async (dateFrom, dateTo) => {
-  const url = `${config.baseURL}${config.api.streamLevel}`;
+  const url = `${config.api.streamLevel}`;
   try {
     const period = toUTCInterval({ dateFrom, dateTo });
     const { from, to } = period;
-    const streamLevelDataResponse = await axios({
+    const streamLevelDataResponse = await hydroBackendApiClient.request({
       method: 'get',
       url,
       params: {
@@ -86,7 +84,7 @@ export const fetchStreamLevelData = async (dateFrom, dateTo) => {
 };
 
 export const fetchLevelData = async (stationId, dateFrom, dateTo) => {
-  const url = `${config.baseURL}${config.api.observations}/${stationId}/${config.constants.dimensions.levelId}`;
+  const url = `${config.api.observations}/${stationId}/${config.constants.dimensions.levelId}`;
   if (config.serviceInterceptors) {
     const mockResponse = getInterception({ url });
     if (mockResponse) {
@@ -95,8 +93,7 @@ export const fetchLevelData = async (stationId, dateFrom, dateTo) => {
   }
   try {
     const period = toUTCInterval({ dateFrom, dateTo });
-    console.log(`fetching level data for period ${JSON.stringify(period)}`);
-    const observationsResponse = await axios({
+    const observationsResponse = await hydroBackendApiClient.request({
       method: 'post',
       url,
       data: period,
@@ -116,9 +113,9 @@ export const fetchObservations = async (
   dateTo,
   page = 1
 ) => {
-  const url = `${config.baseURL}${
-    config.api.observations
-  }/${stationId}?size=20&page=${page - 1}`;
+  const url = `${config.api.observations}/${stationId}?size=20&page=${
+    page - 1
+  }`;
   if (config.serviceInterceptors) {
     const mockResponse = getInterception({ url });
     if (mockResponse) {
@@ -127,8 +124,7 @@ export const fetchObservations = async (
   }
   try {
     const period = toUTCInterval({ dateFrom, dateTo });
-    console.log(`fetching observations for period ${JSON.stringify(period)}`);
-    const observationsResponse = await axios({
+    const observationsResponse = await hydroBackendApiClient.request({
       method: 'post',
       url,
       data: period,
@@ -149,7 +145,7 @@ export const fetchSDOObservations = async (
   size = 20
 ) => {
   const { id: dimensionId } = sdo.dimension;
-  const url = `${config.baseURL}${config.api.observations}/${stationId}/${dimensionId}`;
+  const url = `${config.api.observations}/${stationId}/${dimensionId}`;
   if (config.serviceInterceptors) {
     const mockResponse = getInterception({ url });
     if (mockResponse) {
@@ -159,8 +155,7 @@ export const fetchSDOObservations = async (
   const useHQModel = isHQModelStationDataOrigin(sdo);
   try {
     const period = toUTCInterval({ dateFrom, dateTo });
-    console.log(`fetching observations for period ${JSON.stringify(period)}`);
-    const observationsResponse = await axios({
+    const observationsResponse = await hydroBackendApiClient.request({
       method: 'post',
       url,
       data: period,
@@ -178,16 +173,11 @@ export const fetchSDOObservations = async (
 };
 
 export const fetchLatestbservations = async (dimensionId, dateFrom, dateTo) => {
-  const url = `${config.baseURL}${config.api.latestObservations}/${dimensionId}`;
+  const url = `${config.api.latestObservations}/${dimensionId}`;
   try {
     const period = toUTCInterval({ dateFrom, dateTo });
     const { from, to } = period;
-    console.log(
-      `fetching ${dimensionId} latest observations for period ${JSON.stringify(
-        period
-      )}`
-    );
-    const response = await axios({
+    const response = await hydroBackendApiClient.request({
       method: 'get',
       url,
       params: {
@@ -214,9 +204,7 @@ export const exportObservations = async (
 };
 
 export const fetchForecast = async (refresh = false) => {
-  const url = `${config.baseURL}${
-    refresh ? config.api.forecastRefresh : config.api.forecast
-  }`;
+  const url = `${refresh ? config.api.forecastRefresh : config.api.forecast}`;
   if (config.serviceInterceptors) {
     const mockResponse = getInterception({ url });
     if (mockResponse) {
@@ -224,8 +212,7 @@ export const fetchForecast = async (refresh = false) => {
     }
   }
   try {
-    console.log(`fetching forecast (snapshot? ${!refresh})`);
-    const response = await axios({
+    const response = await hydroBackendApiClient.request({
       method: 'get',
       url,
     });

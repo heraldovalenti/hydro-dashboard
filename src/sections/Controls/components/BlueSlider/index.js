@@ -1,7 +1,7 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@mui/styles';
 import COLORS from '../../../../types/colors';
-import { Slider } from '@material-ui/core';
+import { Slider } from '@mui/material';
 
 const BlueSlider = withStyles({
   root: {

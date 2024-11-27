@@ -1,8 +1,9 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useLatestObservations } from './useLatestObservations';
 import { useAccumulationData } from './useAccumulationData';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useStreamLevel } from './useStreamLevel';
+import { mapFilterActions } from '../reducers/mapFilter';
 
 export const useStationFilters = () => {
   const { isLoading: isLoadingAccumulationData } = useAccumulationData();
@@ -27,6 +28,26 @@ export const useStationFilters = () => {
       hideEmptyStations: state.mapFilter.hideEmptyStations,
     };
   });
+  const dispatch = useDispatch();
+  const toggleBasins = useCallback(() => {
+    dispatch(mapFilterActions.toggleBasins());
+  }, [dispatch]);
+  const toggleEmptyStationsStations = useCallback(
+    () => dispatch(mapFilterActions.toggleEmptyStationsStations()),
+    [[dispatch]]
+  );
+  const toggleHydroMetricStations = useCallback(
+    () => dispatch(mapFilterActions.toggleHydroMetricStations()),
+    [[dispatch]]
+  );
+  const toggleStreams = useCallback(
+    () => dispatch(mapFilterActions.toggleStreams()),
+    [[dispatch]]
+  );
+  const toggleWeatherStations = useCallback(
+    () => dispatch(mapFilterActions.toggleWeatherStations()),
+    [[dispatch]]
+  );
 
   return {
     showHydroMetricStations: !isLoading && showHydroMetricStations,
@@ -34,5 +55,10 @@ export const useStationFilters = () => {
     showStreams: !isLoadingStreamLevel && showStreams,
     showBasins,
     hideEmptyStations,
+    toggleBasins,
+    toggleEmptyStationsStations,
+    toggleHydroMetricStations,
+    toggleStreams,
+    toggleWeatherStations,
   };
 };
