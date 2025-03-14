@@ -7,6 +7,9 @@
 - include GeoTIFF, GOE
 - caudal H-Q on maps
 
+- clear main.txs / index.tx
+- remove environment configs
+
 - upgrade from google-maps-react library:
 
   - https://developers.google.com/codelabs/maps-platform/maps-platform-101-react-js#0

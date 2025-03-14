@@ -44,7 +44,7 @@
     "vite:lint": "eslint .",
     "start": "env-cmd -f .env.development react-scripts start",
     "start-test": "env-cmd -f .env.test react-scripts start",
-    "clean": "rm -rf build/",
+    "clean": "rm -rf dist/",
     "build": "react-scripts build",
     "build:local": "env-cmd -f .env.local npm run build",
     "build:staging": "env-cmd -f .env.staging npm run build",

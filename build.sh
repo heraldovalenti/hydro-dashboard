@@ -57,8 +57,8 @@ else
   echo "skipping app build..."
 fi
 
-if [ ! -d build ]; then
-  echo "Build directory is missing, cannot continue"
+if [ ! -d dist ]; then
+  echo "Build directory (dist) is missing, cannot continue"
   exit 1
 fi
 
