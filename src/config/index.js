@@ -17,6 +17,7 @@ const config = {
     healthCheck: '/api/health-check',
     rasters: '/rasters',
   },
+  rastersURL: RASTERS_URL,
   maps: {
     key: MAPS_KEY,
   },
@@ -61,7 +62,6 @@ const config = {
       },
     },
   },
-  rastersURL: RASTERS_URL,
 };
 
 export default config;
