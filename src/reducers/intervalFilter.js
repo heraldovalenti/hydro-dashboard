@@ -54,8 +54,8 @@ export const intervalFilterReducer = (state = initialState, action) => {
       return {
         ...state,
         hours: 0, // zero hours means custom interval
-        dateFrom: roundToMinutes(dateFrom, -10),
-        dateTo: roundToMinutes(dateTo, 10),
+        dateFrom,
+        dateTo,
       };
     default:
       return { ...state };

@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import CollapsiblePanel from '../../components/CollapsiblePanel';
 import RadioGroup from '../../../../components/RadioGroup';
 import { useTranslation } from 'react-i18next';
-// import { KeyboardDateTimePicker } from '@material-ui/pickers';
-import { isValidDate } from '../../../../utils/date';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { getAesDateString, isValidDate } from '../../../../utils/date';
 import { useAccumulationData } from '../../../../hooks/useAccumulationData';
 import { useLatestObservations } from '../../../../hooks/useLatestObservations';
 import { useDateInterval } from '../../../../hooks/useDateInterval';
+import moment from 'moment';
+import { Box } from '@mui/material';
 
 export const DataFilter = () => {
   const { isLoading: isAccumulationDataLoading } = useAccumulationData();
@@ -44,36 +46,28 @@ export const DataFilter = () => {
           value={hours}
           disabled={loading}
         />
-        {/* <KeyboardDateTimePicker
-          label={t('control_panel_filters_from')}
-          ampm={false}
-          variant="inline"
-          format="DD/MM/YYYY HH:mm"
-          value={localDateFrom}
-          // maxDate={startMaxDate}
-          // maxDateMessage={`The From date could not be after today's date.`}
-          invalidDateMessage={t('control_panel_invalid_date_message')}
-          autoOk
-          onChange={(newDateRaw) => {
-            const newDate = new Date(newDateRaw);
-            setLocalDateFrom(newDate);
-            if (isValidDate(newDate)) {
-              updateInterval({ from: newDate, to });
-            }
-          }}
-          readOnly={!isCustomInterval}
-          disabled={loading}
-        />
-        <KeyboardDateTimePicker
+        <Box margin={'10px 0px'}>
+          <DatePicker
+            label={t('control_panel_filters_from')}
+            format="DD/MM/YYYY"
+            value={moment(localDateFrom)}
+            invalidDateMessage={t('control_panel_invalid_date_message')}
+            onChange={(newDateRaw) => {
+              const newDate = new Date(newDateRaw);
+              setLocalDateFrom(newDate);
+              if (isValidDate(newDate)) {
+                updateInterval({ from: newDate, to });
+              }
+            }}
+            readOnly={!isCustomInterval}
+            disabled={loading}
+          />
+        </Box>
+        <DatePicker
           label={t('control_panel_filters_to')}
-          ampm={false}
-          variant="inline"
-          format="DD/MM/YYYY HH:mm"
-          value={localDateTo}
-          // maxDate={startMaxDate}
-          // maxDateMessage={`The From date could not be after today's date.`}
+          format="DD/MM/YYYY"
+          value={moment(localDateTo)}
           invalidDateMessage={t('control_panel_invalid_date_message')}
-          autoOk
           onChange={(newDateRaw) => {
             const newDate = new Date(newDateRaw);
             setLocalDateTo(newDate);
@@ -83,7 +77,7 @@ export const DataFilter = () => {
           }}
           readOnly={!isCustomInterval}
           disabled={loading}
-        /> */}
+        />
       </div>
     </CollapsiblePanel>
   );

@@ -8,7 +8,6 @@
 - caudal H-Q on maps
 
 - clear main.txs / index.tx
-- remove environment configs
 
 - upgrade from google-maps-react library:
 
@@ -72,3 +71,4 @@
 - retrieve data from AppEngine
 - change dependency system to yarn
 - map last 24hs/12hs/6hs
+- remove environment configs
