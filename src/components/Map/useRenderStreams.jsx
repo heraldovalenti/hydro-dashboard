@@ -3,7 +3,7 @@ import { useStreamLevel } from '../../hooks/useStreamLevel';
 import { useStationFilters } from '../../hooks/useStationFilters';
 import { useAppData } from '../../providers/AppDataProvider';
 import { useStreamFilter } from '../../hooks/useStreamFilter';
-import { Polyline } from 'google-maps-react';
+import { Polyline } from './Polyline';
 
 export const useRenderStreams = () => {
   const { streams } = useAppData();

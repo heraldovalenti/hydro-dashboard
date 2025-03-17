@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { isHQModelStationDataOrigin } from '../components/StationInfo/stationUtil';
 import config from '../config';
 import { getISODateString, localToUTC } from '../utils/date';

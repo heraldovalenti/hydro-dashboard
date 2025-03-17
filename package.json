@@ -37,6 +37,7 @@
     "@mui/material": "^6.1.9",
     "@mui/styles": "^5.16.8",
     "@mui/x-date-pickers": "^7.22.3",
+    "@vis.gl/react-google-maps": "^1.5.2",
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
     "crypto-js": "^4.0.0",

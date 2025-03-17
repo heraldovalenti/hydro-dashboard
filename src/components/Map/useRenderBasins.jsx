@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
-import { Polygon } from 'google-maps-react';
 import { useStationFilters } from '../../hooks/useStationFilters';
 import { useBasinFilter } from '../../hooks/useBasinFilter';
 import { useAppData } from '../../providers/AppDataProvider';
+import { Polygon } from './Polygon';
 
 export const useRenderBasins = () => {
   const { showBasins } = useStationFilters();

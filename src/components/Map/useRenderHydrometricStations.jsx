@@ -2,26 +2,26 @@ import { useCallback, useMemo } from 'react';
 import { useStationFilters } from '../../hooks/useStationFilters';
 import { useAppData } from '../../providers/AppDataProvider';
 import { useLatestObservations } from '../../hooks/useLatestObservations';
-import { Marker } from 'google-maps-react';
-import { HQOservation } from '../StationInfo/stationUtil';
 import { isNull } from 'lodash';
-import levelIcon from '../../components/Icons/level-icon.png';
 import { useOnMarkerClick } from './useOnMarkerClick';
+import config from '../../config';
+import { Marker } from './Marker';
 
 export const useRenderHydroMetricStations = () => {
   const { onMarkerClick } = useOnMarkerClick();
-  const { showHydroMetricStations, hideEmptyStations } = useStationFilters();
+  const { showHydroMetricStations } = useStationFilters();
   const { flowObservations, levelObservations } = useLatestObservations();
 
   const { stations } = useAppData();
+  const { levelId } = useMemo(() => config.constants.dimensions, []);
   const hydroMetricStations = useMemo(() => {
     return stations.filter((s) => {
       const levelOrigins = s.stationDataOriginList.filter(
-        (o) => o.dimension.id === 1
-      ); // level
+        (o) => o.dimension.id === levelId
+      );
       return levelOrigins.length > 0;
     });
-  }, [stations]);
+  }, [levelId, stations]);
 
   const renderHydroMetricStations = useCallback(() => {
     if (!showHydroMetricStations) {
@@ -35,34 +35,19 @@ export const useRenderHydroMetricStations = () => {
         const stationFlowObservations = flowObservations.filter(
           (o) => o.station.id === station.id
         );
-        const hydrometric_data = HQOservation({
-          h: stationLevelObservations[0],
-          q: stationFlowObservations[0],
-        });
-        if (!hydrometric_data && hideEmptyStations) {
-          return null;
-        }
         return (
           <Marker
             key={station.id}
+            level={stationLevelObservations[0]}
+            flow={stationFlowObservations[0]}
             position={{ lat: station.latitude, lng: station.longitude }}
             onClick={() => onMarkerClick(station)}
-            icon={levelIcon}
-            stationId={station.id}
-            label={
-              hydrometric_data && {
-                text: hydrometric_data,
-                color: '#fafafa',
-                className: 'hydrometric_data neutral',
-              }
-            }
           />
         );
       })
       .filter((m) => !isNull(m));
   }, [
     flowObservations,
-    hideEmptyStations,
     hydroMetricStations,
     levelObservations,
     onMarkerClick,
