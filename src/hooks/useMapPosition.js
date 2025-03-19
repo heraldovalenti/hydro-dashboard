@@ -18,6 +18,7 @@ export const useMapPosition = () => {
     },
     [dispatch]
   );
+  // TODO: remove this ref once migrated to new maps API
   const mapPosition = useRef({ zoom: initialZoom, center: initialCenter })
     .current;
   return {

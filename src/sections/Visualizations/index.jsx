@@ -9,7 +9,7 @@ import { useRenderBasins } from '../../components/Map/useRenderBasins';
 import { useRenderHydroMetricStations } from '../../components/Map/useRenderHydrometricStations';
 
 export default function Visualizations() {
-  const { initialCenter, initialZoom } = useMapPosition();
+  const { initialCenter, initialZoom, updateZoomAndCenter } = useMapPosition();
 
   // return (
   //   <div className="visualizations">
@@ -24,7 +24,7 @@ export default function Visualizations() {
   return (
     <APIProvider
       apiKey={config.maps.key}
-      onLoad={() => console.log('Maps API has loaded.')}
+      // onLoad={() => console.log('Maps API has loaded.')}
     >
       <Map
         mapId={'hydro-dashboard'}
@@ -34,19 +34,14 @@ export default function Visualizations() {
           // width: '100px',
           width: '95%',
         }}
-        defaultZoom={initialZoom}
-        defaultCenter={initialCenter}
-        // onCameraChanged={(ev) =>
-        //   console.log(
-        //     'camera changed:',
-        //     ev.detail.center,
-        //     'zoom:',
-        //     ev.detail.zoom
-        //   )
-        // }
-
-        // center={initialCenter}
-        // zoom={initialZoom}
+        zoom={initialZoom}
+        center={initialCenter}
+        onCameraChanged={(ev) =>
+          updateZoomAndCenter({
+            zoom: ev.detail.zoom,
+            center: ev.detail.center,
+          })
+        }
       >
         {renderStreams()}
         {renderBasins()}

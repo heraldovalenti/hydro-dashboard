@@ -13,6 +13,7 @@
 
   - https://developers.google.com/codelabs/maps-platform/maps-platform-101-react-js#0
   - rotate map key and move to .env file
+  - remove ref in useMapPosition()
 
 - AES GSHEET:
 
