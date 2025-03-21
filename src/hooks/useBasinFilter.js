@@ -4,9 +4,7 @@ import { hideBasinAction, showBasinAction } from '../reducers/basinFilter';
 
 export const useBasinFilter = () => {
   const dispatch = useDispatch();
-  const { hidenBasin } = useSelector((state) => ({
-    hidenBasin: state.basinFilter.hidenBasin,
-  }));
+  const { hidenBasin } = useSelector((state) => state.basinFilter);
 
   const toggleBasinVisibility = useCallback(
     (id) => {

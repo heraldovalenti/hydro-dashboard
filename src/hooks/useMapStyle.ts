@@ -11,10 +11,7 @@ import { usePersistentConfig } from './usePersistentConfig';
 export const useMapStyle = () => {
   const dispatch = useDispatch();
   const { mapStyles, selectedStyle } = useSelector(
-    ({ mapStyle: { mapStyles, selectedStyle } }: RootState) => ({
-      mapStyles,
-      selectedStyle,
-    })
+    (state: RootState) => state.mapStyle
   );
 
   const styleIds = useMemo(() => mapStyles.map((style) => style.id), [

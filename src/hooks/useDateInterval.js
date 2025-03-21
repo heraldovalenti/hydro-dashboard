@@ -16,13 +16,9 @@ export const useDateInterval = () => {
     },
     [dispatch]
   );
-  const { dateFrom, dateTo, hours } = useSelector((state) => {
-    return {
-      dateTo: state.intervalFilter.dateTo,
-      dateFrom: state.intervalFilter.dateFrom,
-      hours: state.intervalFilter.hours,
-    };
-  });
+  const { dateFrom, dateTo, hours } = useSelector(
+    (state) => state.intervalFilter
+  );
   return {
     hours,
     from: dateFrom,

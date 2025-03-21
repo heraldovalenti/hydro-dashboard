@@ -19,34 +19,26 @@ export const useStationFilters = () => {
     showStreams,
     showBasins,
     hideEmptyStations,
-  } = useSelector((state) => {
-    return {
-      showHydroMetricStations: state.mapFilter.showHydroMetricStations,
-      showWeatherStations: state.mapFilter.showWeatherStations,
-      showStreams: state.mapFilter.showStreams,
-      showBasins: state.mapFilter.showBasins,
-      hideEmptyStations: state.mapFilter.hideEmptyStations,
-    };
-  });
+  } = useSelector((state) => state.mapFilter);
   const dispatch = useDispatch();
   const toggleBasins = useCallback(() => {
     dispatch(mapFilterActions.toggleBasins());
   }, [dispatch]);
   const toggleEmptyStationsStations = useCallback(
     () => dispatch(mapFilterActions.toggleEmptyStationsStations()),
-    [[dispatch]]
+    [dispatch]
   );
   const toggleHydroMetricStations = useCallback(
     () => dispatch(mapFilterActions.toggleHydroMetricStations()),
-    [[dispatch]]
+    [dispatch]
   );
   const toggleStreams = useCallback(
     () => dispatch(mapFilterActions.toggleStreams()),
-    [[dispatch]]
+    [dispatch]
   );
   const toggleWeatherStations = useCallback(
     () => dispatch(mapFilterActions.toggleWeatherStations()),
-    [[dispatch]]
+    [dispatch]
   );
 
   return {

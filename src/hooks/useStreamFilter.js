@@ -4,9 +4,7 @@ import { hideStreamAction, showStreamAction } from '../reducers/streamFilter';
 
 export const useStreamFilter = () => {
   const dispatch = useDispatch();
-  const { hidenStreams } = useSelector((state) => ({
-    hidenStreams: state.streamFilter.hidenStreams,
-  }));
+  const { hidenStreams } = useSelector((state) => state.streamFilter);
 
   const toggleStreamVisibility = useCallback(
     (id) => {
