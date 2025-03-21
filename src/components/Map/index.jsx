@@ -160,6 +160,7 @@ const MapContainer = ({ google }) => {
 
   const stationMarkers = useRef([]);
   const markerCluster = useRef(null);
+  // render weather stations
   useEffect(() => {
     if (!mapReady || !showWeatherStations) {
       return;
@@ -211,6 +212,7 @@ const MapContainer = ({ google }) => {
     accumulationForStation,
   ]);
 
+  // render clusters
   useEffect(() => {
     if (!mapReady) {
       return;
