@@ -13,7 +13,7 @@ export const FORECAST_PAGE = '/forecast';
 export const AES_PAGE = '/aes';
 export const STATION_LIST_PAGE = '/stations';
 
-export const Routes = () => {
+export const Pages = () => {
   return (
     <HashRouter>
       <Routes>
