@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext, useAuth } from '../../providers/AuthProvider';
+import React, { useEffect, useState } from 'react';
+import { useAuth } from '../../providers/AuthProvider';
 import AppDataProvider from '../../providers/AppDataProvider';
 import LoginForm from '../../sections/LoginForm';
-import Routes from '../../pages/Routes';
+import { Pages } from '../../pages/Pages';
 import { RasterProvider } from '../../providers/RastersProvider';
 import { loadAuthHandler, removeAuthHandler } from '../../services/auth';
 
@@ -22,7 +22,7 @@ const AuthChecker = () => {
     return (
       <AppDataProvider ready={ready}>
         <RasterProvider>
-          <Routes />
+          <Pages />
         </RasterProvider>
       </AppDataProvider>
     );

@@ -1,8 +1,8 @@
 import React from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Map from './Map';
-import StationInfo from './StationInfo';
-import Forecast from './Forecast';
+import { Map } from './Map';
+import { StationInfoPage } from './StationInfo';
+import { Forecast } from './Forecast';
 import { AppConfigPage } from './AesConfigPage';
 import { StationList } from './StationList';
 
@@ -13,7 +13,7 @@ export const FORECAST_PAGE = '/forecast';
 export const AES_PAGE = '/aes';
 export const STATION_LIST_PAGE = '/stations';
 
-export default () => {
+export const Routes = () => {
   return (
     <HashRouter>
       <Routes>
@@ -22,7 +22,7 @@ export default () => {
         <Route path={FORECAST_PAGE} element={<Forecast />} />
         <Route
           path={`${ROUTE_STATION_INFO_PAGE}/:id`}
-          element={<StationInfo />}
+          element={<StationInfoPage />}
         />
         <Route path={ROUTE_MAP_PAGE} element={<Map />} />
         <Route path={ROUTE_ROOT} element={<Navigate to={ROUTE_MAP_PAGE} />} />

@@ -7,7 +7,7 @@ import { useAccumulationData } from '../hooks/useAccumulationData';
 import { useDateInterval } from '../hooks/useDateInterval';
 import { useNavigation } from '../hooks/useNavigation';
 
-const StationInfoPage = () => {
+export const StationInfoPage = () => {
   const { from, to } = useDateInterval();
   const { accumulationData } = useAccumulationData();
   const { id } = useParams();
@@ -38,5 +38,3 @@ const StationInfoPage = () => {
     />
   );
 };
-
-export default StationInfoPage;

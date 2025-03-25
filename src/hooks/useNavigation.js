@@ -4,7 +4,7 @@ import {
   ROUTE_ROOT,
   ROUTE_STATION_INFO_PAGE,
   FORECAST_PAGE,
-} from '../pages/Routes';
+} from '../pages/Pages';
 import { useCallback } from 'react';
 
 export const useNavigation = () => {
