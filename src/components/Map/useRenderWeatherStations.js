@@ -3,7 +3,7 @@ import { useStationFilters } from '../../hooks/useStationFilters';
 import { useAppData } from '../../providers/AppDataProvider';
 import config from '../../config';
 import { useAccumulationData } from '../../hooks/useAccumulationData';
-import { useOnMarkerClick } from './useOnMarkerClick';
+import { useOnStationClick } from './useOnStationClick';
 import { useMap } from '@vis.gl/react-google-maps';
 import {
   MarkerClusterer,
@@ -13,7 +13,7 @@ import dropIcon from '../../components/Icons/drop-icon.png';
 import './styles.css';
 
 export const useRenderWeatherStations = () => {
-  const { onMarkerClick } = useOnMarkerClick();
+  const { onStationClick: onMarkerClick } = useOnStationClick();
   const { showWeatherStations, hideEmptyStations } = useStationFilters();
   const { stations } = useAppData();
   const { accumulationData } = useAccumulationData();

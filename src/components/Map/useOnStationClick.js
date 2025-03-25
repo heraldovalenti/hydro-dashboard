@@ -1,15 +1,15 @@
 import { useCallback } from 'react';
 import { useNavigation } from '../../hooks/useNavigation';
 
-export const useOnMarkerClick = () => {
+export const useOnStationClick = () => {
   const { goToStationDetails } = useNavigation();
-  const onMarkerClick = useCallback(
+  const onStationClick = useCallback(
     (station) => {
       goToStationDetails(station);
     },
     [goToStationDetails]
   );
   return {
-    onMarkerClick,
+    onStationClick,
   };
 };

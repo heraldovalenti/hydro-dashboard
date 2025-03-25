@@ -3,12 +3,12 @@ import { useStationFilters } from '../../hooks/useStationFilters';
 import { useAppData } from '../../providers/AppDataProvider';
 import { useLatestObservations } from '../../hooks/useLatestObservations';
 import { isNull } from 'lodash';
-import { useOnMarkerClick } from './useOnMarkerClick';
+import { useOnStationClick } from './useOnStationClick';
 import config from '../../config';
 import { Marker } from './Marker';
 
 export const useRenderHydroMetricStations = () => {
-  const { onMarkerClick } = useOnMarkerClick();
+  const { onStationClick } = useOnStationClick();
   const { showHydroMetricStations } = useStationFilters();
   const { flowObservations, levelObservations } = useLatestObservations();
 
@@ -41,7 +41,7 @@ export const useRenderHydroMetricStations = () => {
             level={stationLevelObservations[0]}
             flow={stationFlowObservations[0]}
             position={{ lat: station.latitude, lng: station.longitude }}
-            onClick={() => onMarkerClick(station)}
+            onClick={() => onStationClick(station)}
           />
         );
       })
@@ -50,7 +50,7 @@ export const useRenderHydroMetricStations = () => {
     flowObservations,
     hydroMetricStations,
     levelObservations,
-    onMarkerClick,
+    onStationClick,
     showHydroMetricStations,
   ]);
 
