@@ -1,10 +1,11 @@
-import React, { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRasterContext } from '../providers/RastersProvider';
 import { transformRasterData } from '../utils/transformRasterData';
-import { AdvancedMarker } from '@vis.gl/react-google-maps';
-import { Rectangle } from '../components/Map/Rectangle';
+import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 
 export const useRasters = () => {
+  const [limitsOn, setLimitsOn] = useState(false);
+  const toggleLimits = useCallback(() => setLimitsOn(!limitsOn), [limitsOn]);
   const {
     showRaster,
     selectedRaster,
@@ -20,21 +21,31 @@ export const useRasters = () => {
     ],
     []
   );
-  const renderLimits = useCallback(() => {
-    return limits.map(({ lat, lng }, index) => {
-      return (
-        <AdvancedMarker
-          key={`${lat}_${lng}`}
-          position={{ lat, lng }}
-          label={`#${index} lat=${lat} lng=${lng}`}
-        />
-      );
-    });
-  }, [limits]);
+  const mapRef = useMap();
+  const markerLib = useMapsLibrary('marker');
 
-  const renderRasterV2 = useCallback(() => {
-    if (!showRaster || !selectedRaster?.fileData) {
-      return null;
+  useEffect(() => {
+    if (!mapRef || !markerLib || !limitsOn) {
+      return;
+    }
+    const limitMarkers = limits.map(({ lat, lng }, index) => {
+      return new google.maps.marker.AdvancedMarkerElement({
+        map: mapRef,
+        position: { lat, lng },
+        title: `#${index} lat=${lat} lng=${lng}`,
+      });
+    });
+    return () => {
+      limitMarkers.forEach((lm) => {
+        lm.setMap(null);
+      });
+    };
+  }, [limits, limitsOn, mapRef, markerLib]);
+
+  useEffect(() => {
+    console.log({ showRaster, selectedRaster });
+    if (!mapRef || !showRaster || !selectedRaster?.fileData) {
+      return;
     }
     const { Data = [], Width, Height } = selectedRaster.fileData;
     const [init, , , end] = limits;
@@ -45,7 +56,7 @@ export const useRasters = () => {
     const widthDiff = Math.abs((endLng - initLng) / Width) / 1;
     const heightDiff = Math.abs((endLat - initLat) / Height) / 1;
 
-    return points.map((point) => {
+    const rasterComponents = points.map((point) => {
       const { lat, lng, weight } = point;
       let color = gradientColors[0];
       if (weight > 0 && weight < 100) {
@@ -53,30 +64,39 @@ export const useRasters = () => {
       } else if (weight >= 100) {
         color = gradientColors[gradientColors.length];
       }
-      return (
-        <Rectangle
-          key={`${lat}_${lng}`}
-          bounds={{
-            north: lat,
-            south: lat - heightDiff,
-            east: lng + widthDiff,
-            west: lng,
-          }}
-          label={`${weight}`}
-          strokeOpacity={0}
-          fillColor={color}
-          fillOpacity={opacity / 100}
-        />
-      );
+      return new google.maps.Rectangle({
+        bounds: {
+          north: lat,
+          south: lat - heightDiff,
+          east: lng + widthDiff,
+          west: lng,
+        },
+        map: mapRef,
+        strokeOpacity: 0,
+        fillColor: color,
+        fillOpacity: opacity / 100,
+      });
     });
-  }, [gradientColors, limits, opacity, selectedRaster.fileData, showRaster]);
+    return () => {
+      rasterComponents.forEach((rc) => {
+        rc.setMap(null);
+      });
+    };
+  }, [
+    gradientColors,
+    limits,
+    mapRef,
+    opacity,
+    selectedRaster,
+    selectedRaster.fileData,
+    showRaster,
+  ]);
 
   return {
     showRaster,
     selectedRaster,
     opacity,
     gradientColors,
-    renderLimits,
-    renderRasterV2,
+    toggleLimits,
   };
 };

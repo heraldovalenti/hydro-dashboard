@@ -67,18 +67,14 @@ export const Rasters = () => {
   );
 
   const handleRadioChange = (item) => {
-    setShowRaster(!showRaster);
     setSelected(item);
     const selectedRasterData = rastersData.find((rd) => {
       return rd.fileDescriptor.name === item;
     });
     setSelectedRaster(selectedRasterData);
-    setTimeout(() => setShowRaster(showRaster), 1);
   };
   const handleOpacityChange = (_clazz, value) => {
-    setShowRaster(!showRaster);
     setOpacity(value);
-    setTimeout(() => setShowRaster(showRaster), 1);
   };
   return (
     <CollapsiblePanel title={t('control_panel_rasters_title')} expanded={false}>

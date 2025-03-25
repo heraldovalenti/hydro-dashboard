@@ -16,7 +16,7 @@ const MapComponent = () => {
   const { renderStreams } = useRenderStreams();
   const { renderBasins } = useRenderBasins();
   const { renderHydroMetricStations } = useRenderHydroMetricStations();
-  const { renderRasterV2 } = useRasters();
+  useRasters();
   useRenderWeatherStations();
 
   const { updateMapStyles, selectedStyle } = useMapStyle();
@@ -67,7 +67,6 @@ const MapComponent = () => {
       {renderStreams()}
       {renderBasins()}
       {renderHydroMetricStations()}
-      {renderRasterV2()}
     </Map>
   );
 };
