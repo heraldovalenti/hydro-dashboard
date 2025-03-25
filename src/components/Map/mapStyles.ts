@@ -1,4 +1,4 @@
-export const buildMapStyles = (google) => {
+export const buildMapStyles = () => {
   const nightStyle = new google.maps.StyledMapType(
     [
       { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
@@ -201,4 +201,5 @@ export const buildMapStyles = (google) => {
   ];
 };
 
-export const extractDefaultId = (mapRef) => mapRef.mapTypeId;
+export const extractDefaultId = (mapRef: google.maps.Map) =>
+  mapRef.getMapTypeId();

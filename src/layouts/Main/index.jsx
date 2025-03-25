@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import Header from '../../sections/Header';
 import SlideDrawer from '../../components/slidedrawer/SlideDrawer';
 import Controls from '../../sections/Controls';
-import Visualizations from '../../sections/Visualizations';
 import EmptyState from '../../sections/EmptyState';
 import SimulationIcon from '../../components/Icons/Simulation';
 import LogoAES from '../../components/Icons/aes-title.png';
@@ -12,6 +11,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { AppDataContext } from '../../providers/AppDataProvider';
 import Highcharts from 'highcharts';
 import { useTranslation } from 'react-i18next';
+import { MapContainer } from '../../components/Map';
 
 library.add(fas);
 
@@ -47,7 +47,7 @@ const Main = () => {
             title={<img src={LogoAES} height={50} alt="aes-logo" />}
             subtitle={t('page_header_text')}
           />
-          <Visualizations />
+          <MapContainer />
         </div>
       )}
     </div>
