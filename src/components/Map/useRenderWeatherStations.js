@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useEffect } from 'react';
+import { useCallback, useMemo, useEffect } from 'react';
 import { useStationFilters } from '../../hooks/useStationFilters';
 import { useAppData } from '../../providers/AppDataProvider';
 import config from '../../config';
@@ -64,7 +64,7 @@ export const useRenderWeatherStations = () => {
   ]);
 
   const labelForAccumulation = useCallback((accumulation) => {
-    if (!accumulation) return undefined;
+    if (accumulation === undefined) return undefined;
     let severity = 'low';
     if (accumulation > 10) severity = 'medium';
     if (accumulation > 30) severity = 'high';
@@ -76,51 +76,7 @@ export const useRenderWeatherStations = () => {
     };
   }, []);
 
-  const map = useMap();
-  const stationMarkers = useRef([]);
-  const markerCluster = useRef(null);
-
-  // render weather stations
-  useEffect(() => {
-    if (!map) {
-      return;
-    }
-    const markers = stationAccumulations.map(({ station, accumulation }) => {
-      const { id, latitude, longitude } = station;
-      const marker = new google.maps.Marker({
-        position: {
-          lat: latitude,
-          lng: longitude,
-        },
-        icon: dropIcon,
-        map,
-        stationId: id,
-        label: labelForAccumulation(accumulation),
-      });
-      marker.addListener('click', () => onMarkerClick(station));
-      return marker;
-    });
-    stationMarkers.current = markers;
-    if (markerCluster.current) {
-      markerCluster.current.addMarkers(markers);
-    }
-    return () => {
-      if (markerCluster.current) {
-        markerCluster.current.clearMarkers();
-      }
-      markers.forEach((m) => m.setMap(null));
-      stationMarkers.current = [];
-    };
-  }, [
-    onMarkerClick,
-    showWeatherStations,
-    hideEmptyStations,
-    weatherStations,
-    accumulationForStation,
-    map,
-    stationAccumulations,
-    labelForAccumulation,
-  ]);
+  const mapRef = useMap();
 
   const renderCluster = useCallback(
     (cluster) => {
@@ -150,24 +106,38 @@ export const useRenderWeatherStations = () => {
         }
       );
       const clusterMarker = new google.maps.Marker({
-        map,
+        map: mapRef,
         position,
         icon: dropIcon,
         label: labelForAccumulation(accumulationForCluster.accumulation),
       });
       return clusterMarker;
     },
-    [labelForAccumulation, map, stationAccumulations]
+    [labelForAccumulation, mapRef, stationAccumulations]
   );
 
-  // render clusterer
   useEffect(() => {
-    if (!map) {
+    if (!mapRef) {
       return;
     }
+    const markers = stationAccumulations.map(({ station, accumulation }) => {
+      const { id, latitude, longitude } = station;
+      const marker = new google.maps.Marker({
+        position: {
+          lat: latitude,
+          lng: longitude,
+        },
+        icon: dropIcon,
+        map: mapRef,
+        stationId: id,
+        label: labelForAccumulation(accumulation),
+      });
+      marker.addListener('click', () => onMarkerClick(station));
+      return marker;
+    });
     const cluster = new MarkerClusterer({
-      map,
-      markers: stationMarkers.current,
+      map: mapRef,
+      markers,
       renderer: {
         render: renderCluster,
       },
@@ -183,11 +153,23 @@ export const useRenderWeatherStations = () => {
         },
       },
     });
-    markerCluster.current = cluster;
+
     return () => {
-      markerCluster.current = null;
+      markers.forEach((m) => m.setMap(null));
+      cluster.clearMarkers();
+      cluster.setMap(null);
     };
-  }, [map, renderCluster]);
+  }, [
+    showWeatherStations,
+    hideEmptyStations,
+    weatherStations,
+    accumulationForStation,
+    mapRef,
+    stationAccumulations,
+    labelForAccumulation,
+    renderCluster,
+    onMarkerClick,
+  ]);
 
   return {};
 };

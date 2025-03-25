@@ -13,8 +13,8 @@ import { useRenderWeatherStations } from './useRenderWeatherStations';
 
 const MapComponent = () => {
   const { initialCenter, initialZoom, updateZoomAndCenter } = useMapPosition();
-  const { renderStreams } = useRenderStreams();
-  const { renderBasins } = useRenderBasins();
+  useRenderStreams();
+  useRenderBasins();
   const { renderHydroMetricStations } = useRenderHydroMetricStations();
   useRasters();
   useRenderWeatherStations();
@@ -64,8 +64,6 @@ const MapComponent = () => {
         })
       }
     >
-      {renderStreams()}
-      {renderBasins()}
       {renderHydroMetricStations()}
     </Map>
   );

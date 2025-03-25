@@ -43,7 +43,6 @@ export const useRasters = () => {
   }, [limits, limitsOn, mapRef, markerLib]);
 
   useEffect(() => {
-    console.log({ showRaster, selectedRaster });
     if (!mapRef || !showRaster || !selectedRaster?.fileData) {
       return;
     }
