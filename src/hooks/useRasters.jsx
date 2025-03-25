@@ -1,8 +1,10 @@
 import React, { useCallback, useMemo, useRef } from 'react';
-import { HeatMap, Marker, Rectangle } from 'google-maps-react';
+import { HeatMap } from 'google-maps-react';
 import { useRasterContext } from '../providers/RastersProvider';
 import { useSelector } from 'react-redux';
 import { transformRasterData } from '../utils/transformRasterData';
+import { AdvancedMarker } from '@vis.gl/react-google-maps';
+import { Rectangle } from '../components/Map/Rectangle';
 
 export const useRasters = () => {
   const { zoom: initialZoom, center: initialCenter } = useSelector(
@@ -28,7 +30,7 @@ export const useRasters = () => {
   const renderLimits = useCallback(() => {
     return limits.map(({ lat, lng }, index) => {
       return (
-        <Marker
+        <AdvancedMarker
           key={`${lat}_${lng}`}
           position={{ lat, lng }}
           label={`#${index} lat=${lat} lng=${lng}`}

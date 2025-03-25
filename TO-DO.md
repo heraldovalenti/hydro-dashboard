@@ -25,8 +25,14 @@
   - add link to spreadsheet on stations with gsheet origin
 
 - migrate Away from makeStyles: Replace makeStyles with the styled API:
+
   - import { makeStyles } from '@mui/styles';
   - https://chat.deepseek.com/a/chat/s/b2fd73bb-3f18-4eda-acd6-d9cfdc9bf068
+
+- Rasters
+  - add cache to rasters
+  - add smooth view to raster points
+  - add rasters from https://rammb-slider.cira.colostate.edu/?sat=goes-16&sec=full_disk&x=12602&y=16011.6953125&z=5&angle=0&im=12&ts=1&st=0&et=0&speed=170&motion=loop&refresh=1&maps%5Bborders%5D=white&maps%5Broads%5D=purple&maps%5Brivers%5D=teal&maps%5Bcities%5D=white&p%5B0%5D=geocolor&opacity%5B0%5D=1&pause=20250322053020&slider=-1&hide_controls=0&mouse_draw=0&follow_feature=0&follow_hide=0&s=rammb-slider&draw_color=FFD700&draw_width=6
 
 # IN PROGRESS
 

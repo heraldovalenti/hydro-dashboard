@@ -3,11 +3,11 @@ import './styles.css';
 import { APIProvider, Map } from '@vis.gl/react-google-maps';
 import config from '../../config';
 import { useMapPosition } from '../../hooks/useMapPosition';
-import { useRenderStreams } from '../../components/Map/useRenderStreams';
-import { useRenderBasins } from '../../components/Map/useRenderBasins';
-import { useRenderHydroMetricStations } from '../../components/Map/useRenderHydrometricStations';
-import { useRenderWeatherStations } from '../../components/Map/useRenderWeatherStations';
-// import { useRasters } from '../../hooks/useRasters';
+// import { useRenderStreams } from '../../components/Map/useRenderStreams';
+// import { useRenderBasins } from '../../components/Map/useRenderBasins';
+// import { useRenderHydroMetricStations } from '../../components/Map/useRenderHydrometricStations';
+// import { useRenderWeatherStations } from '../../components/Map/useRenderWeatherStations';
+import { useRasters } from '../../hooks/useRasters';
 
 export default function Visualizations() {
   return (
@@ -19,11 +19,11 @@ export default function Visualizations() {
 
 const MapComponent = () => {
   const { initialCenter, initialZoom, updateZoomAndCenter } = useMapPosition();
-  const { renderStreams } = useRenderStreams();
-  const { renderBasins } = useRenderBasins();
-  const { renderHydroMetricStations } = useRenderHydroMetricStations();
-  // const { renderRasterV2 } = useRasters();
-  useRenderWeatherStations();
+  // const { renderStreams } = useRenderStreams();
+  // const { renderBasins } = useRenderBasins();
+  // const { renderHydroMetricStations } = useRenderHydroMetricStations();
+  const { renderRasterV2 } = useRasters();
+  // useRenderWeatherStations();
 
   return (
     <Map
@@ -43,10 +43,10 @@ const MapComponent = () => {
         })
       }
     >
-      {renderStreams()}
-      {renderBasins()}
-      {renderHydroMetricStations()}
-      {/* {renderRasterV2()} */}
+      {/* {renderStreams()} */}
+      {/* {renderBasins()} */}
+      {/* {renderHydroMetricStations()} */}
+      {renderRasterV2()}
     </Map>
   );
 };
