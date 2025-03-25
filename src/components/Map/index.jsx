@@ -12,10 +12,10 @@ import { useRenderHydroMetricStations } from './useRenderHydrometricStations';
 import { useRenderWeatherStations } from './useRenderWeatherStations';
 
 const MapComponent = () => {
-  const { initialCenter, initialZoom, updateZoomAndCenter } = useMapPosition();
+  const { center, zoom, updateZoomAndCenter } = useMapPosition();
+  const { renderHydroMetricStations } = useRenderHydroMetricStations();
   useRenderStreams();
   useRenderBasins();
-  const { renderHydroMetricStations } = useRenderHydroMetricStations();
   useRasters();
   useRenderWeatherStations();
 
@@ -55,8 +55,8 @@ const MapComponent = () => {
         // width: '100px',
         width: '95%',
       }}
-      zoom={initialZoom}
-      center={initialCenter}
+      zoom={zoom}
+      center={center}
       onCameraChanged={(ev) =>
         updateZoomAndCenter({
           zoom: ev.detail.zoom,

@@ -1,12 +1,14 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateZoomAndCenterAction } from '../reducers/mapPosition';
+import {
+  updateZoomAndCenterAction,
+  initialCenter,
+  initialZoom,
+} from '../reducers/mapPosition';
 
 export const useMapPosition = () => {
   const dispatch = useDispatch();
-  const { zoom: initialZoom, center: initialCenter } = useSelector(
-    (state) => state.mapPosition
-  );
+  const { zoom, center } = useSelector((state) => state.mapPosition);
   const updateZoomAndCenter = useCallback(
     ({ zoom, center }) => {
       dispatch(
@@ -18,10 +20,9 @@ export const useMapPosition = () => {
     },
     [dispatch]
   );
-  // TODO: remove this ref once migrated to new maps API
-  const mapPosition = { zoom: initialZoom, center: initialCenter };
   return {
-    mapPosition,
+    zoom,
+    center,
     initialZoom,
     initialCenter,
     updateZoomAndCenter,

@@ -2,9 +2,13 @@ const MAP_UPDATE_CENTER = 'MAP_UPDATE_CENTER';
 const MAP_UPDATE_ZOOM = 'MAP_UPDATE_ZOOM';
 const MAP_UPDATE = 'MAP_UPDATE';
 
+export const initialCenter = { lat: -25.6558152, lng: -65.5006693 };
+export const initialZoom = 8;
 const initialState = {
-  zoom: 8,
-  center: { lat: -25.6558152, lng: -65.5006693 },
+  zoom: initialZoom,
+  center: initialCenter,
+  initialCenter,
+  initialZoom,
 };
 
 export const updateZoomAction = (zoom) => ({
