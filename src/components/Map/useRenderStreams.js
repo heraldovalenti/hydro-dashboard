@@ -31,6 +31,7 @@ export const useRenderStreams = () => {
       }
       return streamPaths.map((streamPath) => {
         return new google.maps.Polyline({
+          clickable: false,
           map: mapRef,
           path: streamPath,
           strokeColor: streamColor,

@@ -1,16 +1,8 @@
-.accumulation_data {
-  /*-webkit-text-stroke: 1px rgb(255, 255, 255); */ /* width and color */
-
-  /* text-shadow: -1px 0 #31859c, 0 1px #31859c, 1px 0 #31859c, 0 -1px #31859c; */
-  font-size: 16;
+.accumulationData {
   font-weight: 400;
 }
 
-.hydrometric_data {
-  /*-webkit-text-stroke: 1px rgb(255, 255, 255); */ /* width and color */
-
-  /* text-shadow: -1px 0 #31859c, 0 1px #31859c, 1px 0 #31859c, 0 -1px #31859c; */
-  font-size: 16;
+.hydrometricData {
   font-weight: 600;
 }
 
@@ -32,4 +24,21 @@
 
 .danger {
   text-shadow: -1px 0 #ff0000, 0 1px #ff0000, 1px 0 #ff0000, 0 -1px #ff0000;
+}
+
+.markerContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.markerText {
+  color: #fafafa;
+  font-size: 12px;
+}
+
+.markerIcon {
+  position: absolute;
+  z-index: -1;
 }

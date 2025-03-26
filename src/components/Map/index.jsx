@@ -1,19 +1,18 @@
 import React, { useEffect } from 'react';
 import { APIProvider, Map, useMap } from '@vis.gl/react-google-maps';
 import config from '../../config';
-import './styles.css';
 import { useRasters } from '../../hooks/useRasters';
 import { useMapPosition } from '../../hooks/useMapPosition';
 import { buildMapStyles, extractDefaultId } from './mapStyles';
 import { useMapStyle } from '../../hooks/useMapStyle';
 import { useRenderStreams } from './useRenderStreams';
 import { useRenderBasins } from './useRenderBasins';
-import { useRenderHydroMetricStations } from './useRenderHydrometricStations';
+import { useRenderHydroMetricStations } from './useRenderHydroMetricStations';
 import { useRenderWeatherStations } from './useRenderWeatherStations';
 
 const MapComponent = () => {
   const { center, zoom, updateZoomAndCenter } = useMapPosition();
-  const { renderHydroMetricStations } = useRenderHydroMetricStations();
+  useRenderHydroMetricStations();
   useRenderStreams();
   useRenderBasins();
   useRasters();
@@ -63,9 +62,7 @@ const MapComponent = () => {
           center: ev.detail.center,
         })
       }
-    >
-      {renderHydroMetricStations()}
-    </Map>
+    />
   );
 };
 

@@ -20,6 +20,7 @@ export const useRenderBasins = () => {
         return null;
       }
       return new google.maps.Polygon({
+        clickable: false,
         map: mapRef,
         paths: path.map((point) => ({
           lng: Number.parseFloat(point.lng),

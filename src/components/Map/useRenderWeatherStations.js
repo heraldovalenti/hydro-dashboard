@@ -4,16 +4,15 @@ import { useAppData } from '../../providers/AppDataProvider';
 import config from '../../config';
 import { useAccumulationData } from '../../hooks/useAccumulationData';
 import { useOnStationClick } from './useOnStationClick';
-import { useMap } from '@vis.gl/react-google-maps';
+import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 import {
   MarkerClusterer,
   SuperClusterAlgorithm,
 } from '@googlemaps/markerclusterer';
-import dropIcon from '../../components/Icons/drop-icon.png';
-import './styles.css';
+import { buildMarker } from './markerUtils';
 
 export const useRenderWeatherStations = () => {
-  const { onStationClick: onMarkerClick } = useOnStationClick();
+  const { onStationClick } = useOnStationClick();
   const { showWeatherStations, hideEmptyStations } = useStationFilters();
   const { stations } = useAppData();
   const { accumulationData } = useAccumulationData();
@@ -64,19 +63,22 @@ export const useRenderWeatherStations = () => {
   ]);
 
   const labelForAccumulation = useCallback((accumulation) => {
-    if (accumulation === undefined) return undefined;
+    let description = '';
+    if (accumulation !== undefined) {
+      description = `${accumulation.toFixed(0)}`;
+    }
     let severity = 'low';
     if (accumulation > 10) severity = 'medium';
     if (accumulation > 30) severity = 'high';
     if (accumulation > 50) severity = 'danger';
     return {
-      text: `${accumulation.toFixed(0)}`,
-      color: '#fafafa',
-      className: `accumulation_data ${severity}`,
+      description,
+      severity,
     };
   }, []);
 
   const mapRef = useMap();
+  const mapLib = useMapsLibrary('marker');
 
   const renderCluster = useCallback(
     (cluster) => {
@@ -105,34 +107,44 @@ export const useRenderWeatherStations = () => {
           accumulation: undefined,
         }
       );
-      const clusterMarker = new google.maps.Marker({
+      const { description, severity } = labelForAccumulation(
+        accumulationForCluster.accumulation
+      );
+      const marker = new google.maps.marker.AdvancedMarkerElement({
         map: mapRef,
         position,
-        icon: dropIcon,
-        label: labelForAccumulation(accumulationForCluster.accumulation),
+        content: buildMarker({
+          description,
+          type: 'rain',
+          severity,
+        }),
       });
-      return clusterMarker;
+      return marker;
     },
     [labelForAccumulation, mapRef, stationAccumulations]
   );
 
   useEffect(() => {
-    if (!mapRef) {
+    if (!mapRef || !mapLib) {
       return;
     }
     const markers = stationAccumulations.map(({ station, accumulation }) => {
-      const { id, latitude, longitude } = station;
-      const marker = new google.maps.Marker({
-        position: {
-          lat: latitude,
-          lng: longitude,
-        },
-        icon: dropIcon,
+      const { description, severity } = labelForAccumulation(accumulation);
+      const marker = new google.maps.marker.AdvancedMarkerElement({
         map: mapRef,
-        stationId: id,
-        label: labelForAccumulation(accumulation),
+        position: {
+          lat: station.latitude,
+          lng: station.longitude,
+        },
+        title: station.description,
+        content: buildMarker({
+          description,
+          type: 'rain',
+          severity,
+        }),
       });
-      marker.addListener('click', () => onMarkerClick(station));
+      marker.stationId = station.id;
+      marker.addEventListener('click', () => onStationClick(station));
       return marker;
     });
     const cluster = new MarkerClusterer({
@@ -168,7 +180,8 @@ export const useRenderWeatherStations = () => {
     stationAccumulations,
     labelForAccumulation,
     renderCluster,
-    onMarkerClick,
+    mapLib,
+    onStationClick,
   ]);
 
   return {};

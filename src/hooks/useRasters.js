@@ -64,6 +64,7 @@ export const useRasters = () => {
         color = gradientColors[gradientColors.length];
       }
       return new google.maps.Rectangle({
+        clickable: false,
         bounds: {
           north: lat,
           south: lat - heightDiff,
