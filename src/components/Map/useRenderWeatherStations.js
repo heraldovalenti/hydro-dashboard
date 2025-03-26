@@ -142,9 +142,10 @@ export const useRenderWeatherStations = () => {
           type: 'rain',
           severity,
         }),
+        gmpClickable: true,
       });
       marker.stationId = station.id;
-      marker.addEventListener('click', () => onStationClick(station));
+      marker.addEventListener('gmp-click', () => onStationClick(station));
       return marker;
     });
     const cluster = new MarkerClusterer({

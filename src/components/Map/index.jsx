@@ -48,6 +48,7 @@ const MapComponent = () => {
   return (
     <Map
       mapId={'hydro-dashboard'}
+      clickableIcons={false}
       style={{
         height: '600px',
         // height: '90%',

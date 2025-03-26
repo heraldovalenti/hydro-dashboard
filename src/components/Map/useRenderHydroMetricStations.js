@@ -56,8 +56,9 @@ export const useRenderHydroMetricStations = () => {
             type: 'level',
             severity: 'neutral',
           }),
+          gmpClickable: true,
         });
-        marker.addEventListener('click', () => onStationClick(station));
+        marker.addEventListener('gmp-click', () => onStationClick(station));
         return marker;
       })
       .filter((m) => !isNull(m));
