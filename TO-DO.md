@@ -9,10 +9,10 @@
 
 - clear main.txs / index.tx
 
-- upgrade from google-maps-react library:
+- upgrade from google-maps-react library: #done
 
   - https://developers.google.com/codelabs/maps-platform/maps-platform-101-react-js#0
-  - rotate map key and move to .env file
+  - rotate map key and move to .env file #done
   - remove ref in useMapPosition() #done
   - remove old google-maps-react lib
 
