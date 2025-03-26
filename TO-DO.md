@@ -9,13 +9,6 @@
 
 - clear main.txs / index.tx
 
-- upgrade from google-maps-react library: #done
-
-  - https://developers.google.com/codelabs/maps-platform/maps-platform-101-react-js#0
-  - rotate map key and move to .env file #done
-  - remove ref in useMapPosition() #done
-  - remove old google-maps-react lib
-
 - AES GSHEET:
 
   - add maroma and medina stations #DONE
@@ -80,3 +73,10 @@
 - change dependency system to yarn
 - map last 24hs/12hs/6hs
 - remove environment configs
+
+- upgrade from google-maps-react library: #done
+
+  - https://developers.google.com/codelabs/maps-platform/maps-platform-101-react-js#0
+  - rotate map key and move to .env file #done
+  - remove ref in useMapPosition() #done
+  - remove old google-maps-react lib #done

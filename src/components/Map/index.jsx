@@ -51,9 +51,6 @@ const MapComponent = () => {
       clickableIcons={false}
       style={{
         height: '600px',
-        // height: '90%',
-        // width: '100px',
-        width: '95%',
       }}
       zoom={zoom}
       center={center}

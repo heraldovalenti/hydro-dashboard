@@ -54,7 +54,6 @@ const ForecastInfo = ({ onClose }) => {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        padding: '10px',
       }}
     >
       <Box style={{ display: 'flex', alignItems: 'center' }}>

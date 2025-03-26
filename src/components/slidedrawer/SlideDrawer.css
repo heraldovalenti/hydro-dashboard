@@ -5,6 +5,7 @@
   top: 0;
   right: -360px;
   width: 380px;
+  /* final collapsed width is 20px (width - right) */
   z-index: 2;
   box-shadow: 1px 0px 7px rgba(0, 0, 0, 0.5);
   transition: all 0.3s ease-out;
