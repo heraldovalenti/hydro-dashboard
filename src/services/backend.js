@@ -1,8 +1,8 @@
-import { isHQModelStationDataOrigin } from '../components/StationInfo/stationUtil';
 import config from '../config';
 import { getISODateString, localToUTC } from '../utils/date';
 import { getInterception } from '../mocks/saveInterception';
 import { hydroBackendApiClient } from '../clients/httpClient';
+import { isHQModelStationDataOrigin } from '../utils/stationDataOrigin';
 
 export const fetchBasins = async () => {
   const url = `${config.api.basins}`;

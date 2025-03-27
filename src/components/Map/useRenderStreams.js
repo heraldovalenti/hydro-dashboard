@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useStreamLevel } from '../../hooks/useStreamLevel';
+import { useStreamLevels } from '../../hooks/useStreamLevels';
 import { useStationFilters } from '../../hooks/useStationFilters';
 import { useAppData } from '../../providers/AppDataProvider';
 import { useStreamFilter } from '../../hooks/useStreamFilter';
@@ -8,7 +8,7 @@ import { useMap } from '@vis.gl/react-google-maps';
 export const useRenderStreams = () => {
   const { streams } = useAppData();
   const { showStreams } = useStationFilters();
-  const { streamLevelData } = useStreamLevel();
+  const { streamLevels } = useStreamLevels();
   const { shouldHideStream } = useStreamFilter();
 
   const mapRef = useMap();
@@ -20,7 +20,7 @@ export const useRenderStreams = () => {
       if (shouldHideStream(streamName)) {
         return [];
       }
-      const found = streamLevelData.find((x) => x.streamName === streamName);
+      const found = streamLevels.find((x) => x.streamName === streamName);
       let streamColor = '#666';
       if (found) {
         const { streamLevel } = found;
@@ -43,7 +43,7 @@ export const useRenderStreams = () => {
     return () => {
       polylines.forEach((p) => p.forEach((path) => path.setMap(null)));
     };
-  }, [mapRef, showStreams, streams, shouldHideStream, streamLevelData]);
+  }, [mapRef, showStreams, streams, shouldHideStream, streamLevels]);
 
   return {};
 };

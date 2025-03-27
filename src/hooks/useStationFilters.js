@@ -2,13 +2,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useLatestObservations } from './useLatestObservations';
 import { useAccumulationData } from './useAccumulationData';
 import { useCallback, useMemo } from 'react';
-import { useStreamLevel } from './useStreamLevel';
+import { useStreamLevels } from './useStreamLevels';
 import { mapFilterActions } from '../reducers/mapFilter';
 
 export const useStationFilters = () => {
   const { isLoading: isLoadingAccumulationData } = useAccumulationData();
   const { isLoading: isLoadingLatestObservations } = useLatestObservations();
-  const { isLoading: isLoadingStreamLevel } = useStreamLevel();
+  const { isLoading: isLoadingStreamLevel } = useStreamLevels();
   const isLoading = useMemo(
     () => isLoadingAccumulationData || isLoadingLatestObservations,
     [isLoadingAccumulationData, isLoadingLatestObservations]

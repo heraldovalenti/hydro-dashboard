@@ -1,39 +1,6 @@
-import { isWeatherStation, HQOservation } from '../stationUtil';
+import { HQOservation } from '../hqModel';
 
 describe('station util tests', () => {
-  describe('isWeatherStation verification', () => {
-    it('is a weather station when it contains a data origin for rain (id = 3)', () => {
-      const station = {
-        stationDataOriginList: [
-          {
-            dimension: {
-              id: 3,
-            },
-          },
-        ],
-      };
-      expect(isWeatherStation(station)).toBeTruthy();
-    });
-    it('is NOT a weather station when it does not contain a data origin for rain (id = 3)', () => {
-      const station = {
-        stationDataOriginList: [
-          {
-            dimension: {
-              id: 1,
-            },
-          },
-        ],
-      };
-      expect(isWeatherStation(station)).toBeFalsy();
-    });
-    it('is NOT a weather station when it does not contain any data origin', () => {
-      const station = {
-        stationDataOriginList: [],
-      };
-      expect(isWeatherStation(station)).toBeFalsy();
-    });
-  });
-
   describe('hq observation text', () => {
     it('when both H and Q provided, text includes both dimensions truncated to default', () => {
       const result = HQOservation({

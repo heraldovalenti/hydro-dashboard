@@ -4,10 +4,10 @@ import { useAppData } from '../../providers/AppDataProvider';
 import { useLatestObservations } from '../../hooks/useLatestObservations';
 import { isNull } from 'lodash';
 import { useOnStationClick } from './useOnStationClick';
-import config from '../../config';
 import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
-import { HQOservation } from '../StationInfo/stationUtil';
 import { buildMarker } from './markerUtils';
+import { isLevelDimension } from '../../utils/dimension';
+import { HQOservation } from '../../utils/hqModel';
 
 export const useRenderHydroMetricStations = () => {
   const { onStationClick } = useOnStationClick();
@@ -15,15 +15,14 @@ export const useRenderHydroMetricStations = () => {
   const { flowObservations, levelObservations } = useLatestObservations();
 
   const { stations } = useAppData();
-  const { levelId } = useMemo(() => config.constants.dimensions, []);
   const hydroMetricStations = useMemo(() => {
     return stations.filter((s) => {
-      const levelOrigins = s.stationDataOriginList.filter(
-        (o) => o.dimension.id === levelId
+      const levelOrigins = s.stationDataOriginList.filter((o) =>
+        isLevelDimension(o.dimension)
       );
       return levelOrigins.length > 0;
     });
-  }, [levelId, stations]);
+  }, [stations]);
 
   const mapRef = useMap();
   const markerLib = useMapsLibrary('marker');

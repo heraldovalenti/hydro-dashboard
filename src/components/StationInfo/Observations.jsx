@@ -3,7 +3,7 @@ import { fetchSDOObservations } from '../../services/backend';
 import { Pagination } from '@mui/material';
 import ObservationTable from './ObservationTable';
 import { Box } from '@mui/material';
-import ObservationsHeader from './ObservationsHeader';
+import { ObservationsHeader } from './ObservationsHeader';
 import { ObservationsChart } from './ObservationsChart';
 
 export const Observations = ({

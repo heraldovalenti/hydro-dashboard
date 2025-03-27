@@ -1,7 +1,6 @@
 import { useCallback, useMemo, useEffect } from 'react';
 import { useStationFilters } from '../../hooks/useStationFilters';
 import { useAppData } from '../../providers/AppDataProvider';
-import config from '../../config';
 import { useAccumulationData } from '../../hooks/useAccumulationData';
 import { useOnStationClick } from './useOnStationClick';
 import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
@@ -10,21 +9,21 @@ import {
   SuperClusterAlgorithm,
 } from '@googlemaps/markerclusterer';
 import { buildMarker } from './markerUtils';
+import { isRainDimension } from '../../utils/dimension';
 
 export const useRenderWeatherStations = () => {
   const { onStationClick } = useOnStationClick();
   const { showWeatherStations, hideEmptyStations } = useStationFilters();
   const { stations } = useAppData();
   const { accumulationData } = useAccumulationData();
-  const { rainId } = useMemo(() => config.constants.dimensions, []);
   const weatherStations = useMemo(() => {
     return stations.filter((s) => {
-      const rainOrigins = s.stationDataOriginList.filter(
-        (o) => o.dimension.id === rainId
+      const rainOrigins = s.stationDataOriginList.filter((o) =>
+        isRainDimension(o.dimension)
       );
       return rainOrigins.length > 0;
     });
-  }, [rainId, stations]);
+  }, [stations]);
 
   const accumulationForStation = useCallback(
     (stationId) => {

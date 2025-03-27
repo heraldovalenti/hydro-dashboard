@@ -42,3 +42,9 @@ export type DataOrigin = {
   id: number;
   description: string;
 };
+
+export type StreamLevel = {
+  observation: Observation;
+  streamLevel: number;
+  streamName: string;
+};

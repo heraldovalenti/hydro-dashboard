@@ -35,3 +35,8 @@ export const buildSdoLink = (station, sdoDescriptor) => {
     stationSdo.externalStationId
   );
 };
+
+export const isHQModelStationDataOrigin = (sdo) =>
+  sdo.dataOrigin.id === HQ_MODEL_SDO_ID;
+
+export const HQ_MODEL_SDO_ID = 7;

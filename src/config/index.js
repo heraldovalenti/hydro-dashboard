@@ -23,8 +23,9 @@ const config = {
   },
   constants: {
     dimensions: {
-      rainId: 3,
       levelId: 1,
+      flowId: 2,
+      rainId: 3,
     },
     sdo: {
       weatherUnderground: {

@@ -2,11 +2,9 @@ import { useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { queryKeys } from '../constants/queryKeys';
 import { fetchLatestbservations } from '../services/backend';
-import {
-  flowDimension,
-  levelDimension,
-} from '../components/StationInfo/stationUtil';
 import { useDateInterval } from './useDateInterval';
+import { Observation } from '../model';
+import { FLOW_DIMENSION_ID, LEVEL_DIMENSION_ID } from '../utils/dimension';
 
 export const useLatestObservations = () => {
   const { from, to } = useDateInterval();
@@ -14,16 +12,20 @@ export const useLatestObservations = () => {
     [queryKeys.LATEST_OBSERVATIONS, from, to],
     async () => {
       const [levelObservations, flowObservations] = await Promise.all([
-        fetchLatestbservations(levelDimension, from, to),
-        fetchLatestbservations(flowDimension, from, to),
+        fetchLatestbservations(LEVEL_DIMENSION_ID, from, to),
+        fetchLatestbservations(FLOW_DIMENSION_ID, from, to),
       ]);
       return { levelObservations, flowObservations };
     }
   );
-  const levelObservations = useMemo(() => data?.levelObservations || [], [
-    data,
-  ]);
-  const flowObservations = useMemo(() => data?.flowObservations || [], [data]);
+  const levelObservations: Observation[] = useMemo(
+    () => data?.levelObservations || [],
+    [data]
+  );
+  const flowObservations: Observation[] = useMemo(
+    () => data?.flowObservations || [],
+    [data]
+  );
   return {
     isLoading,
     levelObservations: levelObservations,

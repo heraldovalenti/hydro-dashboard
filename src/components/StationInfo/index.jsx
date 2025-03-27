@@ -9,9 +9,10 @@ import {
   Tabs,
   IconButton,
 } from '@mui/material';
-import { isHQModelStationDataOrigin } from './stationUtil';
 import { StationOriginLink } from './StationOriginLink';
 import { useStationFocus } from '../../hooks/useStationFocus';
+import { useStreamLevels } from '../../hooks/useStreamLevels';
+import { isHQModelStationDataOrigin } from '../../utils/stationDataOrigin';
 
 export const StationInfo = ({
   station,
@@ -25,8 +26,9 @@ export const StationInfo = ({
     focusStation(station);
     onClose();
   }, [onClose, station, focusStation]);
+  const { isMaromaStation, maromaHQModelValid } = useStreamLevels();
   const stationDataOrigins = useMemo(() => {
-    return station.stationDataOriginList
+    const result = station.stationDataOriginList
       .reduce((prev, curr) => {
         const found = prev.find(
           (sdo) => sdo.dimension.id === curr.dimension.id
@@ -35,7 +37,11 @@ export const StationInfo = ({
         return prev;
       }, [])
       .sort((sdo1, sdo2) => sdo1.dimension.id - sdo2.dimension.id);
-  }, [station.stationDataOriginList]);
+    if (isMaromaStation(station) && !maromaHQModelValid) {
+      return result.filter((sdo) => !isHQModelStationDataOrigin(sdo));
+    }
+    return result;
+  }, [isMaromaStation, maromaHQModelValid, station]);
   const [selectedSdoId, setSelectedSdoId] = useState(stationDataOrigins[0].id);
   const handleChange = useCallback((_event, newSdoId) => {
     setSelectedSdoId(newSdoId);
