@@ -6,7 +6,13 @@ import { Box } from '@mui/material';
 import ObservationsHeader from './ObservationsHeader';
 import { ObservationsChart } from './ObservationsChart';
 
-export default ({ stationId, sdo, dateFrom, dateTo, accumulation }) => {
+export const Observations = ({
+  stationId,
+  sdo,
+  dateFrom,
+  dateTo,
+  accumulation,
+}) => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [observations, setObservations] = useState([]);
@@ -54,7 +60,11 @@ export default ({ stationId, sdo, dateFrom, dateTo, accumulation }) => {
     <Box style={{ flex: 1 }}>
       <Box>
         <ObservationsHeader
-          {...{ stationId, sdo, dateFrom, dateTo, accumulation }}
+          stationId={stationId}
+          sdo={sdo}
+          dateFrom={dateFrom}
+          dateTo={dateTo}
+          accumulation={accumulation}
         />
         <ObservationsChart
           observations={allObservations}

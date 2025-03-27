@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from 'react';
-import Observations from './Observations';
+import React, { useState, useCallback, useMemo } from 'react';
+import { Observations } from './Observations';
 import { Close, GpsFixed } from '@mui/icons-material';
 import {
   Box,
@@ -13,22 +13,33 @@ import { isHQModelStationDataOrigin } from './stationUtil';
 import { StationOriginLink } from './StationOriginLink';
 import { useStationFocus } from '../../hooks/useStationFocus';
 
-const StationInfo = ({ station, dateFrom, dateTo, accumulation, onClose }) => {
-  const [value, setValue] = useState(0);
-  const handleChange = (_event, newValue) => {
-    setValue(newValue);
-  };
-  const observationProps = {
-    stationId: station.id,
-    dateFrom,
-    dateTo,
-    accumulation,
-  };
+export const StationInfo = ({
+  station,
+  dateFrom,
+  dateTo,
+  accumulation,
+  onClose,
+}) => {
   const { focusStation } = useStationFocus();
   const navigateToStation = useCallback(() => {
     focusStation(station);
     onClose();
   }, [onClose, station, focusStation]);
+  const stationDataOrigins = useMemo(() => {
+    return station.stationDataOriginList
+      .reduce((prev, curr) => {
+        const found = prev.find(
+          (sdo) => sdo.dimension.id === curr.dimension.id
+        );
+        if (!found) prev.push(curr);
+        return prev;
+      }, [])
+      .sort((sdo1, sdo2) => sdo1.dimension.id - sdo2.dimension.id);
+  }, [station.stationDataOriginList]);
+  const [selectedSdoId, setSelectedSdoId] = useState(stationDataOrigins[0].id);
+  const handleChange = useCallback((_event, newSdoId) => {
+    setSelectedSdoId(newSdoId);
+  }, []);
   return (
     <Container
       style={{
@@ -53,29 +64,25 @@ const StationInfo = ({ station, dateFrom, dateTo, accumulation, onClose }) => {
         <StationOriginLink station={station} />
       </Box>
       <Box>
-        <Tabs value={value} onChange={handleChange}>
-          {station.stationDataOriginList
-            .reduce((prev, curr) => {
-              const found = prev.find(
-                (sdo) => sdo.dimension.id === curr.dimension.id
-              );
-              if (!found) prev.push(curr);
-              return prev;
-            }, [])
-            .sort((sdo1, sdo2) => sdo1.dimension.id - sdo2.dimension.id)
-            .map((sdo, i) => {
-              let label = sdo.dimension.description;
-              if (isHQModelStationDataOrigin(sdo)) label = `${label} (HQ)`;
-              return <Tab key={i} value={i} label={label} />;
-            })}
+        <Tabs value={selectedSdoId} onChange={handleChange}>
+          {stationDataOrigins.map((sdo) => {
+            let label = sdo.dimension.description;
+            if (isHQModelStationDataOrigin(sdo)) label = `${label} (HQ)`;
+            return <Tab key={sdo.id} value={sdo.id} label={label} />;
+          })}
         </Tabs>
-        {station.stationDataOriginList.map((sdo, i) => (
-          <Box key={i} hidden={value !== i}>
-            <Observations sdo={sdo} {...observationProps} />
+        {stationDataOrigins.map((sdo) => (
+          <Box key={sdo.id} hidden={sdo.id !== selectedSdoId}>
+            <Observations
+              sdo={sdo}
+              stationId={station.id}
+              dateFrom={dateFrom}
+              dateTo={dateTo}
+              accumulation={accumulation}
+            />
           </Box>
         ))}
       </Box>
     </Container>
   );
 };
-export default StationInfo;

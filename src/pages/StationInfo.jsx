@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import StationInfo from '../components/StationInfo';
+import { StationInfo } from '../components/StationInfo';
 import { useParams } from 'react-router-dom';
 import { AppDataContext } from '../providers/AppDataProvider';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -15,7 +15,7 @@ export const StationInfoPage = () => {
   const stationId = Number.parseInt(id);
   const { stations } = useContext(AppDataContext);
 
-  const station = stations.filter((s) => s.id === stationId)[0];
+  const station = stations.find((s) => s.id === stationId);
   const stationAccumulations = accumulationData.find(
     (stationAccumulation) => stationAccumulation.stationId === stationId
   );
