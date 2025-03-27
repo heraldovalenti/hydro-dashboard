@@ -60,6 +60,11 @@ const config = {
         link: 'https://rp5.ru/$stationId',
         externalIdPlaceholder: '$stationId',
       },
+      aesGSheet: {
+        id: 13,
+        link:
+          'https://docs.google.com/spreadsheets/d/1Hm-HsZ7Sx3a2i-QSbKF45yCzvKsNhhIJXOJmFQ9L3Ts/edit?gid=156159900#gid=156159900',
+      },
     },
   },
 };
