@@ -15,7 +15,7 @@ import { MapContainer } from '../../components/Map';
 
 library.add(fas);
 
-const Main = () => {
+export const Main = () => {
   const [drawerOpen, setDrawerOpen] = useState(true);
 
   const { loading } = useContext(AppDataContext);
@@ -53,5 +53,3 @@ const Main = () => {
     </div>
   );
 };
-
-export default Main;

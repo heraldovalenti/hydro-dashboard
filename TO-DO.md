@@ -16,7 +16,7 @@
   - move gsheet auth token to DB #DONE
   - update observations by date interval #DONE
   - add update for historic data
-  - add link to spreadsheet on stations with gsheet origin
+  - add link to spreadsheet on stations with gsheet origin #DONE
 
 - migrate Away from makeStyles: Replace makeStyles with the styled API:
 

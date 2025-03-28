@@ -7,7 +7,7 @@ import {
 
 export const AuthContext = createContext(null);
 
-export default ({ children }) => {
+export const AuthProvider = ({ children }) => {
   const [credentials, setCredentials] = useState(null);
   const [wrongCredentials, setWrongCredentials] = useState(false);
 

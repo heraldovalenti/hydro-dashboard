@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../providers/AuthProvider';
 import AppDataProvider from '../../providers/AppDataProvider';
 import LoginForm from '../../sections/LoginForm';
-import { Pages } from '../../pages/Pages';
+import { Routes } from '../../pages/Routes';
 import { RasterProvider } from '../../providers/RastersProvider';
 import { loadAuthHandler, removeAuthHandler } from '../../services/auth';
 
-const AuthChecker = () => {
+export const AuthChecker = () => {
   const [ready, setReady] = useState(false);
   const { credentials, logout } = useAuth();
 
@@ -22,7 +22,7 @@ const AuthChecker = () => {
     return (
       <AppDataProvider ready={ready}>
         <RasterProvider>
-          <Pages />
+          <Routes />
         </RasterProvider>
       </AppDataProvider>
     );
@@ -30,5 +30,3 @@ const AuthChecker = () => {
 
   return <LoginForm />;
 };
-
-export default AuthChecker;
