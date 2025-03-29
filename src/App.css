@@ -1,7 +1,45 @@
+html,
 body {
-  margin: 20px 0px 0px 20px;
+  margin: 0px;
+  padding: 0px;
   background-color: rgb(250, 250, 250);
   font-family: 'Open Sans', sans-serif;
+}
+
+#root {
+  /* background-color: blue; */
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  /* background-color: green; */
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.main-header {
+  /* background-color: red; */
+  flex: 0;
+}
+.main-content {
+  /* background-color: yellow; */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.MapContainer {
+  /* background-color: aquamarine; */
+  flex: 1;
+  display: flex;
 }
 
 .App {

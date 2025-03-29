@@ -47,11 +47,9 @@ const MapComponent = () => {
 
   return (
     <Map
+      style={{ height: undefined }}
       mapId={'hydro-dashboard'}
       clickableIcons={false}
-      style={{
-        height: '600px',
-      }}
       zoom={zoom}
       center={center}
       onCameraChanged={(ev) =>
@@ -66,8 +64,10 @@ const MapComponent = () => {
 
 export const MapContainer = () => {
   return (
-    <APIProvider apiKey={config.maps.key}>
-      <MapComponent />
-    </APIProvider>
+    <div className="MapContainer">
+      <APIProvider apiKey={config.maps.key}>
+        <MapComponent />
+      </APIProvider>
+    </div>
   );
 };

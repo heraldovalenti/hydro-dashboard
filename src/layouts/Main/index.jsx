@@ -27,7 +27,12 @@ export const Main = () => {
   }, [drawerOpen]);
   const { t } = useTranslation();
   return (
-    <div>
+    <div
+      className={classNames('main', {
+        AppOpen: drawerOpen,
+        App: !drawerOpen,
+      })}
+    >
       {loading && (
         <EmptyState title={''} subtitle={''} icon={t('loading_icon_label')} />
       )}
@@ -39,16 +44,20 @@ export const Main = () => {
         />
       )}
       {!loading && !showEmptyState && (
-        <div className={classNames({ AppOpen: drawerOpen, App: !drawerOpen })}>
+        <>
           <SlideDrawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen}>
             <Controls />
           </SlideDrawer>
-          <Header
-            title={<img src={LogoAES} height={50} alt="aes-logo" />}
-            subtitle={t('page_header_text')}
-          />
-          <MapContainer />
-        </div>
+          <div className="main-header">
+            <Header
+              title={<img src={LogoAES} height={50} alt="aes-logo" />}
+              subtitle={t('page_header_text')}
+            />
+          </div>
+          <div className="main-content">
+            <MapContainer />
+          </div>
+        </>
       )}
     </div>
   );
